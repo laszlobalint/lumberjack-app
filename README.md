@@ -1,6 +1,6 @@
 # Lumberjack
 
-Application for order management of a lumber yard company
+Application for order management of a lumber yard company.
 
 # Get Started
 
@@ -29,4 +29,14 @@ npm install
 cd ..
 cd /frontend
 npm install
+```
+
+Run the backend server and frontend application in two different terminals or command lines
+
+```sh
+cd /backend
+npm run start
+&&
+cd /frontend
+ng serve --open
 ```
