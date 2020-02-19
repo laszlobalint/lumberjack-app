@@ -4,6 +4,10 @@ Application for order management of a lumber yard company.
 
 # Get Started
 
+Download the Node.js source code or a pre-built installer for the matching platform
+
+- [NodeJS](https://nodejs.org/en/download/)
+
 Download and install MariaDB for local machine (recommended setup for development mode)
 
 - [MariaDB](https://downloads.mariadb.org/mariadb/10.0.10/)
