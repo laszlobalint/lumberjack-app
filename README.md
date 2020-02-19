@@ -10,7 +10,7 @@ Download and install MariaDB for local machine (recommended setup for developmen
 
 Create a database using command line or HeidiSQL
 
-- [CREATE OR REPLACE DATABASE lumberjack;]
+- CREATE OR REPLACE DATABASE lumberjack;
 
 Download and install Visual Studio Code (VS Code)
 
