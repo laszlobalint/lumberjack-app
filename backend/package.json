@@ -1,8 +1,8 @@
 {
   "name": "lumberjack",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "version": "1.0.0",
+  "description": "Backend projject for order management of a lumber yard company based on NestJS framework.",
+  "author": "Dániel Papilion and Bálint László",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -44,7 +44,7 @@
     "eslint": "^6.7.2",
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-import": "^2.19.1",
-    "jest": "^24.9.0",
+    "jest": "^25.1.0",
     "prettier": "^1.18.2",
     "supertest": "^4.0.2",
     "ts-jest": "25.2.0",
@@ -66,5 +66,9 @@
     },
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/laszlobalint/lumberjack"
   }
 }
