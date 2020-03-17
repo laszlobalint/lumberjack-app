@@ -3,43 +3,31 @@ import { Purchase } from './purchase.entity';
 import { User } from './user.entity';
 
 @Entity()
-export class Customer {
+export class Product {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @ManyToOne(
     type => User,
-    user => user.customers,
+    user => user.products,
   )
   user: User;
 
   @Column({ type: 'varchar' })
-  name?: string;
+  name: string;
 
-  @Column({ type: 'varchar' })
-  address: string;
+  @Column({ type: 'double' })
+  price: number;
 
-  @Column({ type: 'varchar' })
-  phone?: string;
+  @Column({ type: 'double' })
+  amount: number;
 
   @Column({ type: 'varchar', nullable: true })
-  companyName?: string;
-
-  @Column({ type: 'varchar' })
-  taxId?: string;
-
-  @Column({ type: 'varchar' })
-  nationalId?: string;
-
-  @Column({ type: 'varchar' })
-  checkingAccount?: string;
-
-  @Column({ type: 'varchar' })
-  description?: string;
+  description: string;
 
   @OneToMany(
     type => Purchase,
-    purchase => purchase.customer,
+    purchase => purchase.product,
   )
   purchases: Purchase[];
 
