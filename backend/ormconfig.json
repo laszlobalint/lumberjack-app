@@ -2,8 +2,8 @@
   "type": "mariadb",
   "host": "localhost",
   "port": 3306,
-  "username": "root",
-  "password": "",
+  "username": "lumberjack",
+  "password": "lumberjack",
   "database": "lumberjack",
   "entities": ["dist/**/*.entity.{ts,js}"],
   "synchronize": true
