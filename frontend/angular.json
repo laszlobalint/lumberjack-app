@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "lumberjack"
+    }
+  },
+  "defaultProject": "lumberjack",
+  "cli": {
+    "analytics": "4a8f6730-4984-481d-9ec8-abd84668877b"
+  }
 }
