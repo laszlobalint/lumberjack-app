@@ -11,10 +11,13 @@ export class UserService {
   ) {}
 
   async findAll(): Promise<User[]> {
-    return await this.userRepository.find();
+    return await this.userRepository.find({relations: ['customers']});
   }
 
   async findOne(id: number): Promise<User> {
-    return await this.userRepository.findOne(id);
+    return await this.userRepository.findOne({
+      where: {id},
+      relations: ['customers']
+    });
   }
 }
