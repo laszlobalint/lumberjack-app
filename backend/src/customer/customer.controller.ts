@@ -8,7 +8,7 @@ export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
 
   @Get()
-  findAll(): Promise<Customer[]> {
+  async findAll(): Promise<Customer[]> {
     return this.customerService.findAll();
   }
 
