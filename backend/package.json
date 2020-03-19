@@ -25,6 +25,7 @@
     "@nestjs/core": "^6.11.11",
     "@nestjs/platform-express": "^6.11.11",
     "@nestjs/typeorm": "^6.3.4",
+    "class-validator": "^0.11.1",
     "mariadb": "^2.2.0",
     "mysql": "^2.18.1",
     "reflect-metadata": "^0.1.13",
@@ -70,6 +71,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/laszlobalint/lumberjack"
+    "url": "https://gitlab.com/papiliond/lumberjack"
   }
 }
