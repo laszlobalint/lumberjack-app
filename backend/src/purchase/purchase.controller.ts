@@ -2,7 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { PurchaseService } from './purchase.service';
-import { Purchase } from '../_entities/purchase.entity';
+import { Purchase } from './purchase.entity';
 
 @ApiTags('purchase')
 @Controller('purchase')

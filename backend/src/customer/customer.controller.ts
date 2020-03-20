@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
 import { CustomerService } from './customer.service';
-import { Customer } from '../_entities/customer.entity';
+import { Customer } from './customer.entity';
 import { CreateCustomerDto, UpdateCustomerDto } from './customer.dto';
 
 @ApiTags('customer')

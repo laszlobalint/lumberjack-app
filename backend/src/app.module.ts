@@ -6,10 +6,10 @@ import { CustomerModule } from './customer/customer.module';
 import { ProductModule } from './product/product.module';
 import { PurchaseModule } from './purchase/purchase.module';
 import { UserModule } from './user/user.module';
-import { Customer } from './_entities/customer.entity';
-import { Product } from './_entities/product.entity';
-import { Purchase } from './_entities/purchase.entity';
-import { User } from './_entities/user.entity';
+import { Customer } from './customer/customer.entity';
+import { Product } from './product/product.entity';
+import { Purchase } from './purchase/purchase.entity';
+import { User } from './user/user.entity';
 
 @Module({
   imports: [
