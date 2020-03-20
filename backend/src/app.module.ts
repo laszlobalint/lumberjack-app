@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CustomerModule } from './customer/customer.module';
+import { ProductModule } from './product/product.module';
+import { PurchaseModule } from './purchase/purchase.module';
 import { UserModule } from './user/user.module';
 import { Customer } from './_entities/customer.entity';
 import { Product } from './_entities/product.entity';
@@ -21,6 +24,9 @@ import { User } from './_entities/user.entity';
       synchronize: true,
     }),
     UserModule,
+    CustomerModule,
+    ProductModule,
+    PurchaseModule
   ],
 })
 export class AppModule {}

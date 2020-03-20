@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-
 import { Customer } from './customer.entity';
 import { Product } from './product.entity';
 import { Purchase } from './purchase.entity';
+
 
 @Entity()
 export class User {
