@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Customer } from '../_entities/customer.entity';
 import { User } from '../_entities/user.entity';
-import { CreateCustomerDto } from './create-customer.dto';
+import { CreateCustomerDto, UpdateCustomerDto } from './customer.dto';
 
 @Injectable()
 export class CustomerService {
@@ -19,7 +19,10 @@ export class CustomerService {
   }
 
   async findOne(id: number): Promise<Customer> {
-    return await this.customerRepository.findOne(id);
+    return await this.customerRepository.findOne({
+      where: { id },
+      relations: ['purchases'],
+    });
   }
 
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
@@ -36,10 +39,17 @@ export class CustomerService {
 
     const user = await this.userRepository.findOne({
       where: { id: createCustomerDto.createdBy },
-      relations: ['customers']
+      relations: ['customers'],
     });
     user.customers.push(customer);
 
     return await this.customerRepository.save(customer);
+  }
+
+  async update(id: number, updateCustomerDto: UpdateCustomerDto) {
+    let customer = await this.customerRepository.findOne(id);
+    let updatedCustomer = Object.assign(customer, updateCustomerDto);
+
+    return this.customerRepository.save(updatedCustomer);
   }
 }
