@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { CustomerModule } from './customer/customer.module';
 import { ProductModule } from './product/product.module';
 import { PurchaseModule } from './purchase/purchase.module';
@@ -20,13 +21,13 @@ import { User } from './_entities/user.entity';
       username: process.env['DATABASE_USERNAME'],
       password: process.env['DATABASE_PASSWORD'],
       database: process.env['DATABASE_NAME'],
-      entities: [User, Customer, Product, Purchase],
+      entities: [Customer, Product, Purchase, User],
       synchronize: true,
     }),
-    UserModule,
     CustomerModule,
+    UserModule,
     ProductModule,
-    PurchaseModule
+    PurchaseModule,
   ],
 })
 export class AppModule {}
