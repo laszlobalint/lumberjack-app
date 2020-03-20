@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthController } from './auth/auth.controller';
+import { AuthModule } from './auth/auth.module';
 import { CustomerModule } from './customer/customer.module';
 import { ProductModule } from './product/product.module';
 import { PurchaseModule } from './purchase/purchase.module';
@@ -13,20 +15,29 @@ import { User } from './_entities/user.entity';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    TypeOrmModule.forRoot({
-      type: 'mariadb',
-      host: process.env['DATABASE_HOST'],
-      port: Number(process.env['DATABASE_PORT']),
-      username: process.env['DATABASE_USERNAME'],
-      password: process.env['DATABASE_PASSWORD'],
-      database: process.env['DATABASE_NAME'],
-      entities: [User, Customer, Product, Purchase],
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => {
+        const { get } = configService;
+        return {
+          type: 'mariadb',
+          host: get<string>('DATABASE_HOST'),
+          port: get<number>('DATABASE_PORT'),
+          username: get<string>('DATABASE_USERNAME'),
+          password: get<string>('DATABASE_PASSWORD'),
+          database: get<string>('DATABASE_NAME'),
+          entities: [User, Customer, Product, Purchase],
+          synchronize: true,
+        };
+      },
+      inject: [ConfigService],
     }),
     UserModule,
     CustomerModule,
     ProductModule,
-    PurchaseModule
+    PurchaseModule,
+    AuthModule,
   ],
+  controllers: [AuthController],
 })
 export class AppModule {}
