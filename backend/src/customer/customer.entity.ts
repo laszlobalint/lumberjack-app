@@ -1,6 +1,7 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Purchase } from './purchase.entity';
-import { User } from './user.entity';
+
+import { Purchase } from '../purchase/purchase.entity';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class Customer {
@@ -13,28 +14,28 @@ export class Customer {
   )
   user: User;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', length: 100 })
   name?: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', length: 200 })
   address: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', length: 50 })
   phone?: string;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'varchar', length: 100, nullable: true })
   companyName?: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', length: 20 })
   taxId?: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', length: 20 })
   nationalId?: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', length: 40 })
   checkingAccount?: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'text' })
   description?: string;
 
   @OneToMany(

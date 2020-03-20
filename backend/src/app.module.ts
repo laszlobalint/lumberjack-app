@@ -14,6 +14,7 @@ import { UserModule } from './user/user.module';
     TypeOrmModule.forRoot(),
     UserModule,
     CustomerModule,
+    UserModule,
     ProductModule,
     PurchaseModule,
     AuthModule,
