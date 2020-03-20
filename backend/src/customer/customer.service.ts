@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ApiResponse } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Customer } from '../_entities/customer.entity';
@@ -14,10 +15,12 @@ export class CustomerService {
     private readonly userRepository: Repository<User>,
   ) {}
 
+  @ApiResponse({ status: 200, description: 'Return all customers.' })
   async findAll(): Promise<Customer[]> {
-    return await this.customerRepository.find();
+    return this.customerRepository.find();
   }
 
+  @ApiResponse({ status: 200, description: 'Return single customer.' })
   async findOne(id: number): Promise<Customer> {
     return await this.customerRepository.findOne({
       where: { id },
@@ -25,6 +28,7 @@ export class CustomerService {
     });
   }
 
+  @ApiResponse({ status: 201, description: 'Create a customer.' })
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
     let customer = new Customer();
     customer.name = createCustomerDto.name;
@@ -46,6 +50,7 @@ export class CustomerService {
     return await this.customerRepository.save(customer);
   }
 
+  @ApiResponse({ status: 201, description: 'Updated a customer.' })
   async update(id: number, updateCustomerDto: UpdateCustomerDto) {
     let customer = await this.customerRepository.findOne(id);
     let updatedCustomer = Object.assign(customer, updateCustomerDto);

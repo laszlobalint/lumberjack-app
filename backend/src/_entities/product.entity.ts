@@ -2,7 +2,6 @@ import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGenerate
 import { Purchase } from './purchase.entity';
 import { User } from './user.entity';
 
-
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
