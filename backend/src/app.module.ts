@@ -18,14 +18,13 @@ import { User } from './_entities/user.entity';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
-        const { get } = configService;
         return {
           type: 'mariadb',
-          host: get<string>('DATABASE_HOST'),
-          port: get<number>('DATABASE_PORT'),
-          username: get<string>('DATABASE_USERNAME'),
-          password: get<string>('DATABASE_PASSWORD'),
-          database: get<string>('DATABASE_NAME'),
+          host: configService.get<string>('DATABASE_HOST'),
+          port: configService.get<number>('DATABASE_PORT'),
+          username: configService.get<string>('DATABASE_USERNAME'),
+          password: configService.get<string>('DATABASE_PASSWORD'),
+          database: configService.get<string>('DATABASE_NAME'),
           entities: [User, Customer, Product, Purchase],
           synchronize: true,
         };
