@@ -9,16 +9,7 @@ import { PurchaseModule } from './purchase/purchase.module';
 import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    TypeOrmModule.forRoot(),
-    UserModule,
-    CustomerModule,
-    UserModule,
-    ProductModule,
-    PurchaseModule,
-    AuthModule,
-  ],
+  imports: [ConfigModule.forRoot(), TypeOrmModule.forRoot(), AuthModule, UserModule, CustomerModule, ProductModule, PurchaseModule],
   controllers: [AuthController],
 })
 export class AppModule {}
