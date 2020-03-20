@@ -1,6 +1,7 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Purchase } from './purchase.entity';
-import { User } from './user.entity';
+
+import { Purchase } from '../purchase/purchase.entity';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class Product {
@@ -13,7 +14,7 @@ export class Product {
   )
   user: User;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', length: 100 })
   name: string;
 
   @Column({ type: 'double' })
@@ -22,7 +23,7 @@ export class Product {
   @Column({ type: 'double' })
   amount: number;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'text', nullable: true })
   description?: string;
 
   @OneToMany(

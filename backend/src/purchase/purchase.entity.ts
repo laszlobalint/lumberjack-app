@@ -1,14 +1,8 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Customer } from './customer.entity';
-import { Product } from './product.entity';
-import { User } from './user.entity';
+import { Customer } from '../customer/customer.entity';
+import { Product } from '../product/product.entity';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class Purchase {
@@ -24,7 +18,7 @@ export class Purchase {
   @Column({ type: 'double' })
   amount: number;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'text' })
   description: string;
 
   @CreateDateColumn({ type: 'datetime' })

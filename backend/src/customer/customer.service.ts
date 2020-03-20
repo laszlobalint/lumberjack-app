@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Customer } from '../_entities/customer.entity';
-import { User } from '../_entities/user.entity';
+
+import { Customer } from './customer.entity';
+import { User } from '../user/user.entity';
 import { CreateCustomerDto, UpdateCustomerDto } from './customer.dto';
 
 @Injectable()
