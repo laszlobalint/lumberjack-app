@@ -5,8 +5,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./footer.component.scss'],
   template: `
     <span></span>
-    <div class="subtitle">{{ today | date: "yyyy. MM. dd. HH:mm:ss" }}</div>
-  `
+    <div class="subtitle">{{ today | date: 'yyyy. MM. dd. HH:mm:ss' }}</div>
+  `,
 })
 export class FooterComponent {
   today = new Date();
