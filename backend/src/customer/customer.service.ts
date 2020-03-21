@@ -16,12 +16,12 @@ export class CustomerService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  @ApiResponse({ status: 200, description: 'Return all customers.' })
+  @ApiResponse({ status: 200, description: 'Returned all customers.' })
   async findAll(): Promise<Customer[]> {
     return this.customerRepository.find();
   }
 
-  @ApiResponse({ status: 200, description: 'Return single customer.' })
+  @ApiResponse({ status: 200, description: 'Returned single customer.' })
   async findOne(id: number): Promise<Customer> {
     return await this.customerRepository.findOne({
       where: { id },
@@ -29,7 +29,7 @@ export class CustomerService {
     });
   }
 
-  @ApiResponse({ status: 201, description: 'Create a customer.' })
+  @ApiResponse({ status: 201, description: 'Created a customer.' })
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
     let customer = new Customer();
     customer.name = createCustomerDto.name;
@@ -51,7 +51,7 @@ export class CustomerService {
     return await this.customerRepository.save(customer);
   }
 
-  @ApiResponse({ status: 201, description: 'Updated a customer.' })
+  @ApiResponse({ status: 204, description: 'Updated a customer.' })
   async update(id: number, updateCustomerDto: UpdateCustomerDto): Promise<Customer> {
     let customer = await this.customerRepository.findOne(id);
     let updatedCustomer = Object.assign(customer, updateCustomerDto);
@@ -59,7 +59,7 @@ export class CustomerService {
     return this.customerRepository.save(updatedCustomer);
   }
 
-  @ApiResponse({ status: 200, description: 'Deleted a customer.' })
+  @ApiResponse({ status: 204, description: 'Deleted a customer.' })
   async remove(id: number): Promise<DeleteResult> {
     let customer = this.customerRepository.findOneOrFail(id);
     if ((await customer).id === id) {
