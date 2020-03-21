@@ -8,8 +8,8 @@ import { LoggedInUserDto, LoginResponseDto } from './login.dto';
 export class AuthService {
   constructor(private userService: UserService, private jwtService: JwtService) {}
 
-  async validateUser(username: string, password: string): Promise<LoggedInUserDto | null> {
-    const user = await this.userService.findOne(username);
+  async validateUser(email: string, password: string): Promise<LoggedInUserDto | null> {
+    const user = await this.userService.findOne(email);
 
     if (user && this.passwordsAreEqual(user.password, password)) {
       const { password, ...result } = user;
@@ -20,7 +20,7 @@ export class AuthService {
   }
 
   async login(user: LoggedInUserDto): Promise<LoginResponseDto> {
-    const payload = { username: user.username, sub: user.id };
+    const payload = { email: user.email, sub: user.id };
     return {
       access_token: this.jwtService.sign(payload),
       ...user,

@@ -5,7 +5,7 @@ import { Purchase } from '../purchase/purchase.entity';
 
 export class LoginDto {
   @ApiProperty({ type: 'string' })
-  username: string;
+  email: string;
 
   @ApiProperty({ type: 'string' })
   password: string;
@@ -16,7 +16,7 @@ export class LoggedInUserDto {
   id: number;
 
   @ApiProperty({ type: 'string' })
-  username: string;
+  email: string;
 
   @ApiProperty({ type: 'string' })
   name: string;
