@@ -56,7 +56,7 @@ export class CustomerService {
     let customer = await this.customerRepository.findOne(id);
     let updatedCustomer = Object.assign(customer, updateCustomerDto);
 
-    return this.customerRepository.save(updatedCustomer);
+    return this.customerRepository.merge(updatedCustomer);
   }
 
   @ApiResponse({ status: 204, description: 'Deleted a customer.' })

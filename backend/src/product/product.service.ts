@@ -48,7 +48,7 @@ export class ProductService {
     let product = await this.productRepository.findOneOrFail(id);
     let updatedProduct = Object.assign(product, updateProductDto);
 
-    return this.productRepository.save(updatedProduct);
+    return this.productRepository.merge(updatedProduct);
   }
 
   @ApiResponse({ status: 204, description: 'Deleted a product.' })
