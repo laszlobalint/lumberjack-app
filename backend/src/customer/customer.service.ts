@@ -61,9 +61,8 @@ export class CustomerService {
 
   @ApiResponse({ status: 204, description: 'Deleted a customer.' })
   async remove(id: number): Promise<DeleteResult> {
-    let customer = this.customerRepository.findOneOrFail(id);
-    if ((await customer).id === id) {
-      return this.customerRepository.delete(id);
-    }
+    const customer = await this.customerRepository.findOneOrFail(id);
+
+    return this.customerRepository.delete(customer);
   }
 }
