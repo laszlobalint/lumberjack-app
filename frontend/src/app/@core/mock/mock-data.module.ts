@@ -1,5 +1,5 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 
 import { UserService } from './users.service';
 
@@ -17,11 +17,11 @@ const SERVICES = [
 })
 export class MockDataModule {
   static forRoot(): ModuleWithProviders {
-    return <ModuleWithProviders>{
+    return {
       ngModule: MockDataModule,
       providers: [
         ...SERVICES,
       ],
-    };
+    } as ModuleWithProviders;
   }
 }
