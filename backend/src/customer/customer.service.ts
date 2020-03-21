@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DeleteResult } from 'typeorm';
 
 import { Customer } from './customer.entity';
 import { User } from '../user/user.entity';
@@ -52,10 +52,18 @@ export class CustomerService {
   }
 
   @ApiResponse({ status: 201, description: 'Updated a customer.' })
-  async update(id: number, updateCustomerDto: UpdateCustomerDto) {
+  async update(id: number, updateCustomerDto: UpdateCustomerDto): Promise<Customer> {
     let customer = await this.customerRepository.findOne(id);
     let updatedCustomer = Object.assign(customer, updateCustomerDto);
 
     return this.customerRepository.save(updatedCustomer);
+  }
+
+  @ApiResponse({ status: 200, description: 'Deleted a customer.' })
+  async remove(id: number): Promise<DeleteResult> {
+    let customer = this.customerRepository.findOneOrFail(id);
+    if ((await customer).id === id) {
+      return this.customerRepository.delete(id);
+    }
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ApiResponse } from '@nestjs/swagger';
 import { Repository } from 'typeorm';
 
 import { Product } from './product.entity';
@@ -15,14 +16,17 @@ export class ProductService {
     private readonly userRepository: Repository<User>,
   ) {}
 
+  @ApiResponse({ status: 200, description: 'Return all products.' })
   async findAll(): Promise<Product[]> {
     return await this.productRepository.find();
   }
 
+  @ApiResponse({ status: 200, description: 'Return single product.' })
   async findOne(id: number): Promise<Product> {
     return await this.productRepository.findOne(id);
   }
 
+  @ApiResponse({ status: 201, description: 'Create a product.' })
   async create(createProductDto: CreateProductDto): Promise<Product> {
     let product = new Product();
     product.name = createProductDto.name;
