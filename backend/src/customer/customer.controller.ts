@@ -21,12 +21,12 @@ export class CustomerController {
   }
 
   @Post()
-  async create(@Body('customer') createCostumerDto: CreateCustomerDto): Promise<Customer> {
+  async create(@Body() createCostumerDto: CreateCustomerDto): Promise<Customer> {
     return this.customerService.create(createCostumerDto);
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body('customer') updateCustomerDto: UpdateCustomerDto): Promise<Customer> {
+  async update(@Param('id') id: string, @Body() updateCustomerDto: UpdateCustomerDto): Promise<Customer> {
     return this.customerService.update(+id, updateCustomerDto);
   }
 }
