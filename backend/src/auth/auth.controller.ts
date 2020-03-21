@@ -10,7 +10,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @UseGuards(AuthGuard('local'))
-  @Post()
+  @Post('login')
   async login(@Request() req: { user: LoggedInUserDto }): Promise<LoginResponseDto> {
     return this.authService.login(req.user);
   }
