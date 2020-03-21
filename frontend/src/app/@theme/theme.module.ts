@@ -2,43 +2,15 @@ import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
-import {
-  NbActionsModule,
-  NbButtonModule,
-  NbContextMenuModule,
-  NbIconModule,
-  NbLayoutModule,
-  NbMenuModule,
-  NbSearchModule,
-  NbSelectModule,
-  NbSidebarModule,
-  NbThemeModule,
-  NbUserModule,
-} from '@nebular/theme';
-
-import {
-  FooterComponent,
-  HeaderComponent,
-  LayoutDirectionSwitcherComponent,
-  SearchInputComponent,
-  SwitcherComponent,
-} from './components';
-import {
-  OneColumnLayoutComponent,
-  ThreeColumnsLayoutComponent,
-  TwoColumnsLayoutComponent,
-} from './layouts';
-import {
-  CapitalizePipe,
-  NumberWithCommasPipe,
-  PluralPipe,
-  RoundPipe,
-  TimingPipe,
-} from './pipes';
+import { NbActionsModule, NbButtonModule, NbContextMenuModule, NbIconModule, NbLayoutModule, NbMenuModule, NbSearchModule, NbSelectModule, NbSidebarModule, NbThemeModule, NbUserModule } from '@nebular/theme';
+import { FooterComponent, HeaderComponent, SearchInputComponent, SwitcherComponent } from './components';
+import { OneColumnLayoutComponent, ThreeColumnsLayoutComponent, TwoColumnsLayoutComponent } from './layouts';
+import { CapitalizePipe, NumberWithCommasPipe, PluralPipe, RoundPipe, TimingPipe } from './pipes';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { DARK_THEME } from './styles/theme.dark';
 import { DEFAULT_THEME } from './styles/theme.default';
+
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -56,7 +28,6 @@ const NB_MODULES = [
 ];
 const COMPONENTS = [
   SwitcherComponent,
-  LayoutDirectionSwitcherComponent,
   HeaderComponent,
   FooterComponent,
   SearchInputComponent,
