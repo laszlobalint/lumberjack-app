@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
-
-import { UserData } from '../../../@core/data/users';
-import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+import { UserData } from '../../../@core/data/users';
+import { SITE_NAME } from './../../../constants';
+
 
 @Component({
   selector: 'ngx-header',
@@ -38,6 +39,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   currentTheme = 'default';
 
   userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+
+  SITE_NAME = SITE_NAME;
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
