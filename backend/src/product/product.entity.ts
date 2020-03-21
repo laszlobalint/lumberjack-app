@@ -6,7 +6,7 @@ import { User } from '../user/user.entity';
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @ManyToOne(
     type => User,

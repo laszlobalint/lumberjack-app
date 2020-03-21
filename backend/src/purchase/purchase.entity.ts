@@ -7,7 +7,7 @@ import { User } from '../user/user.entity';
 @Entity()
 export class Purchase {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @ManyToOne(
     type => User,

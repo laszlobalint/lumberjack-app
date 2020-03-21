@@ -26,7 +26,7 @@ export class CustomerController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body('customer') updateCustomerDto: UpdateCustomerDto) {
+  async update(@Param('id') id: string, @Body('customer') updateCustomerDto: UpdateCustomerDto): Promise<Customer> {
     return this.customerService.update(+id, updateCustomerDto);
   }
 }

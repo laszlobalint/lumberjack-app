@@ -1,6 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ApiResponse } from '@nestjs/swagger';
 import { Repository } from 'typeorm';
+
 import { User } from './user.entity';
 
 @Injectable()
@@ -14,7 +16,13 @@ export class UserService {
     return await this.userRepository.find({ relations: ['customers'] });
   }
 
-  async findOne(username: string): Promise<User> {
+  @ApiResponse({ status: 200, description: 'Returned single user by ID.' })
+  async findOne(id: number): Promise<User> {
+    return await this.userRepository.findOne({ where: { id } });
+  }
+
+  @ApiResponse({ status: 200, description: 'Returned single user by username.' })
+  async findOneByUsername(username: string): Promise<User> {
     return await this.userRepository.findOne({ where: { username } });
   }
 }
