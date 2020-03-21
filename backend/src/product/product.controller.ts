@@ -22,12 +22,12 @@ export class ProductController {
   }
 
   @Post()
-  async create(@Body('product') createProductDto: CreateProductDto): Promise<Product> {
+  async create(@Body() createProductDto: CreateProductDto): Promise<Product> {
     return this.productService.create(createProductDto);
   }
 
   @Put()
-  async update(@Param('id') id: string, @Body('product') updateCustomerDto: UpdateProductDto): Promise<Product> {
+  async update(@Param('id') id: string, @Body() updateCustomerDto: UpdateProductDto): Promise<Product> {
     return this.productService.update(+id, updateCustomerDto);
   }
 

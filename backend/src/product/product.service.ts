@@ -29,18 +29,21 @@ export class ProductService {
   @ApiResponse({ status: 201, description: 'Created a product.' })
   async create(createProductDto: CreateProductDto): Promise<Product> {
     let product = new Product();
-    product.name = createProductDto.name;
-    product.price = createProductDto.price;
-    product.amount = createProductDto.amount;
-    product.description = createProductDto.description;
+    product.name = String(createProductDto.name);
+    product.price = Number(createProductDto.price);
+    product.amount = Number(createProductDto.amount);
+    product.description = createProductDto.description ? String(createProductDto.description) : undefined;
 
     const user = await this.userRepository.findOne({
       where: { id: createProductDto.createdBy },
       relations: ['products'],
     });
-    user.products.push(product);
 
-    return await this.productRepository.save(product);
+    let createdProduct = await this.productRepository.save(product);
+    user.products.push(createdProduct);
+    this.userRepository.save(user);
+
+    return createdProduct;
   }
 
   @ApiResponse({ status: 204, description: 'Modified a product.' })
@@ -48,7 +51,7 @@ export class ProductService {
     let product = await this.productRepository.findOneOrFail(id);
     let updatedProduct = Object.assign(product, updateProductDto);
 
-    return this.productRepository.merge(updatedProduct);
+    return this.productRepository.save(updatedProduct);
   }
 
   @ApiResponse({ status: 204, description: 'Deleted a product.' })
