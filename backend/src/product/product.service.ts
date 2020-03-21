@@ -48,17 +48,21 @@ export class ProductService {
 
   @ApiResponse({ status: 204, description: 'Modified a product.' })
   async update(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
-    let product = await this.productRepository.findOneOrFail(id);
-    let updatedProduct = Object.assign(product, updateProductDto);
-
-    return this.productRepository.save(updatedProduct);
+    let product = await this.productRepository.findOne({
+      where: { id },
+    });
+    if (product.id === id) {
+      let updatedProduct = Object.assign(product, updateProductDto);
+      return this.productRepository.save(updatedProduct);
+    }
   }
 
   @ApiResponse({ status: 204, description: 'Deleted a product.' })
-  async remove(id: string): Promise<DeleteResult> {
-    let product = this.productRepository.findOneOrFail(id);
-
-    if ((await product).id === id) {
+  async remove(id: number): Promise<DeleteResult> {
+    let product = await this.productRepository.findOne({
+      where: { id },
+    });
+    if (product.id === id) {
       return this.productRepository.delete(id);
     }
   }

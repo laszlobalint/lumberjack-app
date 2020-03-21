@@ -26,13 +26,13 @@ export class ProductController {
     return this.productService.create(createProductDto);
   }
 
-  @Put()
+  @Put(':id')
   async update(@Param('id') id: string, @Body() updateCustomerDto: UpdateProductDto): Promise<Product> {
     return this.productService.update(+id, updateCustomerDto);
   }
 
-  @Delete()
+  @Delete(':id')
   async remove(@Param('id') id: string): Promise<DeleteResult> {
-    return this.productService.remove(id);
+    return this.productService.remove(+id);
   }
 }
