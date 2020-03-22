@@ -4,6 +4,8 @@ import { Customer } from '../customer/customer.entity';
 import { Product } from '../product/product.entity';
 import { Purchase } from '../purchase/purchase.entity';
 
+export type UserRoleType = 'admin' | 'guest';
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -22,6 +24,13 @@ export class User {
 
   @Column({ type: 'varchar', length: 100 })
   name: string;
+
+  @Column({
+    type: 'enum',
+    enum: ['admin', 'guest'],
+    default: 'guest',
+  })
+  role: UserRoleType;
 
   @OneToMany(
     type => Customer,
