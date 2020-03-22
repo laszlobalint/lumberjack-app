@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { getDeepFromObject, NbAuthResult, NbAuthService, NbTokenService, NB_AUTH_OPTIONS } from '@nebular/auth';
+import { Store } from '@ngrx/store';
+import * as fromAuth from '../../store';
 
 /*
   This is a modified implementation of:
@@ -22,6 +24,7 @@ export class LogoutComponent implements OnInit {
     protected nbTokenService: NbTokenService,
     @Inject(NB_AUTH_OPTIONS) protected options = {},
     protected router: Router,
+    private readonly store: Store<fromAuth.State>,
   ) {
     this.redirectDelay = this.getConfigValue('forms.logout.redirectDelay');
     this.strategy = this.getConfigValue('forms.logout.strategy');
@@ -34,6 +37,8 @@ export class LogoutComponent implements OnInit {
   logout(strategy: string): void {
     this.nbAuthService.logout(strategy).subscribe((result: NbAuthResult) => {
       this.nbTokenService.clear();
+      this.store.dispatch(fromAuth.SetUser({ user: undefined }));
+
       const redirect = result.getRedirect();
       if (redirect) {
         setTimeout(() => {

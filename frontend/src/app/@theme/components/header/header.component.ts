@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu: NbMenuItem[] = [{ title: 'Profile' }, { title: 'Logout', url: '/auth/logout' }];
+  userMenu: NbMenuItem[] = [{ title: 'Profile' }, { title: 'Logout', link: '/auth/logout' }];
 
   SITE_NAME = SITE_NAME;
 
