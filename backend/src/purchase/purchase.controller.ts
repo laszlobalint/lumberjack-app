@@ -6,6 +6,7 @@ import { Purchase } from './purchase.entity';
 
 @ApiTags('purchase')
 @Controller('purchase')
+// @UseGuards(JwtAuthGuard)
 export class PurchaseController {
   constructor(private readonly purchaseService: PurchaseService) {}
 

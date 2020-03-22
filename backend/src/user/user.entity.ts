@@ -9,10 +9,10 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', unique: true })
+  @Column({ type: 'varchar', unique: true, length: 100, nullable: false })
   email: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', length: 100 })
   password: string;
 
   @BeforeInsert()
@@ -22,6 +22,12 @@ export class User {
 
   @Column({ type: 'varchar', length: 100 })
   name: string;
+
+  @OneToMany(
+    type => Customer,
+    customer => customer.user,
+  )
+  customers: Customer[];
 
   @OneToMany(
     type => Product,
@@ -34,10 +40,4 @@ export class User {
     purchase => purchase.user,
   )
   purchases: Purchase[];
-
-  @OneToMany(
-    type => Customer,
-    customer => customer.user,
-  )
-  customers: Customer[];
 }
