@@ -42,9 +42,9 @@ export class CustomerService {
     customer.description = createCustomerDto.description ? createCustomerDto.description : undefined;
     customer.purchases = [];
 
-    const user = await this.userRepository.findOneOrFail({
+    let user = await this.userRepository.findOneOrFail({
       where: { id: createCustomerDto.createdBy },
-      relations: ['customers'],
+      relations: ['customers', 'products', 'purchases'],
     });
 
     let createdCustomer = await this.customerRepository.save(customer);
@@ -70,6 +70,6 @@ export class CustomerService {
       where: { id },
     });
 
-    return this.customerRepository.delete(customer);
+    return this.customerRepository.delete(customer.id);
   }
 }
