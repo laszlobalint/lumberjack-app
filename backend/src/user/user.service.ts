@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ApiResponse } from '@nestjs/swagger';
 import { Repository, DeleteResult } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 import { User } from './user.entity';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
@@ -51,6 +52,7 @@ export class UserService {
     let user = await this.userRepository.findOne({
       where: { id },
     });
+    updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
     let updatedUser = Object.assign(user, updateUserDto);
 
     return this.userRepository.save(updatedUser);
