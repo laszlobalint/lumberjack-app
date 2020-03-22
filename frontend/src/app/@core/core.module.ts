@@ -5,15 +5,10 @@ import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy } from '@nebular/a
 import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
 import { of as observableOf } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { UserData } from './data/users';
 import { AuthGuard } from './guards/auth.guard';
 import { TokenInterceptor } from './interceptors/token.interceptor';
-import { MockDataModule } from './mock/mock-data.module';
-import { UserService } from './mock/users.service';
 import { throwIfAlreadyLoaded } from './module-import-guard';
 import { AnalyticsService } from './utils';
-
-const DATA_SERVICES = [{ provide: UserData, useClass: UserService }];
 
 export class NbSimpleRoleProvider extends NbRoleProvider {
   getRole() {
@@ -23,8 +18,6 @@ export class NbSimpleRoleProvider extends NbRoleProvider {
 }
 
 export const NB_CORE_PROVIDERS = [
-  ...MockDataModule.forRoot().providers,
-  ...DATA_SERVICES,
   ...NbAuthModule.forRoot({
     strategies: [
       NbPasswordAuthStrategy.setup({

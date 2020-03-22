@@ -11,26 +11,16 @@ export class LoginDto {
   password: string;
 }
 
-export class LoggedInUserDto {
-  @ApiProperty({ type: 'number' })
+export class UserDto {
   id: number;
-
-  @ApiProperty({ type: 'string' })
   email: string;
-
-  @ApiProperty({ type: 'string' })
   name: string;
-
-  @ApiProperty({ type: 'object' })
   products: Product[];
-
-  @ApiProperty({ type: 'object' })
   purchases: Purchase[];
-
-  @ApiProperty({ type: 'object' })
   customers: Customer[];
 }
 
-export class LoginResponseDto extends LoggedInUserDto {
+export class LoginResponseDto {
   access_token: string;
+  user: UserDto;
 }

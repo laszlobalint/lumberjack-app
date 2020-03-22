@@ -2,10 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMediaBreakpointsService, NbMenuItem, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { UserData } from '../../../@core/data/users';
 import { SITE_NAME } from './../../../constants';
-
-type UserMenuItem = 'Profile' | 'Logout';
 
 @Component({
   selector: 'ngx-header',
@@ -46,17 +43,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
     private themeService: NbThemeService,
-    private userService: UserData,
     private breakpointService: NbMediaBreakpointsService,
   ) {}
 
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
-
-    this.userService
-      .getUsers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users: any) => (this.user = users.nick));
 
     const { xl } = this.breakpointService.getBreakpointsMap();
     this.themeService
