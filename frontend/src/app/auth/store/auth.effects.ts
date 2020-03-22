@@ -5,7 +5,7 @@ import { AuthService } from '../services/auth.service';
 import * as AuthActions from './auth.actions';
 
 @Injectable()
-export class UserEffects {
+export class AuthEffects {
   getUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.GetUser),
