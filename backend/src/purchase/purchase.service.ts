@@ -12,10 +12,10 @@ export class PurchaseService {
   ) {}
 
   async findAll(): Promise<Purchase[]> {
-    return await this.purchaseRepository.find();
+    return await this.purchaseRepository.find({ relations: ['customer', 'product', 'user'] });
   }
 
   async findOne(id: number): Promise<Purchase> {
-    return await this.purchaseRepository.findOne(id);
+    return await this.purchaseRepository.findOneOrFail({ where: { id }, relations: ['customer', 'product', 'user'] });
   }
 }

@@ -10,6 +10,24 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @OneToMany(
+    type => Customer,
+    customer => customer.user,
+  )
+  customers: Customer[];
+
+  @OneToMany(
+    type => Product,
+    product => product.user,
+  )
+  products: Product[];
+
+  @OneToMany(
+    type => Purchase,
+    purchase => purchase.user,
+  )
+  purchases: Purchase[];
+
   @Column({ type: 'varchar', length: 100, unique: true })
   username: string;
 
@@ -26,22 +44,4 @@ export class User {
 
   @Column({ type: 'varchar', length: 100, nullable: true })
   email: string;
-
-  @OneToMany(
-    type => Product,
-    product => product.user,
-  )
-  products: Product[];
-
-  @OneToMany(
-    type => Purchase,
-    purchase => purchase.user,
-  )
-  purchases: Purchase[];
-
-  @OneToMany(
-    type => Customer,
-    customer => customer.user,
-  )
-  customers: Customer[];
 }

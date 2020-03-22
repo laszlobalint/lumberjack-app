@@ -14,6 +14,12 @@ export class Product {
   )
   user: User;
 
+  @OneToMany(
+    type => Purchase,
+    purchase => purchase.product,
+  )
+  purchases: Purchase[];
+
   @Column({ type: 'varchar', length: 100 })
   name: string;
 
@@ -25,12 +31,6 @@ export class Product {
 
   @Column({ type: 'text', nullable: true })
   description?: string;
-
-  @OneToMany(
-    type => Purchase,
-    purchase => purchase.product,
-  )
-  purchases: Purchase[];
 
   @CreateDateColumn({ type: 'datetime' })
   date: Date;
