@@ -52,6 +52,7 @@ export class ProductService {
       where: { id },
     });
     let updatedProduct = Object.assign(product, updateProductDto);
+
     return this.productRepository.save(updatedProduct);
   }
 
@@ -60,6 +61,7 @@ export class ProductService {
     let product = await this.productRepository.findOne({
       where: { id },
     });
+
     return this.productRepository.delete(product);
   }
 }
