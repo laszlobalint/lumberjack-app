@@ -33,9 +33,9 @@ export class Purchase {
   @Column({ type: 'text' })
   description: string;
 
-  @CreateDateColumn({ type: 'datetime' })
-  date: Date;
-
   @Column({ type: 'boolean' })
   completed: boolean;
+
+  @CreateDateColumn({ type: 'datetime' })
+  date: Date;
 }
