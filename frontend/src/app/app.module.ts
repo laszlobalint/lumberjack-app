@@ -20,7 +20,6 @@ import { ThemeModule } from './@theme/theme.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
-import { reducers } from './store/index';
 
 const NB_MODULES = [
   NbSidebarModule.forRoot(),
@@ -41,7 +40,7 @@ const NB_MODULES = [
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     ThemeModule.forRoot(),
