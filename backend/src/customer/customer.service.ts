@@ -32,28 +32,33 @@ export class CustomerService {
   @ApiResponse({ status: 201, description: 'Created a customer.' })
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
     let customer = new Customer();
-    customer.name = createCustomerDto.name;
-    customer.address = createCustomerDto.address;
-    customer.phone = createCustomerDto.phone;
-    customer.companyName = createCustomerDto.companyName;
-    customer.taxId = createCustomerDto.taxId;
-    customer.nationalId = createCustomerDto.nationalId;
-    customer.checkingAccount = createCustomerDto.checkingAccount;
-    customer.description = createCustomerDto.description;
+    customer.name = createCustomerDto.name ? createCustomerDto.name : undefined;
+    customer.address = createCustomerDto.address ? createCustomerDto.address : undefined;
+    customer.phone = createCustomerDto.phone ? createCustomerDto.phone : undefined;
+    customer.companyName = createCustomerDto.companyName ? createCustomerDto.companyName : undefined;
+    customer.taxId = createCustomerDto.taxId ? createCustomerDto.taxId : undefined;
+    customer.nationalId = createCustomerDto.nationalId ? createCustomerDto.nationalId : undefined;
+    customer.checkingAccount = createCustomerDto.checkingAccount ? createCustomerDto.checkingAccount : undefined;
+    customer.description = createCustomerDto.description ? createCustomerDto.description : undefined;
     customer.purchases = [];
 
     const user = await this.userRepository.findOne({
       where: { id: createCustomerDto.createdBy },
       relations: ['customers'],
     });
-    user.customers.push(customer);
 
-    return await this.customerRepository.save(customer);
+    let createdCustomer = await this.customerRepository.save(customer);
+    user.customers.push(customer);
+    this.userRepository.save(user);
+
+    return createdCustomer;
   }
 
   @ApiResponse({ status: 204, description: 'Updated a customer.' })
   async update(id: number, updateCustomerDto: UpdateCustomerDto): Promise<Customer> {
-    let customer = await this.customerRepository.findOne(id);
+    let customer = await this.customerRepository.findOne({
+      where: { id },
+    });
     let updatedCustomer = Object.assign(customer, updateCustomerDto);
 
     return this.customerRepository.save(updatedCustomer);
@@ -61,7 +66,9 @@ export class CustomerService {
 
   @ApiResponse({ status: 204, description: 'Deleted a customer.' })
   async remove(id: number): Promise<DeleteResult> {
-    const customer = await this.customerRepository.findOneOrFail(id);
+    const customer = await this.customerRepository.findOne({
+      where: { id },
+    });
 
     return this.customerRepository.delete(customer);
   }
