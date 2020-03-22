@@ -15,22 +15,22 @@ export class UserService {
   ) {}
 
   async findAll(): Promise<User[]> {
-    return await this.userRepository.find({ relations: ['customers'] });
+    return await this.userRepository.find({ relations: ['customers', 'products', 'purchases'] });
   }
 
   @ApiResponse({ status: 200, description: 'Returned single user by ID.' })
   async findOne(id: number): Promise<User> {
-    return await this.userRepository.findOne({ where: { id } });
+    return await this.userRepository.findOneOrFail({ where: { id }, relations: ['customers', 'products', 'purchases'] });
   }
 
   @ApiResponse({ status: 200, description: 'Returned single user by username.' })
   async findOneByUsername(username: string): Promise<User> {
-    return await this.userRepository.findOne({ where: { username } });
+    return await this.userRepository.findOneOrFail({ where: { username }, relations: ['customers', 'products', 'purchases'] });
   }
 
   @ApiResponse({ status: 200, description: 'Returned single user by email.' })
   async findOneByEmail(email: string): Promise<User> {
-    return await this.userRepository.findOne({ where: { email } });
+    return await this.userRepository.findOneOrFail({ where: { email }, relations: ['customers', 'products', 'purchases'] });
   }
 
   @ApiResponse({ status: 201, description: 'Created a user.' })
@@ -49,7 +49,7 @@ export class UserService {
 
   @ApiResponse({ status: 204, description: 'Modified a user.' })
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    let user = await this.userRepository.findOne({
+    let user = await this.userRepository.findOneOrFail({
       where: { id },
     });
     updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
@@ -60,7 +60,7 @@ export class UserService {
 
   @ApiResponse({ status: 204, description: 'Deleted a user.' })
   async remove(id: number): Promise<DeleteResult> {
-    let user = await this.userRepository.findOne({
+    let user = await this.userRepository.findOneOrFail({
       where: { id },
     });
 

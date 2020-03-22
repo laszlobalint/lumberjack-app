@@ -10,6 +10,18 @@ export class Purchase {
   id: number;
 
   @ManyToOne(
+    type => Customer,
+    customer => customer.purchases,
+  )
+  customer: Customer;
+
+  @ManyToOne(
+    type => Product,
+    product => product.purchases,
+  )
+  product: Product;
+
+  @ManyToOne(
     type => User,
     user => user.purchases,
   )
@@ -26,16 +38,4 @@ export class Purchase {
 
   @Column({ type: 'boolean' })
   completed: boolean;
-
-  @ManyToOne(
-    type => Product,
-    product => product.purchases,
-  )
-  product: Product;
-
-  @ManyToOne(
-    type => Customer,
-    customer => customer.purchases,
-  )
-  customer: Customer;
 }

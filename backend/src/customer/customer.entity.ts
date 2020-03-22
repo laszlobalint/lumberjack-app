@@ -14,6 +14,12 @@ export class Customer {
   )
   user: User;
 
+  @OneToMany(
+    type => Purchase,
+    purchase => purchase.customer,
+  )
+  purchases: Purchase[];
+
   @Column({ type: 'varchar', length: 100 })
   name?: string;
 
@@ -37,12 +43,6 @@ export class Customer {
 
   @Column({ type: 'text' })
   description?: string;
-
-  @OneToMany(
-    type => Purchase,
-    purchase => purchase.customer,
-  )
-  purchases: Purchase[];
 
   @CreateDateColumn({ type: 'datetime' })
   date: Date;

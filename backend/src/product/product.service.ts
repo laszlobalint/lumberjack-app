@@ -18,12 +18,12 @@ export class ProductService {
 
   @ApiResponse({ status: 200, description: 'Returned all products.' })
   async findAll(): Promise<Product[]> {
-    return await this.productRepository.find();
+    return await this.productRepository.find({ relations: ['purchases', 'user'] });
   }
 
   @ApiResponse({ status: 200, description: 'Returned single product.' })
   async findOne(id: number): Promise<Product> {
-    return await this.productRepository.findOne(id);
+    return await this.productRepository.findOneOrFail({ where: { id }, relations: ['purchases', 'user'] });
   }
 
   @ApiResponse({ status: 201, description: 'Created a product.' })
@@ -48,7 +48,7 @@ export class ProductService {
 
   @ApiResponse({ status: 204, description: 'Modified a product.' })
   async update(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
-    let product = await this.productRepository.findOne({
+    let product = await this.productRepository.findOneOrFail({
       where: { id },
     });
     let updatedProduct = Object.assign(product, updateProductDto);
@@ -58,7 +58,7 @@ export class ProductService {
 
   @ApiResponse({ status: 204, description: 'Deleted a product.' })
   async remove(id: number): Promise<DeleteResult> {
-    let product = await this.productRepository.findOne({
+    let product = await this.productRepository.findOneOrFail({
       where: { id },
     });
 
