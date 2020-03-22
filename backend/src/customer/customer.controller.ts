@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, UseGuards, Delete } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { DeleteResult } from 'typeorm';
 
 import { JwtAuthGuard } from '../auth/auth.jwt.guard';
 import { CustomerService } from './customer.service';
@@ -8,7 +9,7 @@ import { CreateCustomerDto, UpdateCustomerDto } from './customer.dto';
 
 @ApiTags('customer')
 @Controller('customer')
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
 
@@ -23,12 +24,17 @@ export class CustomerController {
   }
 
   @Post()
-  async create(@Body() createCostumerDto: CreateCustomerDto): Promise<Customer> {
-    return this.customerService.create(createCostumerDto);
+  async create(@Body() createCustomerDto: CreateCustomerDto): Promise<Customer> {
+    return this.customerService.create(createCustomerDto);
   }
 
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateCustomerDto: UpdateCustomerDto): Promise<Customer> {
     return this.customerService.update(+id, updateCustomerDto);
+  }
+
+  @Delete(':id')
+  async remove(@Param('id') id: string): Promise<DeleteResult> {
+    return this.customerService.remove(+id);
   }
 }
