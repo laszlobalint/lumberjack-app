@@ -1,37 +1,28 @@
 import { ApiProperty } from '@nestjs/swagger';
-
 import { Customer } from '../customer/customer.entity';
 import { Product } from '../product/product.entity';
 import { Purchase } from '../purchase/purchase.entity';
+import { UserRoleType } from '../user/user.entity';
 
-export class LoginUserDto {
+export class LoginDto {
   @ApiProperty({ type: 'string' })
-  username: string;
+  email: string;
 
   @ApiProperty({ type: 'string' })
   password: string;
 }
 
-export class LoggedInUserDto {
-  @ApiProperty({ type: 'number' })
+export class UserDto {
   id: number;
-
-  @ApiProperty({ type: 'string' })
-  username: string;
-
-  @ApiProperty({ type: 'string' })
+  email: string;
   name: string;
-
-  @ApiProperty({ type: 'object' })
+  role: UserRoleType;
   products: Product[];
-
-  @ApiProperty({ type: 'object' })
   purchases: Purchase[];
-
-  @ApiProperty({ type: 'object' })
   customers: Customer[];
 }
 
-export class LoginResponseDto extends LoggedInUserDto {
+export class LoginResponseDto {
   access_token: string;
+  user: UserDto;
 }

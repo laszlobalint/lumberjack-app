@@ -1,11 +1,12 @@
-import { Controller, Get, UseGuards, Param, Post, Body, Put, Delete } from '@nestjs/common';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-
-import { JwtAuthGuard } from '../auth/auth.jwt.guard';
-import { UserService } from './user.service';
-import { User } from './user.entity';
+import { Roles } from '../auth/guards/roles.decorator';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
+import { User } from './user.entity';
+import { UserService } from './user.service';
 
 @ApiTags('user')
 @Controller('user')
@@ -20,19 +21,25 @@ export class UserController {
   }
 
   @Get(':id')
-  @ApiResponse({ status: 200, description: 'Returned single user.' })
+  @ApiResponse({ status: 200, description: 'Returned single user by ID.' })
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin', 'guest')
   async findOne(@Param('id') id: string): Promise<User> {
     return this.userService.findOne(+id);
   }
 
   @Post()
   @ApiResponse({ status: 201, description: 'Created a user.' })
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.userService.create(createUserDto);
   }
 
   @Put(':id')
   @ApiResponse({ status: 204, description: 'Modified a user.' })
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
     return this.userService.update(+id, updateUserDto);
   }

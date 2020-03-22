@@ -1,19 +1,15 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
-import {
-  NbAuthComponent,
-  NbLoginComponent,
-  NbLogoutComponent,
-  NbRegisterComponent,
-  NbRequestPasswordComponent,
-  NbResetPasswordComponent,
-} from '@nebular/auth';
+import { NbAuthComponent } from '@nebular/auth';
+import { AuthGuard } from './@core/guards/auth.guard';
+import { LoginComponent } from './auth/components/login/login.component';
+import { LogoutComponent } from './auth/components/logout/logout.component';
 
 const routes: Routes = [
   {
     path: 'pages',
-    loadChildren: () => import('app/pages/pages.module')
-      .then((m) => m.PagesModule),
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule),
   },
   {
     path: 'auth',
@@ -21,27 +17,16 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: NbLoginComponent,
+        component: LoginComponent,
       },
       {
         path: 'login',
-        component: NbLoginComponent,
-      },
-      {
-        path: 'register',
-        component: NbRegisterComponent,
+        component: LoginComponent,
       },
       {
         path: 'logout',
-        component: NbLogoutComponent,
-      },
-      {
-        path: 'request-password',
-        component: NbRequestPasswordComponent,
-      },
-      {
-        path: 'reset-password',
-        component: NbResetPasswordComponent,
+        canActivate: [AuthGuard],
+        component: LogoutComponent,
       },
     ],
   },
@@ -57,5 +42,4 @@ const config: ExtraOptions = {
   imports: [RouterModule.forRoot(routes, config)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

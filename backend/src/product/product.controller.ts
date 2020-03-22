@@ -1,11 +1,10 @@
-import { Body, Controller, Get, Param, Post, Put, Delete, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-
-import { JwtAuthGuard } from '../auth/auth.jwt.guard';
-import { ProductService } from './product.service';
-import { Product } from './product.entity';
+import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
 import { CreateProductDto, UpdateProductDto } from './product.dto';
+import { Product } from './product.entity';
+import { ProductService } from './product.service';
 
 @ApiTags('product')
 @Controller('product')

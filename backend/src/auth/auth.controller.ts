@@ -1,18 +1,24 @@
-import { Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
-
-import { LocalAuthGuard } from './auth.local.guard';
+import { LoginDto, LoginResponseDto } from './auth.dto';
 import { AuthService } from './auth.service';
-import { LoggedInUserDto, LoginResponseDto } from './auth.dto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request() req: { user: LoggedInUserDto }): Promise<LoginResponseDto> {
-    return this.authService.login(req.user);
+  @UseGuards(AuthGuard('local'))
+  async login(@Body() loginDto: LoginDto): Promise<LoginResponseDto> {
+    return this.authService.login(loginDto);
+  }
+
+  @Post('logout')
+  @UseGuards(JwtAuthGuard)
+  async logout(@Req() request): Promise<string> {
+    return 'Logged out.';
   }
 }
