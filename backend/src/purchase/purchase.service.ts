@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ApiResponse } from '@nestjs/swagger';
 import { Repository, DeleteResult } from 'typeorm';
 
 import { Customer } from 'src/customer/customer.entity';
@@ -22,17 +21,14 @@ export class PurchaseService {
     private readonly customerRepository: Repository<Customer>,
   ) {}
 
-  @ApiResponse({ status: 200, description: 'Returned all purchases.' })
   async findAll(): Promise<Purchase[]> {
     return await this.purchaseRepository.find({ relations: ['customer', 'product', 'user'] });
   }
 
-  @ApiResponse({ status: 200, description: 'Returned single purchase.' })
   async findOne(id: number): Promise<Purchase> {
     return await this.purchaseRepository.findOneOrFail({ where: { id }, relations: ['customer', 'product', 'user'] });
   }
 
-  @ApiResponse({ status: 201, description: 'Created a purchase.' })
   async create(createPurchaseDto: CreatePurchaseDto): Promise<Purchase> {
     let purchase = new Purchase();
     purchase.amount = createPurchaseDto.amount;
@@ -65,7 +61,6 @@ export class PurchaseService {
     return createdPurchase;
   }
 
-  @ApiResponse({ status: 204, description: 'Modified a purchase.' })
   async update(id: number, updatePurchaseDto: UpdatePurchaseDto): Promise<Purchase> {
     let purchase = await this.productRepository.findOneOrFail({
       where: { id },
@@ -75,7 +70,6 @@ export class PurchaseService {
     return this.purchaseRepository.save(updatedPurchase);
   }
 
-  @ApiResponse({ status: 204, description: 'Deleted a purchase.' })
   async remove(id: number): Promise<DeleteResult> {
     let purchase = await this.purchaseRepository.findOneOrFail({
       where: { id },

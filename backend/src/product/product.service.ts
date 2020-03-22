@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ApiResponse } from '@nestjs/swagger';
 import { Repository, DeleteResult } from 'typeorm';
 
 import { Product } from './product.entity';
@@ -16,17 +15,14 @@ export class ProductService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  @ApiResponse({ status: 200, description: 'Returned all products.' })
   async findAll(): Promise<Product[]> {
     return await this.productRepository.find({ relations: ['purchases', 'user'] });
   }
 
-  @ApiResponse({ status: 200, description: 'Returned single product.' })
   async findOne(id: number): Promise<Product> {
     return await this.productRepository.findOneOrFail({ where: { id }, relations: ['purchases', 'user'] });
   }
 
-  @ApiResponse({ status: 201, description: 'Created a product.' })
   async create(createProductDto: CreateProductDto): Promise<Product> {
     let product = new Product();
     product.name = createProductDto.name;
@@ -46,7 +42,6 @@ export class ProductService {
     return createdProduct;
   }
 
-  @ApiResponse({ status: 204, description: 'Modified a product.' })
   async update(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
     let product = await this.productRepository.findOneOrFail({
       where: { id },
@@ -56,7 +51,6 @@ export class ProductService {
     return this.productRepository.save(updatedProduct);
   }
 
-  @ApiResponse({ status: 204, description: 'Deleted a product.' })
   async remove(id: number): Promise<DeleteResult> {
     let product = await this.productRepository.findOneOrFail({
       where: { id },
