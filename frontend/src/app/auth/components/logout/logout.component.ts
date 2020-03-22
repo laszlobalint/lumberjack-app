@@ -3,11 +3,12 @@ import { Router } from '@angular/router';
 import { getDeepFromObject, NbAuthResult, NbAuthService, NbTokenService, NB_AUTH_OPTIONS } from '@nebular/auth';
 
 /*
-  This is a modified implementation of: https://github.com/akveo/nebular/blob/master/src/framework/auth/components/logout/logout.component.html
+  This is a modified implementation of:
+  https://github.com/akveo/nebular/blob/master/src/framework/auth/components/logout/logout.component.html
 */
 
 @Component({
-  selector: 'logout',
+  selector: 'ngx-logout',
   template: `
     <div>Logging out, please wait...</div>
   `,

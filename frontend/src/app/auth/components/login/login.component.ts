@@ -1,14 +1,14 @@
 import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { getDeepFromObject, NbAuthResult, NbAuthService, NB_AUTH_OPTIONS } from '@nebular/auth';
-import { LoginResponseDto } from '../../../models/login.model';
 
 /*
-  This is a modified implementation of: https://github.com/akveo/nebular/blob/master/src/framework/auth/components/login/login.component.html
+  This is a modified implementation of:
+  https://github.com/akveo/nebular/blob/master/src/framework/auth/components/login/login.component.html
 */
 
 @Component({
-  selector: 'login',
+  selector: 'ngx-login',
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
@@ -42,9 +42,8 @@ export class LoginComponent {
 
       if (result.isSuccess()) {
         this.messages = result.getMessages();
-        const loginResponseDto: LoginResponseDto = result.getResponse().body;
         // TODO: Store user
-        console.log(loginResponseDto.user);
+        // const { user }: LoginResponseDto = result.getResponse().body;
       } else {
         this.errors = result.getErrors();
       }
