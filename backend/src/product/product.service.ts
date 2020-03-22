@@ -34,9 +34,9 @@ export class ProductService {
     product.amount = createProductDto.amount;
     product.description = createProductDto.description ? createProductDto.description : undefined;
 
-    const user = await this.userRepository.findOne({
+    let user = await this.userRepository.findOne({
       where: { id: createProductDto.createdBy },
-      relations: ['products'],
+      relations: ['customers', 'products', 'purchases'],
     });
 
     let createdProduct = await this.productRepository.save(product);
@@ -62,6 +62,6 @@ export class ProductService {
       where: { id },
     });
 
-    return this.productRepository.delete(product);
+    return this.productRepository.delete(product.id);
   }
 }
