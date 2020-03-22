@@ -1,10 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Roles } from '../auth/guards/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
+import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
@@ -23,7 +22,7 @@ export class UserController {
 
   @Get(':id')
   @ApiResponse({ status: 200, description: 'Returned single user by ID.' })
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin', 'guest')
   async findOne(@Param('id') id: string): Promise<User> {
     return this.userService.findOne(+id);
@@ -31,7 +30,7 @@ export class UserController {
 
   @Post()
   @ApiResponse({ status: 201, description: 'Created a user.' })
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.userService.create(createUserDto);
@@ -39,7 +38,7 @@ export class UserController {
 
   @Put(':id')
   @ApiResponse({ status: 204, description: 'Modified a user.' })
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
     return this.userService.update(+id, updateUserDto);
