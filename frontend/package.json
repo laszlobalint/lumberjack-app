@@ -36,6 +36,8 @@
     "@nebular/eva-icons": "4.1.2",
     "@nebular/security": "4.1.2",
     "@nebular/theme": "4.1.2",
+    "@ngrx/effects": "^9.0.0",
+    "@ngrx/store": "^9.0.0",
     "bootstrap": "4.3.1",
     "classlist.js": "1.1.20150312",
     "core-js": "2.5.1",

@@ -16,11 +16,25 @@ import {
   NbToastrModule,
   NbWindowModule,
 } from '@nebular/theme';
+import { StoreModule } from '@ngrx/store';
 import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
+import { reducers } from './store/index';
+
+const NB_MODULES = [
+  NbSidebarModule.forRoot(),
+  NbMenuModule.forRoot(),
+  NbDatepickerModule.forRoot(),
+  NbDialogModule.forRoot(),
+  NbWindowModule.forRoot(),
+  NbToastrModule.forRoot(),
+  NbChatModule.forRoot({
+    messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
+  }),
+];
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,18 +43,9 @@ import { AuthModule } from './auth/auth.module';
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-
+    StoreModule.forRoot(reducers),
     ThemeModule.forRoot(),
-
-    NbSidebarModule.forRoot(),
-    NbMenuModule.forRoot(),
-    NbDatepickerModule.forRoot(),
-    NbDialogModule.forRoot(),
-    NbWindowModule.forRoot(),
-    NbToastrModule.forRoot(),
-    NbChatModule.forRoot({
-      messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
-    }),
+    ...NB_MODULES,
     CoreModule.forRoot(),
     AuthModule,
   ],
