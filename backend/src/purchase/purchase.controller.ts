@@ -1,11 +1,10 @@
-import { Controller, Get, Param, Post, Delete, Body, Put, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiResponse } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-
-import { JwtAuthGuard } from '../auth/auth.jwt.guard';
-import { PurchaseService } from './purchase.service';
-import { Purchase } from './purchase.entity';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CreatePurchaseDto, UpdatePurchaseDto } from './purchase.dto';
+import { Purchase } from './purchase.entity';
+import { PurchaseService } from './purchase.service';
 
 @ApiTags('purchase')
 @Controller('purchase')

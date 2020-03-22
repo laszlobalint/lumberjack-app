@@ -1,8 +1,10 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
+import { classToPlain } from 'class-transformer';
+import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
-import { LoginDto, LoginResponseDto, UserDto } from './auth.dto';
+import { LoginDto, LoginResponseDto } from './auth.dto';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
@@ -25,7 +27,8 @@ export class AuthController {
 
   @Get('user')
   @UseGuards(JwtAuthGuard)
-  async getUser(@Req() req): Promise<UserDto> {
-    return this.userService.findOne(+req.user.id);
+  async getUser(@Req() req): Promise<User> {
+    const user = await this.userService.findOneByEmail(req.user.email);
+    return classToPlain(user) as User;
   }
 }
