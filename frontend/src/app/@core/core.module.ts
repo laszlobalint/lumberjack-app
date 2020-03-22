@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
 import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
 import { of as observableOf } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { UserData } from './data/users';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 import { MockDataModule } from './mock/mock-data.module';
 import { UserService } from './mock/users.service';
 import { throwIfAlreadyLoaded } from './module-import-guard';
@@ -39,6 +41,14 @@ export const NB_CORE_PROVIDERS = [
             failure: '/auth/login',
           },
         },
+        logout: {
+          endpoint: '/auth/logout',
+          method: 'post',
+          redirect: {
+            success: '/pages',
+            failure: '/auth/login',
+          },
+        },
         register: false,
       }),
     ],
@@ -48,10 +58,8 @@ export const NB_CORE_PROVIDERS = [
         rememberMe: false,
       },
       register: {},
-      validation: {
-        email: {
-          required: false,
-        },
+      logout: {
+        strategy: 'email',
       },
     },
   }).providers,
@@ -90,7 +98,7 @@ export class CoreModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CoreModule,
-      providers: [...NB_CORE_PROVIDERS],
+      providers: [...NB_CORE_PROVIDERS, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
     } as ModuleWithProviders;
   }
 }
