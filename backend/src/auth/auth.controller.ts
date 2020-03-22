@@ -1,14 +1,15 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
-import { LoginDto, LoginResponseDto } from './auth.dto';
+import { UserService } from '../user/user.service';
+import { LoginDto, LoginResponseDto, UserDto } from './auth.dto';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService, private readonly userService: UserService) {}
 
   @Post('login')
   @UseGuards(AuthGuard('local'))
@@ -18,7 +19,13 @@ export class AuthController {
 
   @Post('logout')
   @UseGuards(JwtAuthGuard)
-  async logout(@Req() request): Promise<string> {
+  async logout(): Promise<string> {
     return 'Logged out.';
+  }
+
+  @Get('user')
+  @UseGuards(JwtAuthGuard)
+  async getUser(@Req() req): Promise<UserDto> {
+    return this.userService.findOne(+req.user.id);
   }
 }
