@@ -3,8 +3,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { LoginDto, LoginResponseDto } from './auth.dto';
 import { AuthService } from './auth.service';
-import { Roles } from './guards/roles.decorator';
-import { RolesGuard } from './guards/roles.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -18,8 +16,7 @@ export class AuthController {
   }
 
   @Post('logout')
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('admin', 'guest')
+  @UseGuards(AuthGuard('jwt'))
   async logout(@Req() request): Promise<string> {
     return 'Logged out.';
   }
