@@ -5,7 +5,6 @@ import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy } from '@nebular/a
 import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
 import { of as observableOf } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { LogoutComponent } from './components/logout/logout.component';
 import { UserData } from './data/users';
 import { AuthGuard } from './guards/auth.guard';
 import { TokenInterceptor } from './interceptors/token.interceptor';
@@ -89,8 +88,7 @@ export const NB_CORE_PROVIDERS = [
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [LogoutComponent],
-  exports: [NbAuthModule, LogoutComponent],
+  exports: [NbAuthModule],
 })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {

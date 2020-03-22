@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
-import { NbAuthComponent, NbLoginComponent } from '@nebular/auth';
-import { LogoutComponent } from './@core/components/logout/logout.component';
+import { NbAuthComponent } from '@nebular/auth';
 import { AuthGuard } from './@core/guards/auth.guard';
+import { LoginComponent } from './auth/components/login/login.component';
+import { LogoutComponent } from './auth/components/logout/logout.component';
 
 const routes: Routes = [
   {
@@ -16,11 +17,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: NbLoginComponent,
+        component: LoginComponent,
       },
       {
         path: 'login',
-        component: NbLoginComponent,
+        component: LoginComponent,
       },
       {
         path: 'logout',
