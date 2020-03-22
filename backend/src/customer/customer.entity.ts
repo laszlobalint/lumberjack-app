@@ -11,6 +11,7 @@ export class Customer {
   @ManyToOne(
     type => User,
     user => user.customers,
+    { onDelete: 'CASCADE' },
   )
   user: User;
 

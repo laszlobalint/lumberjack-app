@@ -47,8 +47,6 @@ export class UserController {
 
   @Delete(':id')
   @ApiResponse({ status: 204, description: 'Deleted a user.' })
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('admin')
   async remove(@Param('id') id: string): Promise<DeleteResult> {
     return this.userService.remove(+id);
   }

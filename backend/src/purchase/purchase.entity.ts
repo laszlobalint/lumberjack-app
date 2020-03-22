@@ -12,18 +12,21 @@ export class Purchase {
   @ManyToOne(
     type => Customer,
     customer => customer.purchases,
+    { onDelete: 'CASCADE' },
   )
   customer: Customer;
 
   @ManyToOne(
     type => Product,
     product => product.purchases,
+    { onDelete: 'CASCADE' },
   )
   product: Product;
 
   @ManyToOne(
     type => User,
     user => user.purchases,
+    { onDelete: 'CASCADE' },
   )
   user: User;
 
@@ -33,9 +36,9 @@ export class Purchase {
   @Column({ type: 'text' })
   description: string;
 
-  @CreateDateColumn({ type: 'datetime' })
-  date: Date;
-
   @Column({ type: 'boolean' })
   completed: boolean;
+
+  @CreateDateColumn({ type: 'datetime' })
+  date: Date;
 }

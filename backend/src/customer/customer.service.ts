@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DeleteResult } from 'typeorm';
 
@@ -16,12 +15,10 @@ export class CustomerService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  @ApiResponse({ status: 200, description: 'Returned all customers.' })
   async findAll(): Promise<Customer[]> {
     return this.customerRepository.find({ relations: ['purchases', 'user'] });
   }
 
-  @ApiResponse({ status: 200, description: 'Returned single customer.' })
   async findOne(id: number): Promise<Customer> {
     return await this.customerRepository.findOneOrFail({
       where: { id },
@@ -29,7 +26,6 @@ export class CustomerService {
     });
   }
 
-  @ApiResponse({ status: 201, description: 'Created a customer.' })
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
     let customer = new Customer();
     customer.name = createCustomerDto.name ? createCustomerDto.name : undefined;
@@ -42,9 +38,9 @@ export class CustomerService {
     customer.description = createCustomerDto.description ? createCustomerDto.description : undefined;
     customer.purchases = [];
 
-    const user = await this.userRepository.findOneOrFail({
+    let user = await this.userRepository.findOneOrFail({
       where: { id: createCustomerDto.createdBy },
-      relations: ['customers'],
+      relations: ['customers', 'products', 'purchases'],
     });
 
     let createdCustomer = await this.customerRepository.save(customer);
@@ -54,7 +50,6 @@ export class CustomerService {
     return createdCustomer;
   }
 
-  @ApiResponse({ status: 204, description: 'Updated a customer.' })
   async update(id: number, updateCustomerDto: UpdateCustomerDto): Promise<Customer> {
     let customer = await this.customerRepository.findOneOrFail({
       where: { id },
@@ -64,12 +59,11 @@ export class CustomerService {
     return this.customerRepository.save(updatedCustomer);
   }
 
-  @ApiResponse({ status: 204, description: 'Deleted a customer.' })
   async remove(id: number): Promise<DeleteResult> {
     const customer = await this.customerRepository.findOneOrFail({
       where: { id },
     });
 
-    return this.customerRepository.delete(customer);
+    return this.customerRepository.delete(customer.id);
   }
 }

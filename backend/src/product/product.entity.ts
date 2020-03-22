@@ -11,6 +11,7 @@ export class Product {
   @ManyToOne(
     type => User,
     user => user.products,
+    { onDelete: 'CASCADE' },
   )
   user: User;
 
