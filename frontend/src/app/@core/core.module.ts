@@ -31,7 +31,14 @@ export const NB_CORE_PROVIDERS = [
           class: NbAuthJWTToken,
           key: 'access_token',
         },
-        login: { endpoint: '/auth/login', method: 'post' },
+        login: {
+          endpoint: '/auth/login',
+          method: 'post',
+          redirect: {
+            success: '/pages',
+            failure: '/auth/login',
+          },
+        },
         register: false,
       }),
     ],
