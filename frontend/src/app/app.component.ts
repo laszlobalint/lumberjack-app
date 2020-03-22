@@ -17,7 +17,6 @@ export class AppComponent {
     this.authService.onTokenChange().subscribe((token: NbAuthJWTToken) => {
       if (token.isValid()) {
         this.user = token.getPayload();
-        console.log(this.user);
       }
     });
   }

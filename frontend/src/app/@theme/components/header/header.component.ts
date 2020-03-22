@@ -74,12 +74,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe(themeName => (this.currentTheme = themeName));
-
-    // this.menuService.onItemClick().subscribe(event => {
-    //   switch(event.item..title) {
-    //     i
-    //   }
-    // })
   }
 
   ngOnDestroy() {

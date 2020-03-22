@@ -5,7 +5,9 @@ import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy } from '@nebular/a
 import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
 import { of as observableOf } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { LogoutComponent } from './components/logout/logout.component';
 import { UserData } from './data/users';
+import { AuthGuard } from './guards/auth.guard';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { MockDataModule } from './mock/mock-data.module';
 import { UserService } from './mock/users.service';
@@ -87,8 +89,8 @@ export const NB_CORE_PROVIDERS = [
 
 @NgModule({
   imports: [CommonModule],
-  exports: [NbAuthModule],
-  declarations: [],
+  declarations: [LogoutComponent],
+  exports: [NbAuthModule, LogoutComponent],
 })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
@@ -98,7 +100,7 @@ export class CoreModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CoreModule,
-      providers: [...NB_CORE_PROVIDERS, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
+      providers: [...NB_CORE_PROVIDERS, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }, AuthGuard],
     } as ModuleWithProviders;
   }
 }
