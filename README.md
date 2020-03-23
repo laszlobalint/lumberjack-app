@@ -40,6 +40,7 @@ npm audit fix
 ```
 
 Fresh build database migrations and project structure
+
 ```sh
 npm install -g typeorm
 npm run build
@@ -47,16 +48,42 @@ typeorm migration:run
 ```
 
 (If entity structure changes, new migration and revert of the previous version is needed.)
+
 ```sh
 typeorm migration:revert
 ```
 
-Run the backend server and frontend application in two different terminals or command lines
+Run the backend server and frontend application in two different terminals or command lines:
+
+## Running the backend application
+
+```bash
+# Development mod
+$ npm run start
+
+# Watch mode
+$ npm run start:dev
+
+# Production mode
+$ npm run start:prod
+```
+
+## Running tests in backend
+
+```bash
+# Unit tests
+$ npm run test
+
+# e2e tests
+$ npm run test:e2e
+
+# Test coverage
+$ npm run test:cov
+```
+
+## Running the frontend application
 
 ```sh
-cd /backend
-npm run start
-&&
 cd /frontend
 ng serve --open
 ```

@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { classToPlain } from 'class-transformer';
-import { User } from '../user/user.entity';
+
 import { UserService } from './../user/user.service';
+import { User } from '../user/user.entity';
 import { LoginDto, LoginResponseDto } from './auth.dto';
 
 @Injectable()
@@ -15,7 +16,6 @@ export class AuthService {
     if (user && (await this.passwordsAreEqual(user.password, password))) {
       return user;
     }
-
     return null;
   }
 

@@ -1,7 +1,8 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { UserRoleType } from '../../user/user.entity';
+
 import { UserService } from '../../user/user.service';
+import { UserRoleType } from '../../user/user.entity';
 
 @Injectable()
 export class RolesGuard {
@@ -9,9 +10,7 @@ export class RolesGuard {
 
   async canActivate(context: ExecutionContext) {
     const roles = this.reflector.get<UserRoleType[]>('roles', context.getHandler());
-    if (!roles) {
-      return true;
-    }
+    if (!roles) return true;
 
     const request = context.switchToHttp().getRequest();
     if (request.user) {
@@ -22,7 +21,6 @@ export class RolesGuard {
         return false;
       }
     }
-
     return false;
   }
 

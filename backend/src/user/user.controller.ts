@@ -1,12 +1,13 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
+
+import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
 import { Roles } from '../auth/guards/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
-import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
-import { CreateUserDto, UpdateUserDto } from './user.dto';
-import { User } from './user.entity';
 import { UserService } from './user.service';
+import { User } from './user.entity';
+import { CreateUserDto, UpdateUserDto } from './user.dto';
 
 @ApiTags('user')
 @Controller('user')
