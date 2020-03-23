@@ -1,9 +1,8 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import { UserDto } from '../models/user.model';
-import { RootState } from './../../store/index';
 import * as AuthActions from './auth.actions';
 
-export interface AuthState {
+interface AuthState {
   user?: UserDto;
 }
 
@@ -19,7 +18,7 @@ const authReducer = createReducer(
   })),
 );
 
-export interface State extends RootState {
+export interface State {
   user: AuthState;
 }
 
