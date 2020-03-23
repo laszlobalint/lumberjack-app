@@ -2,13 +2,17 @@
   "type": "mariadb",
   "host": "localhost",
   "port": 3306,
-  "username": "root",
-  "password": "",
+  "username": "lumberjack",
+  "password": "lumberjack",
   "database": "lumberjack",
   "synchronize": false,
   "charset": "UTF8_GENERAL_CI",
-  "entities": ["dist/**/*.entity.js"],
-  "migrations": ["dist/migrations/*.js"],
+  "entities": [
+    "dist/**/*.entity.js"
+  ],
+  "migrations": [
+    "dist/migrations/*.js"
+  ],
   "cli": {
     "migrationsDir": "migrations"
   }
