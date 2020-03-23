@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PagesComponent } from './pages.component';
-import { PurchaseComponent } from './purchase/components/purchase.component';
 
 const routes: Routes = [
   {
@@ -19,8 +18,8 @@ const routes: Routes = [
         pathMatch: 'full',
       },
       {
-        path: 'purchase',
-        component: PurchaseComponent,
+        path: 'purchases',
+        loadChildren: () => import('./purchases/purchases.module').then(m => m.PurchasesModule),
       },
     ],
   },
