@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './create-purchase.component.html',
 })
 export class CreatePurchaseComponent implements OnInit {
+  selectedProduct;
   constructor() {}
 
   ngOnInit() {}
