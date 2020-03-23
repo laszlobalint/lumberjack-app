@@ -1,7 +1,8 @@
-import { Product } from './products.model';
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { API_URL } from '../../constants';
+
+import { API_URL } from '../../../constants';
+import { Product } from '../models/products.model';
 
 @Injectable()
 export class ProductsService {
@@ -10,6 +11,4 @@ export class ProductsService {
   fetchAllProducts() {
     return this.http.get<Product[]>(`${this.apiUrl}/product`);
   }
-
-  /* All other functionalities are handled by NbAuthService */
 }
