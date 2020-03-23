@@ -1,5 +1,6 @@
 <div class="d-flex justify-center items-center">
-  <nb-card class="w-100 w-100 m-md-4">
+  <nb-card class="w-100 w-100 m-md-4"
+    accent="primary">
     <nb-card-header>New Purchase</nb-card-header>
     <nb-card-body>
       <form class="d-flex flex-column items-center">
@@ -7,14 +8,13 @@
           <div class="col-12 col-md-4 col-lg-2 form-group">
             <label for="inputAmount"
               class="label">Amount</label>
-            <input type="text"
-              nbInput
+            <input nbInput
               fullWidth
               id="inputAmount"
               placeholder="Amount">
           </div>
 
-          <div class="col-12 col-md col-lg-2 form-group">
+          <div class="col-12 col-md-8 col-lg-5 form-group">
             <label for="inputProductId"
               class="label">Product</label>
             <nb-select fullWidth
@@ -23,12 +23,11 @@
             </nb-select>
           </div>
 
-          <div class="col-12 col-md-12 col-lg row w-100">
+          <div class="col-12 col-lg-5 row w-100">
             <div class="col form-group mr-1">
               <label for="inputPrice"
                 class="label">Price</label>
-              <input type="email"
-                nbInput
+              <input nbInput
                 fullWidth
                 id="inputPrice"
                 placeholder="Price">
@@ -42,9 +41,21 @@
           </div>
         </div>
 
+        <hr>
 
         <div class="row w-100">
-          <div class="col-12 col-lg-7 form-group pr-lg-0">
+          <div class="col form-group">
+            <label for="inputCustomerId"
+              class="label">Customer</label>
+            <nb-select fullWidth
+              [(selected)]="selectedProduct"
+              id="inputCustomerId">
+            </nb-select>
+          </div>
+        </div>
+
+        <div class="row w-100">
+          <div class="col-12 col-lg-7 form-group">
             <label for="inputAddress"
               class="label">Address</label>
             <input type="text"
@@ -54,7 +65,7 @@
               placeholder="Address">
           </div>
 
-          <div class="col form-group ml-lg-3">
+          <div class="col form-group">
             <label for="inputPhone"
               class="label">Phone</label>
             <input type="tel"
@@ -63,6 +74,26 @@
               id="inputPhone"
               placeholder="Phone">
           </div>
+        </div>
+
+        <hr>
+
+        <div class="row w-100">
+          <div class="col form-group">
+            <label for="inputDescription"
+              class="label">Description</label>
+            <textarea nbInput
+              fullWidth
+              placeholder="Description..."></textarea>
+          </div>
+        </div>
+
+        <div class="row w-100 d-flex justify-content-end p-3">
+          <button nbButton
+            type="submit"
+            size="large">
+            <nb-icon icon="save"></nb-icon>Save
+          </button>
         </div>
       </form>
     </nb-card-body>
