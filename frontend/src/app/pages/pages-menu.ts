@@ -10,6 +10,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'FEATURES',
     group: true,
+    icon: 'lock-outline',
+    children: [
+      {
+        title: 'Products',
+        link: '/products',
+      },
+    ],
   },
   {
     title: 'Auth',
