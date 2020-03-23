@@ -87,5 +87,9 @@
     "tslint": "^5.7.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "3.4.5"
+  },
+  "repository": {
+    "url": "https://gitlab.com/papiliond/lumberjack",
+    "type": "git"
   }
 }

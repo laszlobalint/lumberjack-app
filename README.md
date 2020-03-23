@@ -31,10 +31,24 @@ Install NPM packages and dependencies for NestJS and Angular
 ```sh
 cd /backend
 npm install
+npm audit fix
 ...
 cd ..
 cd /frontend
 npm install
+npm audit fix
+```
+
+Fresh build database migrations and project structure
+```sh
+npm install -g typeorm
+npm run build
+typeorm migration:run
+```
+
+(If entity structure changes, new migration and revert of the previous version is needed.)
+```sh
+typeorm migration:revert
 ```
 
 Run the backend server and frontend application in two different terminals or command lines
