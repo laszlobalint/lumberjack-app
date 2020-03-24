@@ -1,3 +1,4 @@
+import { UpdateProductDto } from './../../../../../../backend/src/product/product.dto';
 import { Component, OnInit } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
@@ -87,7 +88,9 @@ export class ProductsComponent implements OnInit {
   }
 
   public onEditConfirm(event: any): void {
-    window.confirm('Are you sure you want to edit the product?') ? event.confirm.resolve() : event.confirm.reject();
+    window.confirm('Are you sure you want to edit the product?')
+      ? event.confirm.resolve(this.onUpdateProduct(event.data))
+      : event.confirm.reject();
   }
 
   public onDeleteConfirm(event: any): void {
@@ -114,6 +117,17 @@ export class ProductsComponent implements OnInit {
     };
 
     this.productsStore.dispatch(fromProducts.SaveProduct({ createProductDto: newProduct }));
+  }
+
+  private onUpdateProduct(data: any): void {
+    const updateProduct: UpdateProductDto = {
+      name: data.name,
+      price: Number(data.price),
+      amount: Number(data.amount),
+      description: data.description,
+    };
+
+    this.productsStore.dispatch(fromProducts.UpdateProduct({ id: data.id, updateProductDto: updateProduct }));
   }
 
   private onDeleteProduct(id: string) {

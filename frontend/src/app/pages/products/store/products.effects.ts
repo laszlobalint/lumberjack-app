@@ -23,6 +23,15 @@ export class ProductsEffects {
     ),
   );
 
+  updateProduct$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductsActions.UpdateProduct),
+      switchMap(({ id, updateProductDto }) =>
+        this.productsService.update(id, updateProductDto).pipe(map(product => ProductsActions.UpdateProductSuccess({ product }))),
+      ),
+    ),
+  );
+
   deleteProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductsActions.DeleteProduct),
