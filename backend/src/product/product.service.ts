@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DeleteResult } from 'typeorm';
+import { Repository, Connection } from 'typeorm';
+import { classToPlain } from 'class-transformer';
 
 import { Product } from './product.entity';
 import { User } from '../user/user.entity';
@@ -13,6 +14,7 @@ export class ProductService {
     private readonly productRepository: Repository<Product>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly connection: Connection,
   ) {}
 
   async findAll(): Promise<Product[]> {
@@ -24,22 +26,41 @@ export class ProductService {
   }
 
   async create(createProductDto: CreateProductDto): Promise<Product> {
-    let product = new Product();
-    product.name = createProductDto.name;
-    product.price = createProductDto.price;
-    product.amount = createProductDto.amount;
-    product.description = createProductDto.description;
+    const queryRunner = this.connection.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
 
-    let user = await this.userRepository.findOne({
-      where: { id: createProductDto.createdBy },
-      relations: ['customers', 'products', 'purchases'],
-    });
+    let product: Product | null = null;
+    try {
+      const productRepository = queryRunner.manager.getRepository(Product);
+      product = await productRepository.save(
+        new Product({
+          name: createProductDto.name,
+          price: createProductDto.price,
+          amount: createProductDto.amount,
+          description: createProductDto.description,
+        }),
+      );
 
-    let createdProduct = await this.productRepository.save(product);
-    user.products.push(createdProduct);
-    this.userRepository.save(user);
+      let user = await this.userRepository.findOne({
+        where: { id: createProductDto.createdBy },
+        relations: ['customers', 'products', 'purchases'],
+      });
 
-    return createdProduct;
+      user.products.push(product);
+      this.userRepository.save(user);
+
+      await queryRunner.commitTransaction();
+      product = {
+        ...product,
+        user: classToPlain(user) as User,
+      };
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+    } finally {
+      await queryRunner.release();
+      return product;
+    }
   }
 
   async update(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
@@ -51,11 +72,12 @@ export class ProductService {
     return this.productRepository.save(updatedProduct);
   }
 
-  async remove(id: number): Promise<DeleteResult> {
+  async remove(id: number): Promise<number> {
     let product = await this.productRepository.findOneOrFail({
       where: { id },
     });
+    await this.productRepository.delete(product.id);
 
-    return this.productRepository.delete(product.id);
+    return id;
   }
 }

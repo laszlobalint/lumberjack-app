@@ -39,7 +39,7 @@ export class ProductController {
 
   @Delete(':id')
   @ApiResponse({ status: 204, description: 'Deleted a product.' })
-  async remove(@Param('id') id: string): Promise<DeleteResult> {
+  async remove(@Param('id') id: string): Promise<number> {
     return this.productService.remove(+id);
   }
 }
