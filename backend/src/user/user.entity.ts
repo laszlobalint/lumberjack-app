@@ -1,7 +1,6 @@
-import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
-
+import { Exclude } from 'class-transformer';
+import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Customer } from '../customer/customer.entity';
 import { Product } from '../product/product.entity';
 import { Purchase } from '../purchase/purchase.entity';
@@ -39,17 +38,20 @@ export class User {
     type => Customer,
     customer => customer.user,
   )
+  @Exclude()
   customers: Customer[];
 
   @OneToMany(
     type => Product,
     product => product.user,
   )
+  @Exclude()
   products: Product[];
 
   @OneToMany(
     type => Purchase,
     purchase => purchase.user,
   )
+  @Exclude()
   purchases: Purchase[];
 }

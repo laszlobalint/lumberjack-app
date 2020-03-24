@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { classToPlain } from 'class-transformer';
 import { Product } from 'src/product/product.entity';
 import { User } from 'src/user/user.entity';
 import { Connection, DeleteResult, Repository } from 'typeorm';
@@ -85,6 +86,12 @@ export class PurchaseService {
       await userRepository.save(user);
 
       await queryRunner.commitTransaction();
+      purchase = {
+        ...purchase,
+        customer: classToPlain(customer) as Customer,
+        product: classToPlain(product) as Product,
+        user: classToPlain(user) as User,
+      };
     } catch (error) {
       await queryRunner.rollbackTransaction();
     } finally {
