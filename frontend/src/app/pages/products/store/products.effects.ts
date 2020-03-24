@@ -1,16 +1,26 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
 
 import * as ProductsActions from './products.actions';
 import { ProductsService } from '../services/products.service';
+import { CreateProductDto } from '../models/products.model';
 
 @Injectable()
 export class ProductsEffects {
   getProducts$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductsActions.GetProducts),
-      mergeMap(() => this.productsService.fetchAllProducts().pipe(map(products => ProductsActions.GetProductsSuccess({ products })))),
+      mergeMap(() => this.productsService.fetchAll().pipe(map(products => ProductsActions.GetProductsSuccess({ products })))),
+    ),
+  );
+
+  saveProduct$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductsActions.SaveProduct),
+      switchMap(({ createProductDto }) =>
+        this.productsService.save(createProductDto).pipe(map(product => ProductsActions.SaveProductSuccess({ product }))),
+      ),
     ),
   );
 

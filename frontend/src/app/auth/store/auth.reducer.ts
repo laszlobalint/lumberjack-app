@@ -22,7 +22,7 @@ export interface State {
   user: AuthState;
 }
 
-export const userFeatureKey = 'auth';
+export const userFeatureKey = 'user';
 
 export function reducer(state: AuthState | undefined, action: Action) {
   return authReducer(state, action);

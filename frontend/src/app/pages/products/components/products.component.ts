@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { take } from 'rxjs/operators';
 import { LocalDataSource } from 'ng2-smart-table';
 
 import * as fromProducts from '../store';
-import { Product } from '../models/products.model';
+import * as fromAuth from '../../../auth/store';
+import { Product, CreateProductDto } from '../models/products.model';
 import { UserDto } from '../../../auth/models/user.model';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'ngx-products',
@@ -58,15 +60,6 @@ export class ProductsComponent implements OnInit {
           return this.datePipe.transform(date, 'yyyy.MM.dd.');
         },
       },
-      user: {
-        title: 'User',
-        type: 'string',
-        editable: false,
-        addable: false,
-        valuePrepareFunction: (user: UserDto): string => {
-          return user.name;
-        },
-      },
     },
   };
 
@@ -75,6 +68,7 @@ export class ProductsComponent implements OnInit {
 
   constructor(
     private readonly productsStore: Store<fromProducts.State>,
+    private readonly authStore: Store<fromAuth.State>,
     private readonly datePipe: DatePipe,
     private readonly decimalPipe: DecimalPipe,
   ) {}
@@ -88,14 +82,36 @@ export class ProductsComponent implements OnInit {
   }
 
   public onCreateConfirm(event: any): void {
-    window.confirm('Are you sure you want to create?') ? event.confirm.resolve() : event.confirm.reject();
+    window.confirm('Are you sure you want to create the product?')
+      ? event.confirm.resolve(this.onSubmitProduct(event.newData))
+      : event.confirm.reject();
   }
 
   public onEditConfirm(event: any): void {
-    window.confirm('Are you sure you want to edit?') ? event.confirm.resolve() : event.confirm.reject();
+    window.confirm('Are you sure you want to edit the product?') ? event.confirm.resolve() : event.confirm.reject();
   }
 
   public onDeleteConfirm(event: any): void {
-    window.confirm('Are you sure you want to delete?') ? event.confirm.resolve() : event.confirm.reject();
+    window.confirm('Are you sure you want to delete the product?') ? event.confirm.resolve() : event.confirm.reject();
+  }
+
+  private onSubmitProduct(data: any): void {
+    let userId: number;
+    this.authStore
+      .select('user')
+      .pipe(take(1))
+      .subscribe(state => {
+        userId = state.user.id;
+      });
+
+    const newProduct: CreateProductDto = {
+      createdBy: userId,
+      name: data.name,
+      price: Number(data.price),
+      amount: Number(data.amount),
+      description: data.description,
+    };
+
+    this.productsStore.dispatch(fromProducts.SaveProduct({ createProductDto: newProduct }));
   }
 }

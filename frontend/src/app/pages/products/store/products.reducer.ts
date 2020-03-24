@@ -17,6 +17,10 @@ const productsReducer = createReducer(
     ...state,
     products,
   })),
+  on(ProductsActions.SaveProductSuccess, (state, { product }) => ({
+    ...state,
+    products: [...state.products, product],
+  })),
 );
 
 export interface State {
