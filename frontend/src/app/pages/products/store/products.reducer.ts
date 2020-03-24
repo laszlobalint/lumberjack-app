@@ -21,6 +21,10 @@ const productsReducer = createReducer(
     ...state,
     products: [...state.products, product],
   })),
+  on(ProductsActions.DeleteProductSuccess, (state, { resId }) => ({
+    ...state,
+    products: state.products.filter(product => product && product.id !== resId),
+  })),
 );
 
 export interface State {

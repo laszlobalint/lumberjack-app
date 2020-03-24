@@ -82,7 +82,7 @@ export class ProductsComponent implements OnInit {
 
   public onCreateConfirm(event: any): void {
     window.confirm('Are you sure you want to create the product?')
-      ? event.confirm.resolve(this.onSubmitProduct(event.newData))
+      ? event.confirm.resolve(this.onCreateProduct(event.newData))
       : event.confirm.reject();
   }
 
@@ -91,10 +91,12 @@ export class ProductsComponent implements OnInit {
   }
 
   public onDeleteConfirm(event: any): void {
-    window.confirm('Are you sure you want to delete the product?') ? event.confirm.resolve() : event.confirm.reject();
+    window.confirm('Are you sure you want to delete the product?')
+      ? event.confirm.resolve(this.onDeleteProduct(event.data.id))
+      : event.confirm.reject();
   }
 
-  private onSubmitProduct(data: any): void {
+  private onCreateProduct(data: any): void {
     let userId: number;
     this.authStore
       .select('user')
@@ -112,5 +114,9 @@ export class ProductsComponent implements OnInit {
     };
 
     this.productsStore.dispatch(fromProducts.SaveProduct({ createProductDto: newProduct }));
+  }
+
+  private onDeleteProduct(id: string) {
+    this.productsStore.dispatch(fromProducts.DeleteProduct({ id }));
   }
 }
