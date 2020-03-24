@@ -4,7 +4,6 @@ import { map, mergeMap, switchMap } from 'rxjs/operators';
 
 import * as ProductsActions from './products.actions';
 import { ProductsService } from '../services/products.service';
-import { CreateProductDto } from '../models/products.model';
 
 @Injectable()
 export class ProductsEffects {

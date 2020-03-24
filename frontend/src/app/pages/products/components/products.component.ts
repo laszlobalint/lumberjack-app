@@ -7,7 +7,6 @@ import { LocalDataSource } from 'ng2-smart-table';
 import * as fromProducts from '../store';
 import * as fromAuth from '../../../auth/store';
 import { Product, CreateProductDto } from '../models/products.model';
-import { UserDto } from '../../../auth/models/user.model';
 
 @Component({
   selector: 'ngx-products',
