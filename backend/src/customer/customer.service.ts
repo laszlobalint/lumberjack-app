@@ -28,14 +28,14 @@ export class CustomerService {
 
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
     let customer = new Customer();
-    customer.name = createCustomerDto.name ? createCustomerDto.name : undefined;
-    customer.address = createCustomerDto.address ? createCustomerDto.address : undefined;
-    customer.phone = createCustomerDto.phone ? createCustomerDto.phone : undefined;
-    customer.companyName = createCustomerDto.companyName ? createCustomerDto.companyName : undefined;
-    customer.taxId = createCustomerDto.taxId ? createCustomerDto.taxId : undefined;
-    customer.nationalId = createCustomerDto.nationalId ? createCustomerDto.nationalId : undefined;
-    customer.checkingAccount = createCustomerDto.checkingAccount ? createCustomerDto.checkingAccount : undefined;
-    customer.description = createCustomerDto.description ? createCustomerDto.description : undefined;
+    customer.name = createCustomerDto.name;
+    customer.address = createCustomerDto.address;
+    customer.phone = createCustomerDto.phone;
+    customer.companyName = createCustomerDto.companyName;
+    customer.taxId = createCustomerDto.taxId;
+    customer.nationalId = createCustomerDto.nationalId;
+    customer.checkingAccount = createCustomerDto.checkingAccount;
+    customer.description = createCustomerDto.description;
     customer.purchases = [];
 
     let user = await this.userRepository.findOneOrFail({

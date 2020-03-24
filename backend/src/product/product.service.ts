@@ -28,7 +28,7 @@ export class ProductService {
     product.name = createProductDto.name;
     product.price = createProductDto.price;
     product.amount = createProductDto.amount;
-    product.description = createProductDto.description ? createProductDto.description : undefined;
+    product.description = createProductDto.description;
 
     let user = await this.userRepository.findOne({
       where: { id: createProductDto.createdBy },
