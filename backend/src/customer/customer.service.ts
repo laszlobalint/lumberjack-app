@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DeleteResult } from 'typeorm';
-
-import { Customer } from './customer.entity';
+import { DeleteResult, Repository } from 'typeorm';
 import { User } from '../user/user.entity';
 import { CreateCustomerDto, UpdateCustomerDto } from './customer.dto';
+import { Customer } from './customer.entity';
 
 @Injectable()
 export class CustomerService {
@@ -27,16 +26,17 @@ export class CustomerService {
   }
 
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
-    let customer = new Customer();
-    customer.name = createCustomerDto.name ? createCustomerDto.name : undefined;
-    customer.address = createCustomerDto.address ? createCustomerDto.address : undefined;
-    customer.phone = createCustomerDto.phone ? createCustomerDto.phone : undefined;
-    customer.companyName = createCustomerDto.companyName ? createCustomerDto.companyName : undefined;
-    customer.taxId = createCustomerDto.taxId ? createCustomerDto.taxId : undefined;
-    customer.nationalId = createCustomerDto.nationalId ? createCustomerDto.nationalId : undefined;
-    customer.checkingAccount = createCustomerDto.checkingAccount ? createCustomerDto.checkingAccount : undefined;
-    customer.description = createCustomerDto.description ? createCustomerDto.description : undefined;
-    customer.purchases = [];
+    let customer = new Customer({
+      name: createCustomerDto.name,
+      address: createCustomerDto.address,
+      phone: createCustomerDto.phone,
+      companyName: createCustomerDto.companyName,
+      taxId: createCustomerDto.taxId,
+      nationalId: createCustomerDto.nationalId,
+      checkingAccount: createCustomerDto.checkingAccount,
+      description: createCustomerDto.description,
+      purchases: [],
+    });
 
     let user = await this.userRepository.findOneOrFail({
       where: { id: createCustomerDto.createdBy },

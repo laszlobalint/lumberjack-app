@@ -43,4 +43,8 @@ export class Purchase {
 
   @CreateDateColumn({ type: 'datetime' })
   date: Date;
+
+  constructor(partial: Partial<Purchase>) {
+    Object.assign(this, partial);
+  }
 }
