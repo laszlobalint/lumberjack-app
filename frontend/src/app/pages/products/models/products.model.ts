@@ -1,10 +1,12 @@
+import { UserDto } from '../../../auth/models/user.model';
+
 export class Product {
   id: number;
   name: string;
   price: number;
   amount: number;
   date: Date;
-  userId: number;
+  user: UserDto;
 }
 
 export class CreateProductDto {

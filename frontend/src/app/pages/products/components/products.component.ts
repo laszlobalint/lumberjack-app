@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { LocalDataSource } from 'ng2-smart-table';
 
-import { ProductsService } from '../services/products.service';
+import * as fromProducts from '../store';
 import { Product } from '../models/products.model';
 import { UserDto } from '../../../auth/models/user.model';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'ngx-products',
@@ -70,18 +71,19 @@ export class ProductsComponent implements OnInit {
   };
 
   public readonly source: LocalDataSource = new LocalDataSource();
-  public data: Product[];
+  public products?: Product[];
 
   constructor(
-    private readonly productsService: ProductsService,
+    private readonly productsStore: Store<fromProducts.State>,
     private readonly datePipe: DatePipe,
     private readonly decimalPipe: DecimalPipe,
   ) {}
 
   public ngOnInit(): void {
-    this.productsService.fetchAllProducts().subscribe((result: Product[]) => {
-      this.data = result;
-      this.source.load(this.data);
+    this.productsStore.dispatch(fromProducts.GetProducts());
+    this.productsStore.select('products').subscribe(state => {
+      this.products = state.products;
+      this.source.load(this.products);
     });
   }
 
