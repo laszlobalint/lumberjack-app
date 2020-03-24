@@ -1,5 +1,4 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-
 import { Customer } from '../customer/customer.entity';
 import { Product } from '../product/product.entity';
 import { User } from '../user/user.entity';
@@ -32,6 +31,9 @@ export class Purchase {
 
   @Column({ type: 'double' })
   amount: number;
+
+  @Column({ type: 'double' })
+  price: number;
 
   @Column({ type: 'text' })
   description: string;
