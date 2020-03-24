@@ -1,4 +1,3 @@
-import { UpdateProductDto } from './../../../../../../backend/src/product/product.dto';
 import { Component, OnInit } from '@angular/core';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
@@ -7,7 +6,7 @@ import { LocalDataSource } from 'ng2-smart-table';
 
 import * as fromProducts from '../store';
 import * as fromAuth from '../../../auth/store';
-import { Product, CreateProductDto } from '../models/products.model';
+import { Product, CreateProductDto, UpdateProductDto } from '../models/products.model';
 
 @Component({
   selector: 'ngx-products',
@@ -15,6 +14,7 @@ import { Product, CreateProductDto } from '../models/products.model';
 })
 export class ProductsComponent implements OnInit {
   settings = {
+    mode: 'inline',
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
       createButtonContent: '<i class="nb-checkmark"></i>',
@@ -25,7 +25,7 @@ export class ProductsComponent implements OnInit {
       editButtonContent: '<i class="nb-edit"></i>',
       saveButtonContent: '<i class="nb-checkmark"></i>',
       cancelButtonContent: '<i class="nb-close"></i>',
-      confirmEdit: true,
+      confirmSave: true,
     },
     delete: {
       deleteButtonContent: '<i class="nb-trash"></i>',
@@ -87,9 +87,9 @@ export class ProductsComponent implements OnInit {
       : event.confirm.reject();
   }
 
-  public onEditConfirm(event: any): void {
+  public onUpdateConfirm(event: any): void {
     window.confirm('Are you sure you want to edit the product?')
-      ? event.confirm.resolve(this.onUpdateProduct(event.data))
+      ? event.confirm.resolve(this.onUpdateProduct(event.newData))
       : event.confirm.reject();
   }
 
@@ -130,7 +130,7 @@ export class ProductsComponent implements OnInit {
     this.productsStore.dispatch(fromProducts.UpdateProduct({ id: data.id, updateProductDto: updateProduct }));
   }
 
-  private onDeleteProduct(id: string) {
+  private onDeleteProduct(id: string): void {
     this.productsStore.dispatch(fromProducts.DeleteProduct({ id }));
   }
 }
