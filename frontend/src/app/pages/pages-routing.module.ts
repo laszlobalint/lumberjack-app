@@ -1,7 +1,5 @@
-import { ProductsComponent } from './products/components/products.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { DashboardComponent } from './dashboard/component/dashboard.component';
 import { PagesComponent } from './pages.component';
 
@@ -16,7 +14,7 @@ const routes: Routes = [
       },
       {
         path: 'products',
-        component: ProductsComponent,
+        loadChildren: () => import('./products/products.module').then(m => m.ProductsModule),
       },
       {
         path: '',

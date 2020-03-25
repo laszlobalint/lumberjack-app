@@ -9,10 +9,12 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { ProductsService } from './services/products.service';
 import { ProductsEffects, reducer, productsFeatureKey } from './store';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule.forChild([{ path: '', component: ProductsComponent }]),
     NbCardModule,
     NbTreeGridModule,
     NbIconModule,
