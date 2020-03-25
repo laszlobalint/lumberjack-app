@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { LocalDataSource } from 'ng2-smart-table';
@@ -23,6 +23,7 @@ export class ProductsComponent implements OnInit {
     private readonly authStore: Store<fromAuth.State>,
     private readonly productsStore: Store<fromProducts.State>,
     private readonly toastrService: NbToastrService,
+    private readonly changeDetectionRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit(): void {
@@ -30,15 +31,16 @@ export class ProductsComponent implements OnInit {
     this.productsStore.select('products').subscribe(state => {
       this.products = state.products;
       this.source.load(this.products);
+      this.changeDetectionRef.markForCheck();
     });
   }
 
   public onCreateConfirm(event: any): void {
-    window.confirm('Are you sure you want to create the product?') ? this.onCreateProduct(event.newData, event) : event.confirm.reject();
+    window.confirm('Are you sure you want to create the product?') ? this.onCreateProduct(event.newData) : event.confirm.reject();
   }
 
   public onUpdateConfirm(event: any): void {
-    window.confirm('Are you sure you want to edit the product?') ? this.onUpdateProduct(event.newData, event) : event.confirm.reject();
+    window.confirm('Are you sure you want to edit the product?') ? this.onUpdateProduct(event.newData) : event.confirm.reject();
   }
 
   public onDeleteConfirm(event: any): void {
@@ -47,7 +49,7 @@ export class ProductsComponent implements OnInit {
       : event.confirm.reject();
   }
 
-  private onCreateProduct(data: any, event: any): void {
+  private onCreateProduct(data: any): void {
     const error = this.validateInputData(data);
     if (error) {
       this.toastrService.show(error, 'Error', { status: 'warning' });
@@ -73,7 +75,7 @@ export class ProductsComponent implements OnInit {
     this.productsStore.dispatch(fromProducts.SaveProduct({ createProductDto: newProduct }));
   }
 
-  private onUpdateProduct(data: any, event: any): void {
+  private onUpdateProduct(data: any): void {
     const error = this.validateInputData(data);
     if (error) {
       this.toastrService.show(error, 'Error', { status: 'warning' });
@@ -97,8 +99,8 @@ export class ProductsComponent implements OnInit {
   private validateInputData(data: CreateProductDto | UpdateProductDto): string {
     let error = '';
     if (data.name.length < 2) error += 'Name has to be given! ';
-    if (isNaN(data.amount) || data.amount < 0) error += 'Amount has to be a positive number! ';
-    if (isNaN(data.price)) error += 'Price has to be a positive number! ';
+    if (isNaN(data.amount) || data.amount < 0 || !data.amount) error += 'Amount has to be a positive number! ';
+    if (isNaN(data.price) || data.price < 0 || !data.price) error += 'Price has to be a positive number! ';
 
     return error;
   }
