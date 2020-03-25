@@ -59,6 +59,7 @@ export class ProductService {
       await queryRunner.rollbackTransaction();
     } finally {
       await queryRunner.release();
+
       return product;
     }
   }
