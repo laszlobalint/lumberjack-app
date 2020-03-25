@@ -12,11 +12,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule),
   },
   {
-    path: 'pages/products',
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./pages/products/products.module').then(m => m.ProductsModule),
-  },
-  {
     path: 'auth',
     component: NbAuthComponent,
     children: [
