@@ -32,11 +32,11 @@ export class ProductsComponent implements OnInit {
   }
 
   public onCreateConfirm(event: any): void {
-    window.confirm('Are you sure you want to create the product?') ? this.onCreateProduct(event.newData) : event.confirm.reject();
+    window.confirm('Are you sure you want to create the product?') ? this.onCreateProduct(event.newData, event) : event.confirm.reject();
   }
 
   public onUpdateConfirm(event: any): void {
-    window.confirm('Are you sure you want to edit the product?') ? this.onUpdateProduct(event.newData) : event.confirm.reject();
+    window.confirm('Are you sure you want to edit the product?') ? this.onUpdateProduct(event.newData, event) : event.confirm.reject();
   }
 
   public onDeleteConfirm(event: any): void {
@@ -45,7 +45,7 @@ export class ProductsComponent implements OnInit {
       : event.confirm.reject();
   }
 
-  private onCreateProduct(data: any): void {
+  private onCreateProduct(data: any, event: any): void {
     const error = this.validateInputData(data);
     if (error) {
       this.toastrService.show(error, 'Error', { status: 'warning' });
@@ -71,7 +71,7 @@ export class ProductsComponent implements OnInit {
     this.productsStore.dispatch(fromProducts.SaveProduct({ createProductDto: newProduct }));
   }
 
-  private onUpdateProduct(data: any): void {
+  private onUpdateProduct(data: any, event: any): void {
     const error = this.validateInputData(data);
     if (error) {
       this.toastrService.show(error, 'Error', { status: 'warning' });
