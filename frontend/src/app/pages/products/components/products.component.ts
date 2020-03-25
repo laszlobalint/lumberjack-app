@@ -147,8 +147,9 @@ export class ProductsComponent implements OnInit {
   private validateInputData(data: CreateProductDto | UpdateProductDto) {
     let error = '';
     if (typeof data.amount !== 'string' || data.name.length < 2) error += 'Name has to be given! ';
-    if (typeof data.amount !== 'number' || data.amount < 0) error += 'Amount has to be a positive number! ';
-    if (typeof data.price !== 'number' || data.amount < 0) error += 'Price has to be a positive number! ';
+    if (isNaN(data.amount) || data.amount < 0) error += 'Amount has to be a positive number! ';
+    if (isNaN(data.price)) error += 'Price has to be a positive number! ';
+
     return error;
   }
 }
