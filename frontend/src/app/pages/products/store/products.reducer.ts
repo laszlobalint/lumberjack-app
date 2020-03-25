@@ -23,11 +23,11 @@ const productsReducer = createReducer(
   })),
   on(ProductsActions.UpdateProductSuccess, (state, { product }) => ({
     ...state,
-    products: [...state.products.filter(p => p && p.id !== product.id), product],
+    products: [...state.products.filter(p => p.id !== product.id), product],
   })),
   on(ProductsActions.DeleteProductSuccess, (state, { resId }) => ({
     ...state,
-    products: state.products.filter(product => product && product.id !== resId),
+    products: state.products.filter(product => product.id !== resId),
   })),
 );
 
