@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { take } from 'rxjs/operators';
 import { NbToastrService } from '@nebular/theme';
+import { Store } from '@ngrx/store';
 import { LocalDataSource } from 'ng2-smart-table';
-
-import * as fromProducts from '../store';
+import { take } from 'rxjs/operators';
 import * as fromAuth from '../../../auth/store';
+import { CreateProductDto, Product, UpdateProductDto } from '../models/products.model';
+import * as fromProducts from '../store';
 import { SETTINGS } from './products.settings.constant';
-import { Product, CreateProductDto, UpdateProductDto } from '../models/products.model';
 
 @Component({
   selector: 'ngx-products',
@@ -55,7 +54,7 @@ export class ProductsComponent implements OnInit {
 
     let userId: number;
     this.authStore
-      .select('user')
+      .select('auth')
       .pipe(take(1))
       .subscribe(state => {
         userId = state.user.id;
