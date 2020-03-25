@@ -1,10 +1,9 @@
 import { Action, createReducer, on } from '@ngrx/store';
-
+import { ProductDto } from '../models/products.model';
 import * as ProductsActions from './products.actions';
-import { Product } from '../models/products.model';
 
 interface ProductsState {
-  products?: Product[];
+  products?: ProductDto[];
 }
 
 export const initialState: ProductsState = {

@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { LocalDataSource } from 'ng2-smart-table';
 import { take } from 'rxjs/operators';
 import * as fromAuth from '../../../auth/store';
-import { CreateProductDto, Product, UpdateProductDto } from '../models/products.model';
+import { CreateProductDto, ProductDto, UpdateProductDto } from '../models/products.model';
 import * as fromProducts from '../store';
 import { SETTINGS } from './products.settings.constant';
 
@@ -15,7 +15,7 @@ import { SETTINGS } from './products.settings.constant';
 export class ProductsComponent implements OnInit {
   public readonly source: LocalDataSource = new LocalDataSource();
   public readonly settings = SETTINGS;
-  public products?: Product[];
+  public products?: ProductDto[];
 
   constructor(
     private readonly authStore: Store<fromAuth.State>,

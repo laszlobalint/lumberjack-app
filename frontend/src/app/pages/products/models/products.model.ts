@@ -1,6 +1,6 @@
 import { UserDto } from '../../../auth/models/user.model';
 
-export class Product {
+export class ProductDto {
   id: number;
   name: string;
   price: number;
