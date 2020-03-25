@@ -99,7 +99,8 @@ export class ProductsComponent implements OnInit {
 
   private validateInputData(data: CreateProductDto | UpdateProductDto): string {
     let error = '';
-    if (data.name.length < 2) error += 'Name has to be given! ';
+    if (!data.name || this.products.some(p => p.name.toLowerCase() === data.name.toLowerCase()))
+      error += 'Name has to be given and uniqe! ';
     if (isNaN(data.amount) || data.amount < 0 || !data.amount) error += 'Amount has to be a positive number! ';
     if (isNaN(data.price) || data.price < 0 || !data.price) error += 'Price has to be a positive number! ';
 
