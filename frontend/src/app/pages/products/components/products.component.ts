@@ -31,6 +31,7 @@ export class ProductsComponent implements OnInit {
     this.productsStore.select('products').subscribe(state => {
       this.products = state.products;
       this.source.load(this.products);
+      this.source.setSort([{ field: 'date', direction: 'desc' }]);
       this.changeDetectionRef.markForCheck();
     });
   }

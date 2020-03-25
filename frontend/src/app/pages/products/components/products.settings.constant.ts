@@ -44,7 +44,7 @@ export const SETTINGS = {
       editable: false,
       addable: false,
       valuePrepareFunction: (date: string): string => {
-        return new DatePipe('en-US').transform(date, 'yyyy.MM.dd. hh:mm');
+        return new DatePipe('en-US').transform(date, 'yyyy.MM.dd. HH:mm');
       },
     },
   },
