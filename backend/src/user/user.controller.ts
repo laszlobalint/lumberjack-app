@@ -23,7 +23,7 @@ export class UserController {
 
   @Get(':id')
   @ApiResponse({ status: 200, description: 'Returned single user by ID.' })
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @Roles('admin', 'guest')
   async findOne(@Param('id') id: string): Promise<User> {
     return this.userService.findOne(+id);
@@ -31,7 +31,7 @@ export class UserController {
 
   @Post()
   @ApiResponse({ status: 201, description: 'Created a user.' })
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @Roles('admin')
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.userService.create(createUserDto);
@@ -39,7 +39,7 @@ export class UserController {
 
   @Put(':id')
   @ApiResponse({ status: 204, description: 'Modified a user.' })
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @Roles('admin')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
     return this.userService.update(+id, updateUserDto);

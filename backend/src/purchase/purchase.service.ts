@@ -33,7 +33,7 @@ export class PurchaseService {
     let purchase = new Purchase();
     purchase.amount = createPurchaseDto.amount;
     purchase.completed = createPurchaseDto.completed;
-    purchase.description = createPurchaseDto.description ? createPurchaseDto.description : undefined;
+    purchase.description = createPurchaseDto.description;
 
     let user = await this.userRepository.findOneOrFail({
       where: { id: createPurchaseDto.userId },

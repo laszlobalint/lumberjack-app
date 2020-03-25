@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DeleteResult } from 'typeorm';
-
-import { Product } from './product.entity';
+import { Repository } from 'typeorm';
 import { User } from '../user/user.entity';
 import { CreateProductDto, UpdateProductDto } from './product.dto';
+import { Product } from './product.entity';
 
 @Injectable()
 export class ProductService {
@@ -24,22 +23,20 @@ export class ProductService {
   }
 
   async create(createProductDto: CreateProductDto): Promise<Product> {
-    let product = new Product();
-    product.name = createProductDto.name;
-    product.price = createProductDto.price;
-    product.amount = createProductDto.amount;
-    product.description = createProductDto.description ? createProductDto.description : undefined;
-
     let user = await this.userRepository.findOne({
       where: { id: createProductDto.createdBy },
       relations: ['customers', 'products', 'purchases'],
     });
 
-    let createdProduct = await this.productRepository.save(product);
-    user.products.push(createdProduct);
-    this.userRepository.save(user);
-
-    return createdProduct;
+    return await this.productRepository.save(
+      new Product({
+        name: createProductDto.name,
+        price: createProductDto.price,
+        amount: createProductDto.amount,
+        description: createProductDto.description,
+        user,
+      }),
+    );
   }
 
   async update(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
@@ -51,11 +48,12 @@ export class ProductService {
     return this.productRepository.save(updatedProduct);
   }
 
-  async remove(id: number): Promise<DeleteResult> {
+  async remove(id: number): Promise<number> {
     let product = await this.productRepository.findOneOrFail({
       where: { id },
     });
+    await this.productRepository.delete(product.id);
 
-    return this.productRepository.delete(product.id);
+    return id;
   }
 }

@@ -19,10 +19,10 @@ const authReducer = createReducer(
 );
 
 export interface State {
-  user: AuthState;
+  auth: AuthState;
 }
 
-export const userFeatureKey = 'auth';
+export const authFeatureKey = 'auth';
 
 export function reducer(state: AuthState | undefined, action: Action) {
   return authReducer(state, action);
