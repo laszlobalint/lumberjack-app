@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Connection } from 'typeorm';
 import { classToPlain } from 'class-transformer';
-
-import { Product } from './product.entity';
+import { Connection, Repository } from 'typeorm';
 import { User } from '../user/user.entity';
 import { CreateProductDto, UpdateProductDto } from './product.dto';
+import { Product } from './product.entity';
 
 @Injectable()
 export class ProductService {
@@ -33,22 +32,20 @@ export class ProductService {
     let product: Product | null = null;
     try {
       const productRepository = queryRunner.manager.getRepository(Product);
+      let user = await this.userRepository.findOne({
+        where: { id: createProductDto.createdBy },
+        relations: ['customers', 'products', 'purchases'],
+      });
+
       product = await productRepository.save(
         new Product({
           name: createProductDto.name,
           price: createProductDto.price,
           amount: createProductDto.amount,
           description: createProductDto.description,
+          user,
         }),
       );
-
-      let user = await this.userRepository.findOne({
-        where: { id: createProductDto.createdBy },
-        relations: ['customers', 'products', 'purchases'],
-      });
-
-      user.products.push(product);
-      this.userRepository.save(user);
 
       await queryRunner.commitTransaction();
       product = {
