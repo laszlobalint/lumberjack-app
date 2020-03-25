@@ -2,6 +2,7 @@
   "name": "lumberjack",
   "version": "1.0.0",
   "license": "MIT",
+  "description": "Frontend project for a lumberjack yard.",
   "scripts": {
     "ng": "ng",
     "conventional-changelog": "conventional-changelog",
@@ -66,6 +67,7 @@
     "@angular/cli": "^8.0.2",
     "@angular/compiler-cli": "^8.0.0",
     "@angular/language-service": "8.0.0",
+    "@babel/compat-data": "~7.8.0",
     "@compodoc/compodoc": "^1.1.11",
     "@types/jasmine": "2.5.54",
     "@types/jasminewd2": "2.0.3",
