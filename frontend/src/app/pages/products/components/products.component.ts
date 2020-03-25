@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { LocalDataSource } from 'ng2-smart-table';
 import { take } from 'rxjs/operators';
+
 import * as fromAuth from '../../../auth/store';
 import { CreateProductDto, ProductDto, UpdateProductDto } from '../models/products.model';
 import * as fromProducts from '../store';
@@ -11,6 +12,7 @@ import { SETTINGS } from './products.settings.constant';
 @Component({
   selector: 'ngx-products',
   templateUrl: './products.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductsComponent implements OnInit {
   public readonly source: LocalDataSource = new LocalDataSource();

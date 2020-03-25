@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { classToPlain } from 'class-transformer';
-import { Connection, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
+
 import { User } from '../user/user.entity';
-import { CreateProductDto, UpdateProductDto } from './product.dto';
 import { Product } from './product.entity';
+import { CreateProductDto, UpdateProductDto } from './product.dto';
 
 @Injectable()
 export class ProductService {
@@ -13,7 +13,6 @@ export class ProductService {
     private readonly productRepository: Repository<Product>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    private readonly connection: Connection,
   ) {}
 
   async findAll(): Promise<Product[]> {
@@ -25,40 +24,23 @@ export class ProductService {
   }
 
   async create(createProductDto: CreateProductDto): Promise<Product> {
-    const queryRunner = this.connection.createQueryRunner();
-    await queryRunner.connect();
-    await queryRunner.startTransaction();
-
     let product: Product | null = null;
-    try {
-      const productRepository = queryRunner.manager.getRepository(Product);
-      let user = await this.userRepository.findOne({
-        where: { id: createProductDto.createdBy },
-        relations: ['customers', 'products', 'purchases'],
-      });
+    let user = await this.userRepository.findOne({
+      where: { id: createProductDto.createdBy },
+      relations: ['customers', 'products', 'purchases'],
+    });
 
-      product = await productRepository.save(
-        new Product({
-          name: createProductDto.name,
-          price: createProductDto.price,
-          amount: createProductDto.amount,
-          description: createProductDto.description,
-          user,
-        }),
-      );
+    product = await this.productRepository.save(
+      new Product({
+        name: createProductDto.name,
+        price: createProductDto.price,
+        amount: createProductDto.amount,
+        description: createProductDto.description,
+        user,
+      }),
+    );
 
-      await queryRunner.commitTransaction();
-      product = {
-        ...product,
-        user: classToPlain(user) as User,
-      };
-    } catch (error) {
-      await queryRunner.rollbackTransaction();
-    } finally {
-      await queryRunner.release();
-
-      return product;
-    }
+    return product;
   }
 
   async update(id: number, updateProductDto: UpdateProductDto): Promise<Product> {

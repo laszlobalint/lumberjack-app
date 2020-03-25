@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 
 import { ProductsService } from '../services/products.service';
 import * as ProductsActions from './products.actions';
@@ -17,7 +17,7 @@ export class ProductsEffects {
   saveProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductsActions.SaveProduct),
-      switchMap(({ createProductDto }) =>
+      mergeMap(({ createProductDto }) =>
         this.productsService.save(createProductDto).pipe(map(product => ProductsActions.SaveProductSuccess({ product }))),
       ),
     ),
@@ -26,7 +26,7 @@ export class ProductsEffects {
   updateProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductsActions.UpdateProduct),
-      switchMap(({ id, updateProductDto }) =>
+      mergeMap(({ id, updateProductDto }) =>
         this.productsService.update(id, updateProductDto).pipe(map(product => ProductsActions.UpdateProductSuccess({ product }))),
       ),
     ),
