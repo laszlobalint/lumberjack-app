@@ -1,5 +1,6 @@
 import { ProductsComponent } from './components/products.component';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CommonModule, DecimalPipe, DatePipe } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -9,7 +10,6 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 import { ProductsService } from './services/products.service';
 import { ProductsEffects, reducer, productsFeatureKey } from './store';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
