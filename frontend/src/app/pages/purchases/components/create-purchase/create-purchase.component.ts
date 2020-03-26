@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class CreatePurchaseComponent implements OnInit {
   form: FormGroup;
+  enableCustomerEdit: boolean;
 
   selectedProduct;
   constructor(formBuilder: FormBuilder) {

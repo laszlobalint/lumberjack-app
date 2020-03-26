@@ -2,18 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import {
-  NbActionsModule,
-  NbButtonModule,
-  NbCardModule,
-  NbCheckboxModule,
-  NbDatepickerModule,
-  NbIconModule,
-  NbInputModule,
-  NbRadioModule,
-  NbSelectModule,
-  NbUserModule,
-} from '@nebular/theme';
+import { NbActionsModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbIconModule, NbInputModule, NbRadioModule, NbSelectModule, NbToggleModule, NbUserModule } from '@nebular/theme';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ThemeModule } from '../../@theme/theme.module';
@@ -55,6 +44,7 @@ const routes: Routes = [
     NbDatepickerModule,
     NbSelectModule,
     NbIconModule,
+    NbToggleModule
   ],
 })
 export class PurchasesModule {}
