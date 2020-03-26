@@ -10,6 +10,7 @@ import {
   NbSidebarModule,
   NbToastrModule,
   NbWindowModule,
+  NbLayoutModule,
 } from '@nebular/theme';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -28,6 +29,7 @@ const NB_MODULES = [
   NbDialogModule.forRoot(),
   NbWindowModule.forRoot(),
   NbToastrModule.forRoot(),
+  NbLayoutModule,
   NbChatModule.forRoot({
     messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
   }),

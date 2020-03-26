@@ -1,7 +1,8 @@
 {
-  "name": "lumberjack-ngx-admin",
-  "version": "4.0.1",
+  "name": "lumberjack",
+  "version": "1.0.0",
   "license": "MIT",
+  "description": "Frontend project for a lumberjack yard.",
   "scripts": {
     "ng": "ng",
     "conventional-changelog": "conventional-changelog",
@@ -46,6 +47,8 @@
     "intl": "1.2.5",
     "ionicons": "2.0.1",
     "nebular-icons": "1.1.0",
+    "ng2-completer": "^3.0.3",
+    "ng2-smart-table": "^1.5.0",
     "node-sass": "^4.13.1",
     "normalize.css": "6.0.0",
     "pace-js": "1.0.2",
@@ -53,7 +56,7 @@
     "prettier-tslint": "^0.4.2",
     "roboto-fontface": "0.8.0",
     "rxjs": "6.5.2",
-    "rxjs-compat": "6.3.0",
+    "rxjs-compat": "^6.3.0",
     "socicon": "3.0.5",
     "typeface-exo": "0.0.22",
     "web-animations-js": "github:angular/web-animations-js#release_pr208",
@@ -64,6 +67,7 @@
     "@angular/cli": "^8.0.2",
     "@angular/compiler-cli": "^8.0.0",
     "@angular/language-service": "8.0.0",
+    "@babel/compat-data": "~7.8.0",
     "@compodoc/compodoc": "^1.1.11",
     "@types/jasmine": "2.5.54",
     "@types/jasminewd2": "2.0.3",
@@ -86,7 +90,7 @@
     "ts-node": "3.2.2",
     "tslint": "^5.7.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "3.4.5"
+    "typescript": "^3.5.3"
   },
   "repository": {
     "url": "https://gitlab.com/papiliond/lumberjack",

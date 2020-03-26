@@ -9,7 +9,7 @@ import { StoreModule } from '@ngrx/store';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { AuthService } from './services/auth.service';
-import { AuthEffects, AUTH_FEATURE_KEY, reducer } from './store';
+import { AuthEffects, authFeatureKey, reducer } from './store';
 
 @NgModule({
   imports: [
@@ -23,7 +23,7 @@ import { AuthEffects, AUTH_FEATURE_KEY, reducer } from './store';
     RouterModule,
     FormsModule,
     NbIconModule,
-    StoreModule.forFeature(AUTH_FEATURE_KEY, reducer),
+    StoreModule.forFeature(authFeatureKey, reducer),
     EffectsModule.forFeature([AuthEffects]),
   ],
   providers: [AuthService],

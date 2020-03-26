@@ -16,4 +16,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'list-outline',
     link: '/pages/purchases',
   },
+  {
+    title: 'Products',
+    icon: 'shopping-bag-outline',
+    link: '/pages/products',
+  },
 ];

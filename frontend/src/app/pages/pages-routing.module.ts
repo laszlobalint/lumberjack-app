@@ -13,13 +13,17 @@ const routes: Routes = [
         component: DashboardComponent,
       },
       {
-        path: '',
-        redirectTo: 'dashboard',
-        pathMatch: 'full',
+        path: 'products',
+        loadChildren: () => import('./products/products.module').then(m => m.ProductsModule),
       },
       {
         path: 'purchases',
         loadChildren: () => import('./purchases/purchases.module').then(m => m.PurchasesModule),
+      },
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full',
       },
     ],
   },

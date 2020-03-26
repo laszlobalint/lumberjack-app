@@ -26,6 +26,11 @@ export class CustomerService {
   }
 
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
+    let user = await this.userRepository.findOneOrFail({
+      where: { id: createCustomerDto.createdBy },
+      relations: ['customers', 'products', 'purchases'],
+    });
+
     let customer = new Customer({
       name: createCustomerDto.name,
       address: createCustomerDto.address,
@@ -36,18 +41,10 @@ export class CustomerService {
       checkingAccount: createCustomerDto.checkingAccount,
       description: createCustomerDto.description,
       purchases: [],
+      user,
     });
 
-    let user = await this.userRepository.findOneOrFail({
-      where: { id: createCustomerDto.createdBy },
-      relations: ['customers', 'products', 'purchases'],
-    });
-
-    let createdCustomer = await this.customerRepository.save(customer);
-    user.customers.push(customer);
-    this.userRepository.save(user);
-
-    return createdCustomer;
+    return await this.customerRepository.save(customer);
   }
 
   async update(id: number, updateCustomerDto: UpdateCustomerDto): Promise<Customer> {

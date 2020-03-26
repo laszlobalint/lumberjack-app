@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { DeleteResult } from 'typeorm';
 
 import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
 import { Product } from './product.entity';
@@ -39,7 +38,7 @@ export class ProductController {
 
   @Delete(':id')
   @ApiResponse({ status: 204, description: 'Deleted a product.' })
-  async remove(@Param('id') id: string): Promise<DeleteResult> {
+  async remove(@Param('id') id: string): Promise<number> {
     return this.productService.remove(+id);
   }
 }
