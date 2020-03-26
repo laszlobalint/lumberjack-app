@@ -1,13 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { LocalDataSource } from 'ng2-smart-table';
 import { take } from 'rxjs/operators';
-
 import * as fromAuth from '../../../auth/store';
-import { CreateProductDto, ProductDto, UpdateProductDto } from '../models/products.model';
+import { CreateProductDto, ProductDto, UpdateProductDto } from '../../../models/products.model';
 import * as fromProducts from '../store';
 import { SETTINGS } from './products.settings.constant';
+
 
 @Component({
   selector: 'ngx-products',

@@ -1,15 +1,15 @@
-import { ProductsComponent } from './components/products.component';
+import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CommonModule, DecimalPipe, DatePipe } from '@angular/common';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 import { NbCardModule, NbIconModule, NbInputModule, NbTreeGridModule } from '@nebular/theme';
-import { ThemeModule } from '../../@theme/theme.module';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { ThemeModule } from '../../@theme/theme.module';
+import { ProductsService } from '../../services/products.service';
+import { ProductsComponent } from './components/products.component';
+import { ProductsEffects, productsFeatureKey, reducer } from './store';
 
-import { ProductsService } from './services/products.service';
-import { ProductsEffects, reducer, productsFeatureKey } from './store';
 
 @NgModule({
   imports: [

@@ -2,15 +2,26 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { NbActionsModule, NbButtonModule, NbCardModule, NbCheckboxModule, NbDatepickerModule, NbIconModule, NbInputModule, NbRadioModule, NbSelectModule, NbToggleModule, NbUserModule } from '@nebular/theme';
+import {
+  NbActionsModule,
+  NbButtonModule,
+  NbCardModule,
+  NbCheckboxModule,
+  NbDatepickerModule,
+  NbIconModule,
+  NbInputModule,
+  NbRadioModule,
+  NbSelectModule,
+  NbToggleModule,
+  NbUserModule,
+} from '@nebular/theme';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ThemeModule } from '../../@theme/theme.module';
 import { CreatePurchaseComponent } from './components/create-purchase/create-purchase.component';
 import { PurchasesComponent } from './components/purchases.component';
-import { PurchasesService } from './services/purchases.service';
+import { purchasesFeatureKey, reducers } from './store';
 import { CreatePurchaseEffects } from './store/effects/create-purchase.effects';
-import { purchasesFeatureKey, reducers } from './store/purchases.reducer';
 
 const routes: Routes = [
   {
@@ -25,7 +36,6 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [PurchasesComponent, CreatePurchaseComponent],
-  providers: [PurchasesService],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -44,7 +54,7 @@ const routes: Routes = [
     NbDatepickerModule,
     NbSelectModule,
     NbIconModule,
-    NbToggleModule
+    NbToggleModule,
   ],
 })
 export class PurchasesModule {}

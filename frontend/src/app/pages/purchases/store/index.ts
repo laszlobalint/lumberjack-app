@@ -14,3 +14,5 @@ export interface State {
 }
 
 export const purchasesFeatureKey = 'purchases';
+
+export * from './actions';

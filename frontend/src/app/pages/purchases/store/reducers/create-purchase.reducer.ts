@@ -1,5 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { PurchaseDto } from '../../models/purchases.model';
+import { PurchaseDto } from '../../../../models/purchases.model';
 import * as CreatePurchaseActions from '../actions/create-purchase.actions';
 
 export interface CreatePurchaseState {

@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { CreatePurchaseDto } from '../models/purchases.model';
-import { API_URL } from './../../../constants';
-import { PurchaseDto } from './../models/purchases.model';
+import { API_URL } from '../constants';
+import { CreatePurchaseDto, PurchaseDto } from '../models/purchases.model';
 
 @Injectable()
 export class PurchasesService {

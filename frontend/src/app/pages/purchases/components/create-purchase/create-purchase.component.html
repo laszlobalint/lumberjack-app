@@ -3,7 +3,8 @@
     accent="primary">
     <nb-card-header>New Purchase</nb-card-header>
     <nb-card-body>
-      <form class="d-flex flex-column items-center">
+      <form class="d-flex flex-column items-center"
+        [formGroup]="form">
 
         <!-- Purchase -->
 
@@ -14,7 +15,8 @@
             <input nbInput
               fullWidth
               id="inputAmount"
-              placeholder="Amount">
+              placeholder="Amount"
+              formControlName="amount">
           </div>
 
           <div class="col-12 col-md-8 col-lg-5 form-group">
@@ -33,7 +35,8 @@
               <input nbInput
                 fullWidth
                 id="inputPrice"
-                placeholder="Price">
+                placeholder="Price"
+                formControlName="price">
             </div>
 
             <div class="col-3 d-flex align-items-center bg-light-gray border-fuchsia">
@@ -55,6 +58,8 @@
             <nb-select fullWidth
               [(selected)]="selectedProduct"
               id="inputCustomerId">
+              <nb-option *ngFor="let product of productOptions"
+                [value]="product.id">{{ product.name }}</nb-option>
             </nb-select>
           </div>
 
@@ -72,7 +77,8 @@
                 nbInput
                 fullWidth
                 id="inputAddress"
-                placeholder="Address">
+                placeholder="Address"
+                formControlName="address">
             </div>
 
             <div class="col form-group">
@@ -82,7 +88,8 @@
                 nbInput
                 fullWidth
                 id="inputPhone"
-                placeholder="Phone">
+                placeholder="Phone"
+                formControlName="phone">
             </div>
           </div>
 
@@ -93,7 +100,8 @@
               <input nbInput
                 fullWidth
                 id="inputCompanyName"
-                placeholder="Company Name">
+                placeholder="Company Name"
+                formControlName="companyName">
             </div>
 
             <div class="col form-group">
@@ -102,7 +110,8 @@
               <input nbInput
                 fullWidth
                 id="inputTaxId"
-                placeholder="Tax Id">
+                placeholder="Tax Id"
+                formControlName="taxId">
             </div>
 
             <div class="col form-group">
@@ -111,7 +120,8 @@
               <input nbInput
                 fullWidth
                 id="inputCheckingAccount"
-                placeholder="Checking Account">
+                placeholder="Checking Account"
+                formControlName="checkingAccount">
             </div>
           </div>
         </div>
@@ -125,7 +135,8 @@
               class="label">Description</label>
             <textarea nbInput
               fullWidth
-              placeholder="Description..."></textarea>
+              placeholder="Description..."
+              formControlName="description"></textarea>
           </div>
         </div>
 
