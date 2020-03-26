@@ -4,6 +4,9 @@
     <nb-card-header>New Purchase</nb-card-header>
     <nb-card-body>
       <form class="d-flex flex-column items-center">
+
+        <!-- Purchase -->
+
         <div class="row w-100">
           <div class="col-12 col-md-4 col-lg-2 form-group">
             <label for="inputAmount"
@@ -43,6 +46,8 @@
 
         <hr>
 
+        <!-- Customer -->
+
         <div class="row w-100">
           <div class="col form-group">
             <label for="inputCustomerId"
@@ -76,7 +81,38 @@
           </div>
         </div>
 
+        <div class="row w-100">
+          <div class="col form-group">
+            <label for="inputCompanyName"
+              class="label">Company Name</label>
+            <input nbInput
+              fullWidth
+              id="inputCompanyName"
+              placeholder="Company Name">
+          </div>
+
+          <div class="col form-group">
+            <label for="inputTaxId"
+              class="label">Tax Id</label>
+            <input nbInput
+              fullWidth
+              id="inputTaxId"
+              placeholder="Tax Id">
+          </div>
+
+          <div class="col form-group">
+            <label for="inputCheckingAccount"
+              class="label">Checking Account</label>
+            <input nbInput
+              fullWidth
+              id="inputCheckingAccount"
+              placeholder="Checking Account">
+          </div>
+        </div>
+
         <hr>
+
+        <!-- Purchase description -->
 
         <div class="row w-100">
           <div class="col form-group">
