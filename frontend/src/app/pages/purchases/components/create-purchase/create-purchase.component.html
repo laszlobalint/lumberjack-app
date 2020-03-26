@@ -25,6 +25,8 @@
             <nb-select fullWidth
               [(selected)]="selectedProduct"
               id="inputProductId">
+              <nb-option *ngFor="let product of products$ | async"
+                [value]="product.id">{{ product.name }}</nb-option>
             </nb-select>
           </div>
 
@@ -58,8 +60,8 @@
             <nb-select fullWidth
               [(selected)]="selectedProduct"
               id="inputCustomerId">
-              <nb-option *ngFor="let product of productOptions"
-                [value]="product.id">{{ product.name }}</nb-option>
+              <nb-option *ngFor="let customer of customers$ | async"
+                [value]="customer.id">{{ customer.name }}</nb-option>
             </nb-select>
           </div>
 

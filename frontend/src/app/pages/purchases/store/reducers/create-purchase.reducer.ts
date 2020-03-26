@@ -1,13 +1,17 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { PurchaseDto } from '../../../../models/purchases.model';
+import { CustomerDto, ProductDto, PurchaseDto } from '../../../../models/';
 import * as CreatePurchaseActions from '../actions/create-purchase.actions';
 
 export interface CreatePurchaseState {
   purchase?: PurchaseDto;
+  customers: CustomerDto[];
+  products: ProductDto[];
 }
 
 export const initialState: CreatePurchaseState = {
   purchase: undefined,
+  customers: [],
+  products: [],
 };
 
 const reducerFunction = createReducer(
@@ -15,6 +19,14 @@ const reducerFunction = createReducer(
   on(CreatePurchaseActions.PostPurchaseSuccess, (state, { purchase }) => ({
     ...state,
     purchase,
+  })),
+  on(CreatePurchaseActions.GetCustomersSuccess, (state, { customers }) => ({
+    ...state,
+    customers,
+  })),
+  on(CreatePurchaseActions.GetProductsSuccess, (state, { products }) => ({
+    ...state,
+    products,
   })),
 );
 

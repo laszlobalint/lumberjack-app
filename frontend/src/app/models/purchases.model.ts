@@ -1,6 +1,6 @@
 import { UserDto } from '../auth/models/user.model';
-import { CreateCustomerDto, CustomerDto } from '../pages/customers/customers.model';
-import { ProductDto } from '../pages/products/product.model';
+import { CreateCustomerDto, CustomerDto } from './customers.model';
+import { ProductDto } from './products.model';
 
 export interface PurchaseDto {
   id: number;

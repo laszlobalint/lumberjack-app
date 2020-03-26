@@ -6,11 +6,11 @@ import {
   NbChatModule,
   NbDatepickerModule,
   NbDialogModule,
+  NbLayoutModule,
   NbMenuModule,
   NbSidebarModule,
   NbToastrModule,
   NbWindowModule,
-  NbLayoutModule,
 } from '@nebular/theme';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -21,6 +21,7 @@ import { ThemeModule } from './@theme/theme.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
+import { CustomersService, ProductsService, PurchasesService } from './services';
 
 const NB_MODULES = [
   NbSidebarModule.forRoot(),
@@ -50,6 +51,7 @@ const NB_MODULES = [
     CoreModule.forRoot(),
     AuthModule,
   ],
+  providers: [CustomersService, ProductsService, PurchasesService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
