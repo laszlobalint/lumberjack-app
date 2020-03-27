@@ -4,7 +4,6 @@ import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 import * as fromAuth from '../../../auth/store';
-import { AuthService } from '../../../auth/services/auth.service';
 import { UserDto } from '../../../auth/models/user.model';
 import { SITE_NAME } from './../../../constants';
 import { Store } from '@ngrx/store';
@@ -36,7 +35,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    private readonly authService: AuthService,
     private readonly menuService: NbMenuService,
     private readonly sidebarService: NbSidebarService,
     private readonly themeService: NbThemeService,
