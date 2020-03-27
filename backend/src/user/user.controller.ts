@@ -3,8 +3,8 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
 import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
-import { Roles } from '../auth/guards/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/guards/roles.decorator';
 import { UserService } from './user.service';
 import { User } from './user.entity';
 import { CreateUserDto, UpdateUserDto } from './user.dto';

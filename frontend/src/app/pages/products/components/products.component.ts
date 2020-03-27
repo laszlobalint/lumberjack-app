@@ -58,16 +58,7 @@ export class ProductsComponent implements OnInit {
       return;
     }
 
-    let userId: number;
-    this.authStore
-      .select('auth')
-      .pipe(take(1))
-      .subscribe(state => {
-        userId = state.user.id;
-      });
-
     const newProduct: CreateProductDto = {
-      createdBy: userId,
       name: data.name,
       price: Number(data.price),
       amount: Number(data.amount),

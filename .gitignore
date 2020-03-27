@@ -1,6 +1,6 @@
-# GIT ignore file for MySQL, NestJs and Angular
+# GIT ignore file for MySQL/MariaDB, NestJs and Angular
 
-# MySQL
+# MySQL/MariaDB
 *~
 *.a
 *.la

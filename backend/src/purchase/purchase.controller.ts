@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, Req } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 
@@ -27,7 +27,8 @@ export class PurchaseController {
 
   @Post()
   @ApiResponse({ status: 201, description: 'Created a purchase.' })
-  async create(@Body() createProductDto: CreatePurchaseDto): Promise<Purchase> {
+  async create(@Body() createProductDto: CreatePurchaseDto, @Req() req: any): Promise<Purchase> {
+    createProductDto.userId = req.user.userId;
     return this.purchaseService.create(createProductDto);
   }
 
