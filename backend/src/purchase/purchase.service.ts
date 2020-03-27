@@ -99,6 +99,7 @@ export class PurchaseService {
       };
     } catch (error) {
       await queryRunner.rollbackTransaction();
+      return null;
     } finally {
       await queryRunner.release();
       return purchase;
