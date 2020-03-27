@@ -45,7 +45,7 @@ export class PurchaseService {
         where: { id: createPurchaseDto.productId },
         relations: ['purchases'],
       });
-      product.amount -= purchase.amount;
+      product.amount -= createPurchaseDto.reduceStock ? purchase.amount : 0;
       product.purchases.push(purchase);
       await productRepository.save(product);
 

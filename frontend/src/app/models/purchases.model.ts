@@ -17,6 +17,7 @@ export interface PurchaseDto {
 
 export interface CreatePurchaseDto {
   amount: number;
+  reduceStock: boolean;
   price: number;
   productId: number;
   customerId?: number;

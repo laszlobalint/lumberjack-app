@@ -55,6 +55,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
           checkingAccount: [''],
         }),
         description: [''],
+        reduceStock: [true],
       },
       { validators: [this.customerValidator] },
     );
@@ -69,7 +70,9 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
           customerId,
           customer,
           description,
-        }),
+          // TODO: get retrieved value
+          reduceStock: true,
+        } as CreateCustomerDto),
       );
   }
 

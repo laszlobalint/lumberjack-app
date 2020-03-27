@@ -208,7 +208,14 @@
           </div>
         </div>
 
-        <div class="row w-100 d-flex justify-content-end p-3">
+        <div class="row w-100 d-flex justify-content-end align-items-baseline p-3">
+          <nb-toggle id="inputReduceStock"
+            class="mx-3"
+            labelPosition="left"
+            [status]="toggleReduceStock.checked ? 'primary' : 'warning'"
+            formControlName="reduceStock"
+            #toggleReduceStock>Reduce stock amount</nb-toggle>
+
           <button nbButton
             *ngIf="!state.createdPurchase; else successButton"
             type="submit"
