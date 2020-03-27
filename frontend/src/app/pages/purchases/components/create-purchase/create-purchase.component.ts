@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
 import { CreateCustomerDto, CustomerDto, ProductDto, PurchaseDto } from '../../../../models';
 import * as fromPurchases from '../../store';
 
@@ -11,7 +11,7 @@ import * as fromPurchases from '../../store';
   templateUrl: './create-purchase.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreatePurchaseComponent implements OnInit {
+export class CreatePurchaseComponent implements OnInit, OnDestroy {
   form: FormGroup;
   products$: Observable<ProductDto[]>;
   customers$: Observable<CustomerDto[]>;
@@ -19,6 +19,7 @@ export class CreatePurchaseComponent implements OnInit {
   isBusy$: Observable<boolean>;
   failed$: Observable<boolean>;
   customPrice = true;
+  purchaseSubscription: Subscription;
 
   _enableCustomerEdit = false;
   set enableCustomerEdit(enable: boolean) {
@@ -57,6 +58,19 @@ export class CreatePurchaseComponent implements OnInit {
       },
       { validators: [this.customerValidator] },
     );
+
+    this.purchaseSubscription = this.purchase$
+      .pipe(filter(purchase => !!purchase))
+      .subscribe(({ amount, price, description, customer: { id: customerId, date, ...customer }, product: { id: productId } }) =>
+        this.form.setValue({
+          amount,
+          productId,
+          price,
+          customerId,
+          customer,
+          description,
+        }),
+      );
   }
 
   ngOnInit() {
@@ -68,6 +82,10 @@ export class CreatePurchaseComponent implements OnInit {
         this.form.disable();
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.purchaseSubscription.unsubscribe();
   }
 
   onSubmit() {
