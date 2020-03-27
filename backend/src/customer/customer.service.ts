@@ -15,14 +15,11 @@ export class CustomerService {
   ) {}
 
   async findAll(): Promise<Customer[]> {
-    return this.customerRepository.find({ relations: ['purchases', 'user'] });
+    return this.customerRepository.find();
   }
 
   async findOne(id: number): Promise<Customer> {
-    return await this.customerRepository.findOneOrFail({
-      where: { id },
-      relations: ['purchases', 'user'],
-    });
+    return await this.customerRepository.findOneOrFail({ where: { id } });
   }
 
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {

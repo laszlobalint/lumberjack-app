@@ -57,6 +57,11 @@ export class PurchaseService {
           where: { id: createPurchaseDto.customerId },
           relations: ['purchases', 'user'],
         });
+
+        if (createPurchaseDto.customer) {
+          customer = Object.assign(customer, createPurchaseDto.customer);
+        }
+
         customer.purchases.push(purchase);
         customer = await customerRepository.save(customer);
       } else if (createPurchaseDto.customer) {
