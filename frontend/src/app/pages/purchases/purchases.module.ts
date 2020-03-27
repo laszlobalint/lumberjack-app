@@ -12,6 +12,7 @@ import {
   NbInputModule,
   NbRadioModule,
   NbSelectModule,
+  NbSpinnerModule,
   NbToggleModule,
   NbUserModule,
 } from '@nebular/theme';
@@ -55,6 +56,7 @@ const routes: Routes = [
     NbSelectModule,
     NbIconModule,
     NbToggleModule,
+    NbSpinnerModule,
   ],
 })
 export class PurchasesModule {}

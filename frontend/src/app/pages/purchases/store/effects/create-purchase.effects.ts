@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { CustomersService } from '../../../../services/customers.service';
 import { ProductsService } from '../../../../services/products.service';
 import { PurchasesService } from '../../../../services/purchases.service';
@@ -12,7 +13,10 @@ export class CreatePurchaseEffects {
     this.actions$.pipe(
       ofType(CreatePurchaseActions.PostPurchase),
       mergeMap(({ createPurchase }) =>
-        this.purchasesService.postPurchase(createPurchase).pipe(map(purchase => CreatePurchaseActions.PostPurchaseSuccess({ purchase }))),
+        this.purchasesService.postPurchase(createPurchase).pipe(
+          map(purchase => CreatePurchaseActions.PostPurchaseSuccess({ purchase })),
+          catchError(error => of(CreatePurchaseActions.PostPurchaseFailure())),
+        ),
       ),
     ),
   );

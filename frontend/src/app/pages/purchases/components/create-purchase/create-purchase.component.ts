@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { CustomerDto, ProductDto } from '../../../../models';
+import { CreateCustomerDto, CustomerDto, ProductDto, PurchaseDto } from '../../../../models';
 import * as fromPurchases from '../../store';
 
 @Component({
@@ -15,7 +15,9 @@ export class CreatePurchaseComponent implements OnInit {
   form: FormGroup;
   products$: Observable<ProductDto[]>;
   customers$: Observable<CustomerDto[]>;
+  purchase$: Observable<PurchaseDto | undefined>;
   customPrice = true;
+  isBusy$: Observable<boolean>;
 
   _enableCustomerEdit = false;
   set enableCustomerEdit(enable: boolean) {
@@ -30,24 +32,29 @@ export class CreatePurchaseComponent implements OnInit {
   constructor(private readonly purchaseStore: Store<fromPurchases.State>, formBuilder: FormBuilder) {
     this.customers$ = this.purchaseStore.select('purchases').pipe(map(state => state.createPurchase.customers));
     this.products$ = this.purchaseStore.select('purchases').pipe(map(state => state.createPurchase.products));
+    this.purchase$ = this.purchaseStore.select('purchases').pipe(map(state => state.createPurchase.purchase));
+    this.isBusy$ = this.purchaseStore.select('purchases').pipe(map(state => state.createPurchase.isBusy));
 
-    this.form = formBuilder.group({
-      amount: ['', Validators.required],
-      productId: ['', Validators.required],
-      price: [{ value: '', disabled: true }, Validators.required],
-      customerId: [''],
-      customer: formBuilder.group({
-        name: [''],
-        address: [''],
-        phone: [''],
+    this.form = formBuilder.group(
+      {
+        amount: ['', Validators.required],
+        productId: ['', Validators.required],
+        price: [{ value: '', disabled: true }, Validators.required],
+        customerId: [''],
+        customer: formBuilder.group({
+          name: [''],
+          address: [''],
+          phone: [''],
+          description: [''],
+          companyName: [''],
+          taxId: [''],
+          nationalId: [''],
+          checkingAccount: [''],
+        }),
         description: [''],
-        companyName: [''],
-        taxId: [''],
-        nationalId: [''],
-        checkingAccount: [''],
-      }),
-      description: [''],
-    });
+      },
+      { validators: [this.customerValidator] },
+    );
   }
 
   ngOnInit() {
@@ -108,5 +115,15 @@ export class CreatePurchaseComponent implements OnInit {
   private async findProduct(productId: number) {
     const products = await this.products$.pipe(take(1)).toPromise();
     return products.find(product => product.id === productId);
+  }
+
+  private customerValidator(formGroup: FormGroup): { [key: string]: any } | null {
+    const customerId: number = formGroup.get('customerId').value;
+    const customer: CreateCustomerDto = formGroup.get('customer').value;
+
+    if (customerId || customer.name || customer.address) return null;
+    else {
+      return { invalid: true };
+    }
   }
 }

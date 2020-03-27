@@ -1,6 +1,6 @@
 <div class="d-flex justify-center items-center">
   <nb-card class="w-100 w-100 m-md-4"
-    accent="primary">
+    [accent]="!!(purchase$ | async) ? 'success' : 'primary'">
     <nb-card-header>New Purchase</nb-card-header>
     <nb-card-body>
       <form class="d-flex flex-column items-center"
@@ -184,11 +184,16 @@
           </div>
         </div>
 
-        <div class="row w-100 d-flex justify-content-end p-3">
+        <div *ngIf="{ isBusy: isBusy$ | async } as state"
+          class="row w-100 d-flex justify-content-end p-3">
           <button nbButton
             type="submit"
-            size="large">
-            <nb-icon icon="save"></nb-icon>Save
+            size="large"
+            [nbSpinner]="state.isBusy"
+            [disabled]="state.isBusy || form.invalid"
+            (click)="onSubmit()">
+            <nb-icon icon="save"></nb-icon>
+            Save
           </button>
         </div>
       </form>
