@@ -7,6 +7,7 @@ export interface CreatePurchaseState {
   customers: CustomerDto[];
   products: ProductDto[];
   isBusy: boolean;
+  failed: boolean;
 }
 
 export const initialState: CreatePurchaseState = {
@@ -14,6 +15,7 @@ export const initialState: CreatePurchaseState = {
   customers: [],
   products: [],
   isBusy: false,
+  failed: false,
 };
 
 const reducerFunction = createReducer(
@@ -21,19 +23,23 @@ const reducerFunction = createReducer(
   on(CreatePurchaseActions.PostPurchase, state => ({
     ...state,
     isBusy: true,
+    failed: false,
   })),
   on(CreatePurchaseActions.PostPurchaseSuccess, (state, { purchase }) => ({
     ...state,
     purchase,
     isBusy: false,
+    failed: false,
   })),
   on(CreatePurchaseActions.PostPurchaseFailure, state => ({
     ...state,
     isBusy: false,
+    failed: true,
   })),
   on(CreatePurchaseActions.ClearPurchase, state => ({
     ...state,
     purchase: undefined,
+    failed: false,
   })),
   on(CreatePurchaseActions.GetCustomersSuccess, (state, { customers }) => ({
     ...state,

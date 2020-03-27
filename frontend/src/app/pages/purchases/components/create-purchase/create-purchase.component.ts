@@ -16,8 +16,9 @@ export class CreatePurchaseComponent implements OnInit {
   products$: Observable<ProductDto[]>;
   customers$: Observable<CustomerDto[]>;
   purchase$: Observable<PurchaseDto | undefined>;
-  customPrice = true;
   isBusy$: Observable<boolean>;
+  failed$: Observable<boolean>;
+  customPrice = true;
 
   _enableCustomerEdit = false;
   set enableCustomerEdit(enable: boolean) {
@@ -34,6 +35,7 @@ export class CreatePurchaseComponent implements OnInit {
     this.products$ = this.purchaseStore.select('purchases').pipe(map(state => state.createPurchase.products));
     this.purchase$ = this.purchaseStore.select('purchases').pipe(map(state => state.createPurchase.purchase));
     this.isBusy$ = this.purchaseStore.select('purchases').pipe(map(state => state.createPurchase.isBusy));
+    this.failed$ = this.purchaseStore.select('purchases').pipe(map(state => state.createPurchase.failed));
 
     this.form = this.formBuilder.group(
       {
