@@ -84,9 +84,14 @@ export class CreatePurchaseComponent implements OnInit {
     this.purchaseStore.dispatch(fromPurchases.GetCustomers());
   }
 
-  toggleEnableCustomPrice(enable: boolean) {
+  async toggleEnableCustomPrice(enable: boolean) {
     const priceFormControl = this.form.get('price');
     enable ? priceFormControl.enable() : priceFormControl.disable();
+    if (!enable) {
+      const productIdFormControl = this.form.get('productId');
+      const product = await this.findProduct(productIdFormControl.value);
+      priceFormControl.setValue(product && product.price);
+    }
   }
 
   private async handleCustomerIdChange(customerId: number) {
