@@ -3,9 +3,11 @@ import { NbMenuItem, NbMenuService, NbSidebarService, NbThemeService } from '@ne
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
+import * as fromAuth from '../../../auth/store';
 import { AuthService } from '../../../auth/services/auth.service';
 import { UserDto } from '../../../auth/models/user.model';
 import { SITE_NAME } from './../../../constants';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'ngx-header',
@@ -34,16 +36,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    private authService: AuthService,
-    private menuService: NbMenuService,
-    private sidebarService: NbSidebarService,
-    private themeService: NbThemeService,
+    private readonly authService: AuthService,
+    private readonly menuService: NbMenuService,
+    private readonly sidebarService: NbSidebarService,
+    private readonly themeService: NbThemeService,
+    private readonly authStore: Store<fromAuth.State>,
   ) {}
 
   public ngOnInit(): void {
     this.currentTheme = this.themeService.currentTheme;
-    this.authService.getUser().subscribe(userInfo => {
-      this.user = userInfo;
+    this.authStore.select('auth').subscribe(state => {
+      this.user = state.user;
     });
     this.themeService
       .onThemeChange()
