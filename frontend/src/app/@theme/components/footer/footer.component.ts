@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
   `,
 })
 export class FooterComponent {
-  today = new Date();
+  public today = new Date();
 
   constructor() {
     setInterval(() => {
