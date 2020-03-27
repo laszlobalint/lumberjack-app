@@ -36,7 +36,6 @@ export class PurchaseService {
         new Purchase({
           amount: createPurchaseDto.amount,
           price: createPurchaseDto.price,
-          completed: createPurchaseDto.completed,
           description: createPurchaseDto.description,
         }),
       );

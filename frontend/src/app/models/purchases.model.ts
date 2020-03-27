@@ -22,5 +22,4 @@ export interface CreatePurchaseDto {
   customerId?: number;
   customer?: CreateCustomerDto;
   description?: string;
-  completed: boolean;
 }

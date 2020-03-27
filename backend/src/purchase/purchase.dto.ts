@@ -6,7 +6,6 @@ export class CreatePurchaseDto {
   customerId?: number;
   customer?: CreateCustomerDto;
   description?: string;
-  completed: boolean;
 }
 
 export class UpdatePurchaseDto {
