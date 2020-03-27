@@ -9,7 +9,7 @@
         <!-- Purchase -->
 
         <div class="row w-100">
-          <div class="col-12 col-md-4 col-lg-2 form-group">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-2 form-group">
             <label for="inputAmount"
               class="label">Amount</label>
             <input nbInput
@@ -19,12 +19,13 @@
               formControlName="amount">
           </div>
 
-          <div class="col-12 col-md-8 col-lg-5 form-group">
+          <div class="col-12 col-sm-6 col-md-8 col-lg-5 form-group">
             <label for="inputProductId"
               class="label">Product</label>
             <nb-select fullWidth
-              [(selected)]="selectedProduct"
-              id="inputProductId">
+              id="inputProductId"
+              placeholder="Select a product"
+              formControlName="productId">
               <nb-option *ngFor="let product of products$ | async"
                 [value]="product.id">{{ product.name }}</nb-option>
             </nb-select>
@@ -58,21 +59,24 @@
             <label for="inputCustomerId"
               class="label">Customer</label>
             <nb-select fullWidth
-              [(selected)]="selectedProduct"
-              id="inputCustomerId">
+              id="inputCustomerId"
+              placeholder="Select a customer"
+              formControlName="customerId">
+              <nb-option [value]="null">None</nb-option>
               <nb-option *ngFor="let customer of customers$ | async"
                 [value]="customer.id">{{ customer.name }}</nb-option>
             </nb-select>
           </div>
 
           <div class="col-12 col-md-2 d-flex align-items-center mt-0 mt-md-3">
-            <nb-toggle [(checked)]="enableCustomerEdit">Edit</nb-toggle>
+            <nb-toggle [(checked)]="enableCustomerEdit"
+              [disabled]="!form.get('customerId').value">Edit</nb-toggle>
           </div>
         </div>
 
-        <div class="p-1">
+        <div formGroupName="customer">
           <div class="row w-100">
-            <div class="col-12 col-lg-7 form-group">
+            <div class="col-12 col-lg-6 form-group">
               <label for="inputAddress"
                 class="label">Address</label>
               <input type="text"
@@ -83,7 +87,18 @@
                 formControlName="address">
             </div>
 
-            <div class="col form-group">
+            <div class="col-12 col-sm-6 col-lg-3 form-group">
+              <label for="inputName"
+                class="label">Name</label>
+              <input type="tel"
+                nbInput
+                fullWidth
+                id="inputName"
+                placeholder="Name"
+                formControlName="name">
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3 form-group">
               <label for="inputPhone"
                 class="label">Phone</label>
               <input type="tel"
@@ -97,30 +112,55 @@
 
           <div class="row w-100">
             <div class="col form-group">
+              <label for="inputCustomerDescription"
+                class="label">Customer Description</label>
+              <textarea nbInput
+                fullWidth
+                placeholder="Customer description..."
+                formControlName="description"></textarea>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-6 col-md form-group">
               <label for="inputCompanyName"
                 class="label">Company Name</label>
               <input nbInput
                 fullWidth
+                fieldSize="small"
                 id="inputCompanyName"
                 placeholder="Company Name"
                 formControlName="companyName">
             </div>
 
-            <div class="col form-group">
+            <div class="col-6 col-md form-group">
               <label for="inputTaxId"
                 class="label">Tax Id</label>
               <input nbInput
                 fullWidth
+                fieldSize="small"
                 id="inputTaxId"
                 placeholder="Tax Id"
                 formControlName="taxId">
             </div>
 
-            <div class="col form-group">
+            <div class="col-6 col-md form-group">
+              <label for="inputNationalId"
+                class="label">National Id</label>
+              <input nbInput
+                fullWidth
+                fieldSize="small"
+                id="inputNationalId"
+                placeholder="National Id"
+                formControlName="nationalId">
+            </div>
+
+            <div class="col-6 col-md form-group">
               <label for="inputCheckingAccount"
                 class="label">Checking Account</label>
               <input nbInput
                 fullWidth
+                fieldSize="small"
                 id="inputCheckingAccount"
                 placeholder="Checking Account"
                 formControlName="checkingAccount">
