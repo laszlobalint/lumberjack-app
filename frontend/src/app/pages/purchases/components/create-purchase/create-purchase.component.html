@@ -11,7 +11,7 @@
         <div class="row w-100">
           <div class="col-12 col-sm-6 col-md-4 col-lg-2 form-group">
             <label for="inputAmount"
-              class="label">Amount</label>
+              class="label">Amount <span class="text-danger">*</span></label>
             <input nbInput
               fullWidth
               id="inputAmount"
@@ -21,7 +21,7 @@
 
           <div class="col-12 col-sm-6 col-md-8 col-lg-5 form-group">
             <label for="inputProductId"
-              class="label">Product</label>
+              class="label">Product <span class="text-danger">*</span></label>
             <nb-select fullWidth
               id="inputProductId"
               placeholder="Select a product"
@@ -34,7 +34,7 @@
           <div class="col-12 col-lg-5 row w-100">
             <div class="col form-group mr-1">
               <label for="inputPrice"
-                class="label">Price</label>
+                class="label">Price <span class="text-danger">*</span></label>
               <input nbInput
                 fullWidth
                 id="inputPrice"
@@ -43,7 +43,9 @@
             </div>
 
             <div class="col-3 d-flex align-items-center bg-light-gray border-fuchsia">
-              <nb-checkbox class="align-self-center ">
+              <nb-checkbox class="align-self-center"
+                [disabled]="!form.get('productId').value"
+                (checkedChange)="toggleEnableCustomPrice($event)">
                 <span>Custom</span>
               </nb-checkbox>
             </div>
@@ -174,7 +176,7 @@
         <div class="row w-100">
           <div class="col form-group">
             <label for="inputDescription"
-              class="label">Description</label>
+              class="label">Purchase Description</label>
             <textarea nbInput
               fullWidth
               placeholder="Description..."

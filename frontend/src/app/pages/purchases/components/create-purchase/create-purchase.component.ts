@@ -15,6 +15,7 @@ export class CreatePurchaseComponent implements OnInit {
   form: FormGroup;
   products$: Observable<ProductDto[]>;
   customers$: Observable<CustomerDto[]>;
+  customPrice = true;
 
   _enableCustomerEdit = false;
   set enableCustomerEdit(enable: boolean) {
@@ -33,7 +34,7 @@ export class CreatePurchaseComponent implements OnInit {
     this.form = formBuilder.group({
       amount: ['', Validators.required],
       productId: ['', Validators.required],
-      price: ['', Validators.required],
+      price: [{ value: '', disabled: true }, Validators.required],
       customerId: [''],
       customer: formBuilder.group({
         name: [''],
@@ -52,26 +53,42 @@ export class CreatePurchaseComponent implements OnInit {
   ngOnInit() {
     this.purchaseStore.dispatch(fromPurchases.GetProducts());
     this.purchaseStore.dispatch(fromPurchases.GetCustomers());
-
-    this.form.get('customerId').valueChanges.subscribe(async value => {
-      this.enableCustomerEdit = false;
-      this.toggleEnableCustomerFormGroup(!value);
-
-      const customerFormGroup = this.form.get('customer');
-      if (value) {
-        const { id, date, ...createCustomer } = await this.findCustomer(value);
-        customerFormGroup.setValue(createCustomer);
-      } else {
-        const value = { ...customerFormGroup.value };
-        Object.keys(value).forEach(key => (value[key] = ''));
-        customerFormGroup.setValue(value);
-      }
-    });
+    this.form.get('productId').valueChanges.subscribe(this.handleProductIdChange.bind(this));
+    this.form.get('customerId').valueChanges.subscribe(this.handleCustomerIdChange.bind(this));
   }
 
   onSubmit() {
     const createPurchase = this.form.value;
     this.purchaseStore.dispatch(fromPurchases.PostPurchase({ createPurchase }));
+  }
+
+  toggleEnableCustomPrice(enable: boolean) {
+    const priceFormControl = this.form.get('price');
+    enable ? priceFormControl.enable() : priceFormControl.disable();
+  }
+
+  private async handleCustomerIdChange(customerId: number) {
+    this.enableCustomerEdit = false;
+    this.toggleEnableCustomerFormGroup(!customerId);
+
+    const customerFormGroup = this.form.get('customer');
+    if (customerId) {
+      const { id, date, ...createCustomer } = await this.findCustomer(customerId);
+      customerFormGroup.setValue(createCustomer);
+    } else {
+      const value = { ...customerFormGroup.value };
+      Object.keys(value).forEach(key => (value[key] = ''));
+      customerFormGroup.setValue(value);
+    }
+  }
+
+  private async handleProductIdChange(productId: number) {
+    const priceFormControl = this.form.get('price');
+    this.customPrice = false;
+
+    this.toggleEnableCustomPrice(!productId);
+    const product = await this.findProduct(productId);
+    priceFormControl.setValue(product.price);
   }
 
   private toggleEnableCustomerFormGroup(enable: boolean) {
@@ -86,5 +103,10 @@ export class CreatePurchaseComponent implements OnInit {
   private async findCustomer(customerId: number) {
     const customers = await this.customers$.pipe(take(1)).toPromise();
     return customers.find(customer => customer.id === customerId);
+  }
+
+  private async findProduct(productId: number) {
+    const products = await this.products$.pipe(take(1)).toPromise();
+    return products.find(product => product.id === productId);
   }
 }
