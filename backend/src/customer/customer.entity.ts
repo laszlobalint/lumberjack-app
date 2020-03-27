@@ -31,19 +31,19 @@ export class Customer {
   @Column({ type: 'varchar', length: 50 })
   phone?: string;
 
-  @Column({ type: 'varchar', length: 100, nullable: true })
+  @Column({ type: 'varchar', nullable: true, length: 100 })
   companyName?: string;
 
-  @Column({ type: 'varchar', length: 20 })
+  @Column({ type: 'varchar', nullable: true, length: 20 })
   taxId?: string;
 
-  @Column({ type: 'varchar', length: 20 })
+  @Column({ type: 'varchar', nullable: true, length: 20 })
   nationalId?: string;
 
-  @Column({ type: 'varchar', length: 40 })
+  @Column({ type: 'varchar', nullable: true, length: 40 })
   checkingAccount?: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   description?: string;
 
   @CreateDateColumn({ type: 'datetime' })

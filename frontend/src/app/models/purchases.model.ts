@@ -16,7 +16,6 @@ export interface PurchaseDto {
 }
 
 export interface CreatePurchaseDto {
-  userId: number;
   amount: number;
   price: number;
   productId: number;

@@ -1,6 +1,5 @@
 import { CreateCustomerDto } from './../customer/customer.dto';
 export class CreatePurchaseDto {
-  userId: number;
   amount: number;
   price: number;
   productId: number;

@@ -35,7 +35,7 @@ export class Purchase {
   @Column({ type: 'double' })
   price: number;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   description: string;
 
   @Column({ type: 'boolean' })

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UnprocessableEntityException, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UnprocessableEntityException, UseGuards } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -26,12 +26,17 @@ export class PurchaseController {
 
   @Post()
   @ApiResponse({ status: 201, description: 'Created a purchase.' })
-  async create(@Body() createProductDto: CreatePurchaseDto): Promise<Purchase> {
+  async create(@Req() req: any, @Body() createProductDto: CreatePurchaseDto): Promise<Purchase> {
     if (!createProductDto.customerId && !createProductDto.customer) {
       throw new UnprocessableEntityException('Field customerId or customer must exist.');
     }
 
-    return this.purchaseService.create(createProductDto);
+    const purchase = await this.purchaseService.create(createProductDto, req.user.userId);
+    if (!purchase) {
+      throw new UnprocessableEntityException();
+    } else {
+      return purchase;
+    }
   }
 
   @Put(':id')

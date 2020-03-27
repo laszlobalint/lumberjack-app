@@ -24,7 +24,7 @@ export class PurchaseService {
     return await this.purchaseRepository.findOneOrFail({ where: { id }, relations: ['customer', 'product', 'user'] });
   }
 
-  async create(createPurchaseDto: CreatePurchaseDto): Promise<Purchase> {
+  async create(createPurchaseDto: CreatePurchaseDto, userId: number): Promise<Purchase> {
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -55,7 +55,7 @@ export class PurchaseService {
       if (createPurchaseDto.customerId) {
         customer = await customerRepository.findOneOrFail({
           where: { id: createPurchaseDto.customerId },
-          relations: ['purchases', 'user'],
+          relations: ['purchases'],
         });
 
         if (createPurchaseDto.customer) {
@@ -83,7 +83,7 @@ export class PurchaseService {
 
       const userRepository = queryRunner.manager.getRepository(User);
       let user = await userRepository.findOneOrFail({
-        where: { id: createPurchaseDto.userId },
+        where: { id: userId },
         relations: ['customers', 'purchases'],
       });
       user.customers.push(customer);
@@ -99,7 +99,7 @@ export class PurchaseService {
       };
     } catch (error) {
       await queryRunner.rollbackTransaction();
-      return null;
+      purchase = null;
     } finally {
       await queryRunner.release();
       return purchase;
