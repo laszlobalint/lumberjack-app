@@ -3,16 +3,16 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
 import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
-import { of as observableOf } from 'rxjs';
+import { of as observableOf, Observable } from 'rxjs';
+
 import { environment } from '../../environments/environment';
 import { AuthGuard } from './guards/auth.guard';
-import { TokenInterceptor } from './interceptors/token.interceptor';
 import { throwIfAlreadyLoaded } from './module-import-guard';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 import { AnalyticsService } from './utils';
 
 export class NbSimpleRoleProvider extends NbRoleProvider {
-  getRole() {
-    // here you could provide any role based on any auth flow
+  public getRole(): Observable<string> {
     return observableOf('guest');
   }
 }
