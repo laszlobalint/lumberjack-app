@@ -1,7 +1,31 @@
-<div class="d-flex justify-center items-center">
+<div *ngIf="{ isBusy: isBusy$ | async, createdPurchase: purchase$ | async } as state"
+  class="d-flex justify-center items-center">
   <nb-card class="w-100 w-100 m-md-4"
-    [accent]="!!(purchase$ | async) ? 'success' : 'primary'">
-    <nb-card-header>New Purchase</nb-card-header>
+    [accent]="state.createdPurchase ? 'success' : 'primary'">
+    <nb-card-header>
+      <div class="d-flex justify-content-between w-100">
+        <span>{{ state.createdPurchase ? 'Purchase ID ' + state.createdPurchase.id + ' Created' : 'New Purchase' }}</span>
+        <div>
+          <button nbButton
+            *ngIf="!state.createdPurchase"
+            ghost
+            status="danger"
+            nbTooltip="Clear form"
+            nbTooltipPlacement="bottom"
+            (click)="form.reset()">
+            <nb-icon icon="close"></nb-icon>
+          </button>
+          <button nbButton
+            ghost
+            status="warning"
+            nbTooltip="Refresh data"
+            nbTooltipPlacement="bottom"
+            (click)="fetchData()">
+            <nb-icon icon="repeat-outline"></nb-icon>
+          </button>
+        </div>
+      </div>
+    </nb-card-header>
     <nb-card-body>
       <form class="d-flex flex-column items-center"
         [formGroup]="form">
@@ -44,7 +68,7 @@
 
             <div class="col-3 d-flex align-items-center bg-light-gray border-fuchsia">
               <nb-checkbox class="align-self-center"
-                [disabled]="!form.get('productId').value"
+                [disabled]="!form.get('productId').value || form.disabled"
                 (checkedChange)="toggleEnableCustomPrice($event)">
                 <span>Custom</span>
               </nb-checkbox>
@@ -64,7 +88,7 @@
               id="inputCustomerId"
               placeholder="Select a customer"
               formControlName="customerId">
-              <nb-option [value]="null">None</nb-option>
+              <nb-option [value]="undefined">None</nb-option>
               <nb-option *ngFor="let customer of customers$ | async"
                 [value]="customer.id">{{ customer.name }}</nb-option>
             </nb-select>
@@ -184,9 +208,9 @@
           </div>
         </div>
 
-        <div *ngIf="{ isBusy: isBusy$ | async } as state"
-          class="row w-100 d-flex justify-content-end p-3">
+        <div class="row w-100 d-flex justify-content-end p-3">
           <button nbButton
+            *ngIf="!state.createdPurchase; else successButton"
             type="submit"
             size="large"
             [nbSpinner]="state.isBusy"
@@ -195,6 +219,16 @@
             <nb-icon icon="save"></nb-icon>
             Save
           </button>
+          <ng-template #successButton>
+            <button nbButton
+              type="button"
+              size="large"
+              status="success"
+              (click)="onClear()">
+              <nb-icon icon="plus-outline"></nb-icon>
+              Create new
+            </button>
+          </ng-template>
         </div>
       </form>
     </nb-card-body>

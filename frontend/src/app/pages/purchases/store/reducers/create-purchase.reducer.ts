@@ -31,6 +31,10 @@ const reducerFunction = createReducer(
     ...state,
     isBusy: false,
   })),
+  on(CreatePurchaseActions.ClearPurchase, state => ({
+    ...state,
+    purchase: undefined,
+  })),
   on(CreatePurchaseActions.GetCustomersSuccess, (state, { customers }) => ({
     ...state,
     customers,

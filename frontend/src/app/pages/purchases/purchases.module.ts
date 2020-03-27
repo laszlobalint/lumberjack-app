@@ -14,6 +14,7 @@ import {
   NbSelectModule,
   NbSpinnerModule,
   NbToggleModule,
+  NbTooltipModule,
   NbUserModule,
 } from '@nebular/theme';
 import { EffectsModule } from '@ngrx/effects';
@@ -57,6 +58,7 @@ const routes: Routes = [
     NbIconModule,
     NbToggleModule,
     NbSpinnerModule,
+    NbTooltipModule,
   ],
 })
 export class PurchasesModule {}
