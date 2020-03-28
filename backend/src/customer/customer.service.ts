@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
+
 import { User } from '../user/user.entity';
 import { CreateCustomerDto, UpdateCustomerDto } from './customer.dto';
 import { Customer } from './customer.entity';

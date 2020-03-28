@@ -10,13 +10,6 @@ import * as CreatePurchaseActions from './create-purchase.actions';
 
 @Injectable()
 export class CreatePurchaseEffects {
-  constructor(
-    private readonly actions$: Actions,
-    private readonly purchasesService: PurchasesService,
-    private readonly customersService: CustomersService,
-    private readonly productsService: ProductsService,
-  ) {}
-
   postPurchase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CreatePurchaseActions.PostPurchase),
@@ -42,4 +35,11 @@ export class CreatePurchaseEffects {
       mergeMap(() => this.customersService.fetchAll().pipe(map(customers => CreatePurchaseActions.GetCustomersSuccess({ customers })))),
     ),
   );
+
+  constructor(
+    private readonly actions$: Actions,
+    private readonly purchasesService: PurchasesService,
+    private readonly customersService: CustomersService,
+    private readonly productsService: ProductsService,
+  ) {}
 }
