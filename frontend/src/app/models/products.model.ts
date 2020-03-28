@@ -1,4 +1,4 @@
-import { UserDto } from '../../../auth/models/user.model';
+import { UserDto } from '../auth/models/user.model';
 
 export class ProductDto {
   id: number;

@@ -33,12 +33,22 @@ export class Purchase {
   @Column({ type: 'double' })
   amount: number;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'double' })
+  price: number;
+
+  @Column({ type: 'text', nullable: true })
   description: string;
+
+  @Column({ type: 'boolean' })
+  reduceStock: boolean;
 
   @Column({ type: 'boolean' })
   completed: boolean;
 
   @CreateDateColumn({ type: 'datetime' })
   date: Date;
+
+  constructor(partial: Partial<Purchase>) {
+    Object.assign(this, partial);
+  }
 }

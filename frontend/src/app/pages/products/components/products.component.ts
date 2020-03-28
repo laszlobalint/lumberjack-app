@@ -1,10 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { LocalDataSource } from 'ng2-smart-table';
 
-import { CreateProductDto, ProductDto, UpdateProductDto } from '../models/products.model';
 import * as fromProducts from '../store';
+import { CreateProductDto, ProductDto, UpdateProductDto } from '../../../models';
 import { SETTINGS } from './products.settings.constant';
 
 @Component({

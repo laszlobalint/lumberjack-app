@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { UserDto } from '../models/user.model';
-import { API_URL } from '../../constants';
+import { API_URL } from '../../app.constants';
 
 @Injectable()
 export class AuthService {

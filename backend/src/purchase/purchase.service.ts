@@ -1,24 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DeleteResult } from 'typeorm';
+import { Connection, DeleteResult, Repository } from 'typeorm';
+import { classToPlain } from 'class-transformer';
 
-import { Customer } from 'src/customer/customer.entity';
-import { User } from 'src/user/user.entity';
 import { Product } from 'src/product/product.entity';
+import { User } from 'src/user/user.entity';
+import { Customer } from '../customer/customer.entity';
 import { Purchase } from './purchase.entity';
-import { UpdatePurchaseDto, CreatePurchaseDto } from './purchase.dto';
+import { CreatePurchaseDto, UpdatePurchaseDto } from './purchase.dto';
 
 @Injectable()
 export class PurchaseService {
   constructor(
     @InjectRepository(Purchase)
     private readonly purchaseRepository: Repository<Purchase>,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-    @InjectRepository(Product)
-    private readonly productRepository: Repository<Product>,
-    @InjectRepository(Customer)
-    private readonly customerRepository: Repository<Customer>,
+    private readonly connection: Connection,
   ) {}
 
   async findAll(): Promise<Purchase[]> {
@@ -29,40 +25,90 @@ export class PurchaseService {
     return await this.purchaseRepository.findOneOrFail({ where: { id }, relations: ['customer', 'product', 'user'] });
   }
 
-  async create(createPurchaseDto: CreatePurchaseDto): Promise<Purchase> {
-    let purchase = new Purchase();
-    purchase.amount = createPurchaseDto.amount;
-    purchase.completed = createPurchaseDto.completed;
-    purchase.description = createPurchaseDto.description;
+  async create(createPurchaseDto: CreatePurchaseDto, userId: number): Promise<Purchase> {
+    const queryRunner = this.connection.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
 
-    let user = await this.userRepository.findOneOrFail({
-      where: { id: createPurchaseDto.userId },
-      relations: ['customers', 'products', 'purchases'],
-    });
-    let product = await this.productRepository.findOneOrFail({
-      where: { id: createPurchaseDto.productId },
-      relations: ['purchases', 'user'],
-    });
-    let customer = await this.customerRepository.findOneOrFail({
-      where: { id: createPurchaseDto.customerId },
-      relations: ['purchases', 'user'],
-    });
+    let purchase: Purchase | null = null;
+    try {
+      const purchaseRepository = queryRunner.manager.getRepository(Purchase);
+      purchase = await purchaseRepository.save(
+        new Purchase({
+          amount: createPurchaseDto.amount,
+          price: createPurchaseDto.price,
+          description: createPurchaseDto.description,
+          completed: false,
+        }),
+      );
 
-    let createdPurchase = await this.purchaseRepository.save(purchase);
+      const productRepository = queryRunner.manager.getRepository(Product);
+      let product = await productRepository.findOneOrFail({
+        where: { id: createPurchaseDto.productId },
+        relations: ['purchases'],
+      });
+      product.amount -= createPurchaseDto.reduceStock ? purchase.amount : 0;
+      product.purchases.push(purchase);
+      await productRepository.save(product);
 
-    user.purchases.push(createdPurchase);
-    product.purchases.push(createdPurchase);
-    customer.purchases.push(createdPurchase);
+      const customerRepository = queryRunner.manager.getRepository(Customer);
+      let customer: Customer;
+      if (createPurchaseDto.customerId) {
+        customer = await customerRepository.findOneOrFail({
+          where: { id: createPurchaseDto.customerId },
+          relations: ['purchases'],
+        });
 
-    this.userRepository.save(user);
-    this.productRepository.save(product);
-    this.customerRepository.save(customer);
+        if (createPurchaseDto.customer) {
+          customer = Object.assign(customer, createPurchaseDto.customer);
+        }
 
-    return createdPurchase;
+        customer.purchases.push(purchase);
+        customer = await customerRepository.save(customer);
+      } else if (createPurchaseDto.customer) {
+        let createCustomerDto = createPurchaseDto.customer;
+        customer = await customerRepository.save(
+          new Customer({
+            name: createCustomerDto.name,
+            address: createCustomerDto.address,
+            phone: createCustomerDto.phone,
+            companyName: createCustomerDto.companyName,
+            taxId: createCustomerDto.taxId,
+            nationalId: createCustomerDto.nationalId,
+            checkingAccount: createCustomerDto.checkingAccount,
+            description: createCustomerDto.description,
+            purchases: [purchase],
+          }),
+        );
+      }
+
+      const userRepository = queryRunner.manager.getRepository(User);
+      let user = await userRepository.findOneOrFail({
+        where: { id: userId },
+        relations: ['customers', 'purchases'],
+      });
+      user.customers.push(customer);
+      user.purchases.push(purchase);
+      await userRepository.save(user);
+
+      await queryRunner.commitTransaction();
+      purchase = {
+        ...purchase,
+        customer: classToPlain(customer) as Customer,
+        product: classToPlain(product) as Product,
+        user: classToPlain(user) as User,
+      };
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      purchase = null;
+    } finally {
+      await queryRunner.release();
+      return purchase;
+    }
   }
 
   async update(id: number, updatePurchaseDto: UpdatePurchaseDto): Promise<Purchase> {
-    let purchase = await this.productRepository.findOneOrFail({
+    let purchase = await this.purchaseRepository.findOneOrFail({
       where: { id },
     });
     let updatedPurchase = Object.assign(purchase, updatePurchaseDto);

@@ -11,7 +11,7 @@ import * as fromAuth from './auth/store';
 export class AppComponent implements OnInit {
   constructor(private readonly nbAuthService: NbAuthService, private readonly authStore: Store<fromAuth.State>) {}
 
-  async ngOnInit() {
+  public async ngOnInit(): Promise<void> {
     const nbAuthToken = await this.nbAuthService.getToken().toPromise();
     if (nbAuthToken) {
       this.authStore.dispatch(fromAuth.GetUser());

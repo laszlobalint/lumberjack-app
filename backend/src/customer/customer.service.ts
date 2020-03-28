@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, DeleteResult } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 
-import { Customer } from './customer.entity';
 import { User } from '../user/user.entity';
 import { CreateCustomerDto, UpdateCustomerDto } from './customer.dto';
+import { Customer } from './customer.entity';
 
 @Injectable()
 export class CustomerService {
@@ -20,34 +20,29 @@ export class CustomerService {
   }
 
   async findOne(id: number): Promise<Customer> {
-    return await this.customerRepository.findOneOrFail({
-      where: { id },
-      relations: ['purchases', 'user'],
-    });
+    return await this.customerRepository.findOneOrFail({ where: { id } });
   }
 
   async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
-    let customer = new Customer();
-    customer.name = createCustomerDto.name;
-    customer.address = createCustomerDto.address;
-    customer.phone = createCustomerDto.phone;
-    customer.companyName = createCustomerDto.companyName;
-    customer.taxId = createCustomerDto.taxId;
-    customer.nationalId = createCustomerDto.nationalId;
-    customer.checkingAccount = createCustomerDto.checkingAccount;
-    customer.description = createCustomerDto.description;
-    customer.purchases = [];
-
     let user = await this.userRepository.findOneOrFail({
       where: { id: createCustomerDto.createdBy },
       relations: ['customers', 'products', 'purchases'],
     });
 
-    let createdCustomer = await this.customerRepository.save(customer);
-    user.customers.push(customer);
-    this.userRepository.save(user);
+    let customer = new Customer({
+      name: createCustomerDto.name,
+      address: createCustomerDto.address,
+      phone: createCustomerDto.phone,
+      companyName: createCustomerDto.companyName,
+      taxId: createCustomerDto.taxId,
+      nationalId: createCustomerDto.nationalId,
+      checkingAccount: createCustomerDto.checkingAccount,
+      description: createCustomerDto.description,
+      purchases: [],
+      user,
+    });
 
-    return createdCustomer;
+    return await this.customerRepository.save(customer);
   }
 
   async update(id: number, updateCustomerDto: UpdateCustomerDto): Promise<Customer> {

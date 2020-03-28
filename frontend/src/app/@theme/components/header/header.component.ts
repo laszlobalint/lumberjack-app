@@ -5,7 +5,7 @@ import { map, takeUntil } from 'rxjs/operators';
 
 import * as fromAuth from '../../../auth/store';
 import { UserDto } from '../../../auth/models/user.model';
-import { SITE_NAME } from './../../../constants';
+import { SITE_NAME } from '../../../app.constants';
 import { Store } from '@ngrx/store';
 
 @Component({
