@@ -39,7 +39,7 @@ export class Purchase {
   description: string;
 
   @Column({ type: 'boolean' })
-  reduceStock: string;
+  reduceStock: boolean;
 
   @Column({ type: 'boolean' })
   completed: boolean;
