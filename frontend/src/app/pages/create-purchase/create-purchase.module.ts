@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import {
   NbActionsModule,
   NbButtonModule,
@@ -20,28 +20,16 @@ import {
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ThemeModule } from '../../@theme/theme.module';
-import { CreatePurchaseComponent } from './components/create-purchase/create-purchase.component';
-import { PurchasesComponent } from './components/purchases.component';
-import { purchasesFeatureKey, reducers } from './store';
-import { CreatePurchaseEffects } from './store/effects/create-purchase.effects';
-
-const routes: Routes = [
-  {
-    path: '',
-    component: PurchasesComponent,
-    children: [
-      { path: '', redirectTo: 'create' },
-      { path: 'create', component: CreatePurchaseComponent },
-    ],
-  },
-];
+import { CreatePurchaseComponent } from './components/create-purchase.component';
+import { purchasesFeatureKey, reducer } from './store';
+import { CreatePurchaseEffects } from './store/create-purchase.effects';
 
 @NgModule({
-  declarations: [PurchasesComponent, CreatePurchaseComponent],
+  declarations: [CreatePurchaseComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes),
-    StoreModule.forFeature(purchasesFeatureKey, reducers),
+    RouterModule.forChild([{ path: '', component: CreatePurchaseComponent }]),
+    StoreModule.forFeature(purchasesFeatureKey, reducer),
     EffectsModule.forFeature([CreatePurchaseEffects]),
     FormsModule,
     ReactiveFormsModule,
@@ -61,4 +49,4 @@ const routes: Routes = [
     NbTooltipModule,
   ],
 })
-export class PurchasesModule {}
+export class CreatePurchaseModule {}

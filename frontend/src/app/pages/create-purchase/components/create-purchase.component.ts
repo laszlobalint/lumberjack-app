@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { CreateCustomerDto, CreatePurchaseDto, CustomerDto, ProductDto, PurchaseDto } from '../../../../models';
-import * as fromPurchases from '../../store';
+import { CreateCustomerDto, CreatePurchaseDto, CustomerDto, ProductDto, PurchaseDto } from '../../../models';
+import * as fromPurchases from '../store';
 
 @Component({
   selector: 'create-purchase',
@@ -32,11 +32,11 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
   }
 
   constructor(private readonly purchaseStore: Store<fromPurchases.State>, private readonly formBuilder: FormBuilder) {
-    this.customers$ = this.purchaseStore.select('purchases').pipe(map(state => state.createPurchase.customers));
-    this.products$ = this.purchaseStore.select('purchases').pipe(map(state => state.createPurchase.products));
-    this.purchase$ = this.purchaseStore.select('purchases').pipe(map(state => state.createPurchase.purchase));
-    this.isBusy$ = this.purchaseStore.select('purchases').pipe(map(state => state.createPurchase.isBusy));
-    this.failed$ = this.purchaseStore.select('purchases').pipe(map(state => state.createPurchase.failed));
+    this.customers$ = this.purchaseStore.select('createPurchase').pipe(map(state => state.customers));
+    this.products$ = this.purchaseStore.select('createPurchase').pipe(map(state => state.products));
+    this.purchase$ = this.purchaseStore.select('createPurchase').pipe(map(state => state.purchase));
+    this.isBusy$ = this.purchaseStore.select('createPurchase').pipe(map(state => state.isBusy));
+    this.failed$ = this.purchaseStore.select('createPurchase').pipe(map(state => state.failed));
 
     this.form = this.formBuilder.group(
       {

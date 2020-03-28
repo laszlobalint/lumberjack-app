@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/component/dashboard.component';
+import { DashboardComponent } from './dashboard/components/dashboard.component';
 import { PagesComponent } from './pages.component';
 
 const routes: Routes = [
@@ -18,7 +18,7 @@ const routes: Routes = [
       },
       {
         path: 'purchases',
-        loadChildren: () => import('./purchases/purchases.module').then(m => m.PurchasesModule),
+        loadChildren: () => import('./create-purchase/create-purchase.module').then(m => m.CreatePurchaseModule),
       },
       {
         path: '',
