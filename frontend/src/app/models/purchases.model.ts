@@ -9,6 +9,7 @@ export interface PurchaseDto {
   price: number;
   description: string;
   completed: boolean;
+  reduceStock: boolean;
   date: Date;
   product: ProductDto;
   customer: CustomerDto;

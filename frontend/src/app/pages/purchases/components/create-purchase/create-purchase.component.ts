@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { CreateCustomerDto, CustomerDto, ProductDto, PurchaseDto } from '../../../../models';
+import { CreateCustomerDto, CreatePurchaseDto, CustomerDto, ProductDto, PurchaseDto } from '../../../../models';
 import * as fromPurchases from '../../store';
 
 @Component({
@@ -62,17 +62,17 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
 
     this.purchaseSubscription = this.purchase$
       .pipe(filter(purchase => !!purchase))
-      .subscribe(({ amount, price, description, customer: { id: customerId, date, ...customer }, product: { id: productId } }) =>
-        this.form.setValue({
-          amount,
-          productId,
-          price,
-          customerId,
-          customer,
-          description,
-          // TODO: get retrieved value
-          reduceStock: true,
-        } as CreateCustomerDto),
+      .subscribe(
+        ({ amount, price, description, customer: { id: customerId, date, ...customer }, product: { id: productId }, reduceStock }) =>
+          this.form.setValue({
+            amount,
+            productId,
+            price,
+            customerId,
+            customer,
+            description,
+            reduceStock,
+          } as CreatePurchaseDto),
       );
   }
 
