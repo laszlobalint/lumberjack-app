@@ -1,6 +1,6 @@
 <div *ngIf="{ isBusy: isBusy$ | async, createdPurchase: purchase$ | async, failed: failed$ | async } as state"
   class="d-flex justify-center items-center">
-  <nb-card class="w-100 w-100 m-md-4"
+  <nb-card class="w-100 w-100"
     [accent]="state.failed ? 'danger' : state.createdPurchase ? 'success' : 'primary'">
     <nb-card-header>
       <div class="d-flex justify-content-between w-100">
