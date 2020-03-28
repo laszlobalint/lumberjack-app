@@ -23,13 +23,13 @@ export class Customer {
   @Exclude()
   purchases: Purchase[];
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', unique: true, length: 100 })
   name?: string;
 
-  @Column({ type: 'varchar', length: 200 })
+  @Column({ type: 'varchar', nullable: true, length: 200 })
   address: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', nullable: true, length: 50 })
   phone?: string;
 
   @Column({ type: 'varchar', nullable: true, length: 100 })

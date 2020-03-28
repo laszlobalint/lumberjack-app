@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeleteResult, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { User } from '../user/user.entity';
 import { CreateCustomerDto, UpdateCustomerDto } from './customer.dto';
@@ -54,11 +54,12 @@ export class CustomerService {
     return this.customerRepository.save(updatedCustomer);
   }
 
-  async remove(id: number): Promise<DeleteResult> {
+  async remove(id: number): Promise<number> {
     const customer = await this.customerRepository.findOneOrFail({
       where: { id },
     });
+    await this.customerRepository.delete(customer.id);
 
-    return this.customerRepository.delete(customer.id);
+    return id;
   }
 }
