@@ -55,7 +55,7 @@ export interface State {
   createPurchase: CreatePurchaseState;
 }
 
-export const purchasesFeatureKey = 'purchases';
+export const purchasesFeatureKey = 'createPurchase';
 
 export function reducer(state: CreatePurchaseState | undefined, action: Action): CreatePurchaseState {
   return reducerFunction(state, action);
