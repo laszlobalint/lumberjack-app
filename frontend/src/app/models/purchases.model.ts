@@ -25,3 +25,5 @@ export interface CreatePurchaseDto {
   customer?: CreateCustomerDto;
   description?: string;
 }
+
+export type UpdatePurchaseDto = CreatePurchaseDto;
