@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { LocalDataSource } from 'ng2-smart-table';
-import { CreateProductDto, ProductDto, UpdateProductDto } from '../../../models';
+
 import * as fromProducts from '../store';
+import { CreateProductDto, ProductDto, UpdateProductDto } from '../../../models';
 import { SETTINGS } from './products.settings.constant';
 
 @Component({

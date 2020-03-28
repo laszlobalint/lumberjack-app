@@ -1,4 +1,5 @@
 import { CreateCustomerDto } from './../customer/customer.dto';
+
 export class CreatePurchaseDto {
   amount: number;
   reduceStock: boolean;

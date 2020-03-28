@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { API_URL } from '../constants';
-import { CreateCustomerDto, CustomerDto } from '../models';
+import { API_URL } from '../app.constants';
+import { CreateCustomerDto, CustomerDto, UpdateCustomerDto } from '../models';
 
 @Injectable()
 export class CustomersService {
@@ -20,9 +20,9 @@ export class CustomersService {
     return this.http.post<CustomerDto>(`${this.apiUrl}/customer`, createCustomerDto);
   }
 
-  // update(id: string, updateCustomerDto: UpdateCustomerDto): Observable<CustomerDto> {
-  //   return this.http.put<CustomerDto>(`${this.apiUrl}/customer/${id}`, updateCustomerDto);
-  // }
+  update(id: string, updateCustomerDto: UpdateCustomerDto): Observable<CustomerDto> {
+    return this.http.put<CustomerDto>(`${this.apiUrl}/customer/${id}`, updateCustomerDto);
+  }
 
   delete(id: string): Observable<number> {
     return this.http.delete<number>(`${this.apiUrl}/customer/${id}`);
