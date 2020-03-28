@@ -39,6 +39,9 @@ export class Purchase {
   description: string;
 
   @Column({ type: 'boolean' })
+  reduceStock: string;
+
+  @Column({ type: 'boolean' })
   completed: boolean;
 
   @CreateDateColumn({ type: 'datetime' })

@@ -37,6 +37,7 @@ export class PurchaseService {
           amount: createPurchaseDto.amount,
           price: createPurchaseDto.price,
           description: createPurchaseDto.description,
+          completed: false,
         }),
       );
 
