@@ -21,3 +21,5 @@ export interface CreateCustomerDto {
   checkingAccount?: string;
   description?: string;
 }
+
+export type UpdateCustomerDto = CreateCustomerDto;
