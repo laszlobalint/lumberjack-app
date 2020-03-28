@@ -3,8 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { CreateCustomerDto, CreatePurchaseDto, CustomerDto, ProductDto, PurchaseDto } from '../../../models';
+
 import * as fromPurchases from '../store';
+import { CreateCustomerDto, CreatePurchaseDto, CustomerDto, ProductDto, PurchaseDto } from '../../../models';
 
 @Component({
   selector: 'create-purchase',
@@ -12,22 +13,22 @@ import * as fromPurchases from '../store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreatePurchaseComponent implements OnInit, OnDestroy {
-  form: FormGroup;
-  products$: Observable<ProductDto[]>;
-  customers$: Observable<CustomerDto[]>;
-  purchase$: Observable<PurchaseDto | undefined>;
-  isBusy$: Observable<boolean>;
-  failed$: Observable<boolean>;
-  customPrice = true;
-  purchaseSubscription: Subscription;
+  public form: FormGroup;
+  public products$: Observable<ProductDto[]>;
+  public customers$: Observable<CustomerDto[]>;
+  public purchase$: Observable<PurchaseDto | undefined>;
+  public isBusy$: Observable<boolean>;
+  public failed$: Observable<boolean>;
+  public customPrice = true;
+  public purchaseSubscription: Subscription;
 
-  _enableCustomerEdit = false;
+  public _enableCustomerEdit = false;
   set enableCustomerEdit(enable: boolean) {
     this._enableCustomerEdit = enable;
     this.toggleEnableCustomerFormGroup(enable);
   }
 
-  get enableCustomerEdit() {
+  get enableCustomerEdit(): boolean {
     return this._enableCustomerEdit;
   }
 
@@ -76,7 +77,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
       );
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.fetchData();
     this.form.get('productId').valueChanges.subscribe(this.handleProductIdChange.bind(this));
     this.form.get('customerId').valueChanges.subscribe(this.handleCustomerIdChange.bind(this));
@@ -87,27 +88,27 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.purchaseSubscription.unsubscribe();
   }
 
-  onSubmit() {
+  public onSubmit(): void {
     const createPurchase = this.form.getRawValue();
     this.purchaseStore.dispatch(fromPurchases.PostPurchase({ createPurchase }));
   }
 
-  onClear() {
+  public onClear(): void {
     this.form.reset();
     this.form.enable();
     this.purchaseStore.dispatch(fromPurchases.ClearPurchase());
   }
 
-  fetchData() {
+  public fetchData(): void {
     this.purchaseStore.dispatch(fromPurchases.GetProducts());
     this.purchaseStore.dispatch(fromPurchases.GetCustomers());
   }
 
-  async toggleEnableCustomPrice(enable: boolean) {
+  public async toggleEnableCustomPrice(enable: boolean): Promise<void> {
     const priceFormControl = this.form.get('price');
     enable ? priceFormControl.enable() : priceFormControl.disable();
     if (!enable) {
@@ -117,7 +118,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
     }
   }
 
-  private async handleCustomerIdChange(customerId: number) {
+  private async handleCustomerIdChange(customerId: number): Promise<void> {
     this.enableCustomerEdit = false;
     this.toggleEnableCustomerFormGroup(!customerId);
 
@@ -130,7 +131,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
     }
   }
 
-  private async handleProductIdChange(productId: number) {
+  private async handleProductIdChange(productId: number): Promise<void> {
     const priceFormControl = this.form.get('price');
     this.customPrice = false;
 
@@ -139,7 +140,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
     priceFormControl.setValue(product && product.price);
   }
 
-  private toggleEnableCustomerFormGroup(enable: boolean) {
+  private toggleEnableCustomerFormGroup(enable: boolean): void {
     const customerFormGroup = this.form.get('customer');
     if (enable) {
       customerFormGroup.enable();
@@ -148,12 +149,12 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
     }
   }
 
-  private async findCustomer(customerId: number) {
+  private async findCustomer(customerId: number): Promise<CustomerDto> {
     const customers = await this.customers$.pipe(take(1)).toPromise();
     return customers.find(customer => customer.id === customerId);
   }
 
-  private async findProduct(productId: number) {
+  private async findProduct(productId: number): Promise<ProductDto> {
     const products = await this.products$.pipe(take(1)).toPromise();
     return products.find(product => product.id === productId);
   }
