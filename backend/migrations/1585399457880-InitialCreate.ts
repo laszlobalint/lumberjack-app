@@ -1,12 +1,12 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class InitialCreate1585388095304 implements MigrationInterface {
-    name = 'InitialCreate1585388095304'
+export class InitialCreate1585399457880 implements MigrationInterface {
+    name = 'InitialCreate1585399457880'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query("CREATE TABLE `user` (`id` int NOT NULL AUTO_INCREMENT, `email` varchar(100) NOT NULL, `password` varchar(100) NOT NULL, `name` varchar(100) NOT NULL, `role` enum ('admin', 'guest') NOT NULL DEFAULT 'guest', UNIQUE INDEX `IDX_e12875dfb3b1d92d7d7c5377e2` (`email`), PRIMARY KEY (`id`)) ENGINE=InnoDB", undefined);
         await queryRunner.query("CREATE TABLE `product` (`id` int NOT NULL AUTO_INCREMENT, `name` varchar(100) NOT NULL, `price` double NOT NULL, `amount` double NOT NULL, `description` text NULL, `date` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), `userId` int NULL, UNIQUE INDEX `IDX_22cc43e9a74d7498546e9a63e7` (`name`), PRIMARY KEY (`id`)) ENGINE=InnoDB", undefined);
-        await queryRunner.query("CREATE TABLE `purchase` (`id` int NOT NULL AUTO_INCREMENT, `amount` double NOT NULL, `price` double NOT NULL, `description` text NULL, `completed` tinyint NOT NULL, `date` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), `customerId` int NULL, `productId` int NULL, `userId` int NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB", undefined);
+        await queryRunner.query("CREATE TABLE `purchase` (`id` int NOT NULL AUTO_INCREMENT, `amount` double NOT NULL, `price` double NOT NULL, `description` text NULL, `reduceStock` tinyint NOT NULL, `completed` tinyint NOT NULL, `date` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), `customerId` int NULL, `productId` int NULL, `userId` int NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB", undefined);
         await queryRunner.query("CREATE TABLE `customer` (`id` int NOT NULL AUTO_INCREMENT, `name` varchar(100) NOT NULL, `address` varchar(200) NOT NULL, `phone` varchar(50) NOT NULL, `companyName` varchar(100) NULL, `taxId` varchar(20) NULL, `nationalId` varchar(20) NULL, `checkingAccount` varchar(40) NULL, `description` text NULL, `date` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6), `userId` int NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB", undefined);
         await queryRunner.query("ALTER TABLE `product` ADD CONSTRAINT `FK_329b8ae12068b23da547d3b4798` FOREIGN KEY (`userId`) REFERENCES `user`(`id`) ON DELETE CASCADE ON UPDATE NO ACTION", undefined);
         await queryRunner.query("ALTER TABLE `purchase` ADD CONSTRAINT `FK_2195a69f2b102198a497036ec9e` FOREIGN KEY (`customerId`) REFERENCES `customer`(`id`) ON DELETE CASCADE ON UPDATE NO ACTION", undefined);
