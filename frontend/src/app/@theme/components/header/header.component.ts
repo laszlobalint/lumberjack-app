@@ -1,8 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMediaBreakpointsService, NbMenuItem, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import { NbMenuItem, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+
+import * as fromAuth from '../../../auth/store';
+import { UserDto } from '../../../auth/models/user.model';
 import { SITE_NAME } from './../../../constants';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'ngx-header',
@@ -11,10 +15,11 @@ import { SITE_NAME } from './../../../constants';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
-  userPictureOnly: boolean = false;
-  user: any;
-
-  themes = [
+  public user?: UserDto;
+  public userMenu: NbMenuItem[] = [{ title: 'Logout', link: '/auth/logout' }];
+  public readonly SITE_NAME = SITE_NAME;
+  public currentTheme = 'default';
+  public readonly THEMES = [
     {
       value: 'default',
       name: 'Light',
@@ -27,37 +32,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
       value: 'cosmic',
       name: 'Cosmic',
     },
-    {
-      value: 'corporate',
-      name: 'Corporate',
-    },
   ];
 
-  currentTheme = 'default';
-
-  userMenu: NbMenuItem[] = [{ title: 'Profile' }, { title: 'Logout', link: '/auth/logout' }];
-
-  SITE_NAME = SITE_NAME;
-
   constructor(
-    private sidebarService: NbSidebarService,
-    private menuService: NbMenuService,
-    private themeService: NbThemeService,
-    private breakpointService: NbMediaBreakpointsService,
+    private readonly menuService: NbMenuService,
+    private readonly sidebarService: NbSidebarService,
+    private readonly themeService: NbThemeService,
+    private readonly authStore: Store<fromAuth.State>,
   ) {}
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.currentTheme = this.themeService.currentTheme;
-
-    const { xl } = this.breakpointService.getBreakpointsMap();
-    this.themeService
-      .onMediaQueryChange()
-      .pipe(
-        map(([, currentBreakpoint]) => currentBreakpoint.width < xl),
-        takeUntil(this.destroy$),
-      )
-      .subscribe((isLessThanXl: boolean) => (this.userPictureOnly = isLessThanXl));
-
+    this.authStore.select('auth').subscribe(state => {
+      this.user = state.user;
+    });
     this.themeService
       .onThemeChange()
       .pipe(
@@ -67,22 +55,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .subscribe(themeName => (this.currentTheme = themeName));
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
-  changeTheme(themeName: string) {
+  public changeTheme(themeName: string): void {
     this.themeService.changeTheme(themeName);
   }
 
-  toggleSidebar(): boolean {
+  public toggleSidebar(): boolean {
     this.sidebarService.toggle(true, 'menu-sidebar');
-
     return false;
   }
 
-  navigateHome() {
+  public navigateHome(): boolean {
     this.menuService.navigateHome();
     return false;
   }

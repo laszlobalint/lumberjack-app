@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NbAuthService } from '@nebular/auth';
 import { Store } from '@ngrx/store';
+
 import * as fromAuth from './auth/store';
 
 @Component({

@@ -2,12 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { getDeepFromObject, NbAuthResult, NbAuthService, NbTokenService, NB_AUTH_OPTIONS } from '@nebular/auth';
 import { Store } from '@ngrx/store';
-import * as fromAuth from '../../store';
 
-/*
-  This is a modified implementation of:
-  https://github.com/akveo/nebular/blob/master/src/framework/auth/components/logout/logout.component.html
-*/
+import * as fromAuth from '../../store';
 
 @Component({
   selector: 'ngx-logout',
@@ -16,8 +12,8 @@ import * as fromAuth from '../../store';
   `,
 })
 export class LogoutComponent implements OnInit {
-  redirectDelay: number = 0;
-  strategy: string = '';
+  public redirectDelay: number = 0;
+  public strategy: string = '';
 
   constructor(
     protected nbAuthService: NbAuthService,
@@ -30,11 +26,11 @@ export class LogoutComponent implements OnInit {
     this.strategy = this.getConfigValue('forms.logout.strategy');
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.logout(this.strategy);
   }
 
-  logout(strategy: string): void {
+  public logout(strategy: string): void {
     this.nbAuthService.logout(strategy).subscribe((result: NbAuthResult) => {
       this.nbTokenService.clear();
       this.store.dispatch(fromAuth.SetUser({ user: undefined }));
@@ -48,7 +44,7 @@ export class LogoutComponent implements OnInit {
     });
   }
 
-  getConfigValue(key: string): any {
+  public getConfigValue(key: string): any {
     return getDeepFromObject(this.options, key, null);
   }
 }

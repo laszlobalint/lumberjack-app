@@ -2,12 +2,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { LocalDataSource } from 'ng2-smart-table';
-import { take } from 'rxjs/operators';
-import * as fromAuth from '../../../auth/store';
-import { CreateProductDto, ProductDto, UpdateProductDto } from '../../../models/products.model';
+import { CreateProductDto, ProductDto, UpdateProductDto } from '../../../models';
 import * as fromProducts from '../store';
 import { SETTINGS } from './products.settings.constant';
-
 
 @Component({
   selector: 'ngx-products',
@@ -20,7 +17,6 @@ export class ProductsComponent implements OnInit {
   public products?: ProductDto[];
 
   constructor(
-    private readonly authStore: Store<fromAuth.State>,
     private readonly productsStore: Store<fromProducts.State>,
     private readonly toastrService: NbToastrService,
     private readonly changeDetectionRef: ChangeDetectorRef,
@@ -58,16 +54,7 @@ export class ProductsComponent implements OnInit {
       return;
     }
 
-    let userId: number;
-    this.authStore
-      .select('auth')
-      .pipe(take(1))
-      .subscribe(state => {
-        userId = state.user.id;
-      });
-
     const newProduct: CreateProductDto = {
-      createdBy: userId,
       name: data.name,
       price: Number(data.price),
       amount: Number(data.amount),

@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, Req } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
+
 import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
-import { CreateCustomerDto, UpdateCustomerDto } from './customer.dto';
-import { Customer } from './customer.entity';
 import { CustomerService } from './customer.service';
+import { Customer } from './customer.entity';
+import { CreateCustomerDto, UpdateCustomerDto } from './customer.dto';
 
 @ApiTags('customer')
 @Controller('customer')
@@ -26,7 +27,8 @@ export class CustomerController {
 
   @Post()
   @ApiResponse({ status: 201, description: 'Created a customer.' })
-  async create(@Body() createCustomerDto: CreateCustomerDto): Promise<Customer> {
+  async create(@Body() createCustomerDto: CreateCustomerDto, @Req() req: any): Promise<Customer> {
+    createCustomerDto.createdBy = req.user.userId;
     return this.customerService.create(createCustomerDto);
   }
 
