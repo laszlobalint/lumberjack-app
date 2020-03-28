@@ -17,7 +17,7 @@ const routes: Routes = [
         loadChildren: () => import('./products/products.module').then(m => m.ProductsModule),
       },
       {
-        path: 'purchases',
+        path: 'create-purchase',
         loadChildren: () => import('./create-purchase/create-purchase.module').then(m => m.CreatePurchaseModule),
       },
       {

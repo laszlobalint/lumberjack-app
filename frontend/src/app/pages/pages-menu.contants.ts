@@ -4,7 +4,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   {
     title: 'New Purchase',
     icon: 'plus-square-outline',
-    link: '/pages/purchases/create',
+    link: '/pages/create-purchase',
   },
   {
     title: 'All Purchases',
