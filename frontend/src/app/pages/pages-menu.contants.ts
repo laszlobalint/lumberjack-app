@@ -12,6 +12,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/pages/purchases',
   },
   {
+    title: 'Customers',
+    icon: 'person-add-outline',
+    link: '/pages/customers',
+  },
+  {
     title: 'Products',
     icon: 'shopping-bag-outline',
     link: '/pages/products',

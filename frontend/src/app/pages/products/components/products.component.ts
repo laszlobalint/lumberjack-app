@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CreateProductDto, ProductDto, UpdateProductDto } from '../../../models';
 import * as fromProducts from '../store';
 import { SETTINGS } from './products.settings.constant';
@@ -12,39 +13,36 @@ import { SETTINGS } from './products.settings.constant';
   templateUrl: './products.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductsComponent implements OnInit, OnDestroy {
-  public readonly source: LocalDataSource = new LocalDataSource();
+export class ProductsComponent implements OnInit {
+  public products$: Observable<ProductDto[]>;
+  public source: LocalDataSource = new LocalDataSource();
   public readonly settings = SETTINGS;
-  public products?: ProductDto[];
-
-  productsSubscription: Subscription;
 
   constructor(
     private readonly productsStore: Store<fromProducts.State>,
     private readonly toastrService: NbToastrService,
     private readonly changeDetectionRef: ChangeDetectorRef,
-  ) {}
+  ) {
+    this.products$ = this.productsStore.select('products').pipe(map(state => state.products));
+  }
 
   public ngOnInit(): void {
     this.productsStore.dispatch(fromProducts.GetProducts());
-    this.productsSubscription = this.productsStore.select('products').subscribe(state => {
-      this.products = state.products;
-      this.source.load(this.products);
-      this.source.setSort([{ field: 'date', direction: 'desc' }]);
-      this.changeDetectionRef.markForCheck();
+    this.products$.subscribe(products => {
+      if (products) {
+        this.source.load(products);
+        this.source.setSort([{ field: 'date', direction: 'desc' }]);
+        this.changeDetectionRef.markForCheck();
+      }
     });
   }
 
-  public ngOnDestroy() {
-    this.productsSubscription.unsubscribe();
-  }
-
   public onCreateConfirm(event: any): void {
-    window.confirm('Are you sure you want to create the product?') ? this.onCreateProduct(event.newData, event) : event.confirm.reject();
+    window.confirm('Are you sure you want to create the product?') ? this.onCreateProduct(event) : event.confirm.reject();
   }
 
   public onUpdateConfirm(event: any): void {
-    window.confirm('Are you sure you want to edit the product?') ? this.onUpdateProduct(event.newData) : event.confirm.reject();
+    window.confirm('Are you sure you want to edit the product?') ? this.onUpdateProduct(event) : event.confirm.reject();
   }
 
   public onDeleteConfirm(event: any): void {
@@ -53,52 +51,46 @@ export class ProductsComponent implements OnInit, OnDestroy {
       : event.confirm.reject();
   }
 
-  private onCreateProduct(data: any, event: any): void {
-    event.newData = {};
-    const error = this.validateInputData(data);
-    if (error) {
-      this.toastrService.show(error, 'Error', { status: 'warning' });
+  private onCreateProduct(event: any): void {
+    const validated = this.validateInputData(event.newData);
+    if (validated.error) {
+      this.toastrService.show(validated.error, 'Error', { status: 'warning' });
       return;
     }
 
-    const newProduct: CreateProductDto = {
-      name: data.name,
-      price: Number(data.price),
-      amount: Number(data.amount),
-      description: data.description,
-    };
-
-    this.productsStore.dispatch(fromProducts.SaveProduct({ createProductDto: newProduct }));
+    this.productsStore.dispatch(fromProducts.SaveProduct({ createProductDto: validated.data as CreateProductDto }));
+    event.confirm.resolve(this.source.empty());
   }
 
-  private onUpdateProduct(data: any): void {
-    const error = this.validateInputData(data);
-    if (error) {
-      this.toastrService.show(error, 'Error', { status: 'warning' });
+  private onUpdateProduct(event: any): void {
+    const validated = this.validateInputData(event.newData);
+    if (validated.error) {
+      this.toastrService.show(validated.error, 'Error', { status: 'warning' });
       return;
     }
 
-    const updateProduct: UpdateProductDto = {
-      name: data.name,
-      price: Number(data.price),
-      amount: Number(data.amount),
-      description: data.description,
-    };
-
-    this.productsStore.dispatch(fromProducts.UpdateProduct({ id: data.id, updateProductDto: updateProduct }));
+    this.productsStore.dispatch(fromProducts.UpdateProduct({ id: event.data.id, updateProductDto: validated.data as UpdateProductDto }));
   }
 
   private onDeleteProduct(id: string): void {
     this.productsStore.dispatch(fromProducts.DeleteProduct({ id }));
   }
 
-  private validateInputData(data: CreateProductDto | UpdateProductDto): string {
+  private validateInputData(data: CreateProductDto | UpdateProductDto): { data: CreateProductDto | UpdateProductDto; error: string } {
+    data.price = Number(data.price);
+    data.amount = Number(data.amount);
+
     let error = '';
-    if (!data.name || this.products.some(p => p.name.toLowerCase() === data.name.toLowerCase()))
-      error += 'Name has to be given and uniqe! ';
+    let isNameRepresent: boolean;
+
+    this.source
+      .getAll()
+      .then(elements => (isNameRepresent = elements.some((p: ProductDto) => p.name.toLowerCase() === data.name.toLowerCase())));
+
+    if (!data.name || isNameRepresent) error += 'Name has to be given and uniqe! ';
     if (isNaN(data.amount) || data.amount < 0 || !data.amount) error += 'Amount has to be a positive number! ';
     if (isNaN(data.price) || data.price < 0 || !data.price) error += 'Price has to be a positive number! ';
 
-    return error;
+    return { data, error };
   }
 }

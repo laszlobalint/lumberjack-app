@@ -1,4 +1,4 @@
-import { DatePipe, DecimalPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 export const SETTINGS = {
   mode: 'inline',
@@ -22,14 +22,23 @@ export const SETTINGS = {
     name: {
       title: 'Name',
     },
-    price: {
-      title: 'Price',
-      valuePrepareFunction: (price: number): string => {
-        return new DecimalPipe('en-US').transform(price);
-      },
+    address: {
+      title: 'Address',
     },
-    amount: {
-      title: 'Amount',
+    phone: {
+      title: 'Phone',
+    },
+    companyName: {
+      title: 'Company name',
+    },
+    taxId: {
+      title: 'Tax Id',
+    },
+    nationalId: {
+      title: 'National Id',
+    },
+    checkingAccount: {
+      title: 'Checking account',
     },
     description: {
       title: 'Description',
