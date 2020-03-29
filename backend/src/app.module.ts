@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RateLimiterModule } from 'nestjs-rate-limiter';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { RateLimiterModule, RateLimiterInterceptor } from 'nestjs-rate-limiter';
 
 import { AuthModule } from './auth/auth.module';
 import { CustomerModule } from './customer/customer.module';
@@ -18,8 +19,8 @@ import { AuthController } from './auth/auth.controller';
       points: 200,
       duration: 60,
       keyPrefix: 'global',
+      type: 'Memory',
     }),
-    ,
     AuthModule,
     CustomerModule,
     ProductModule,
@@ -27,5 +28,11 @@ import { AuthController } from './auth/auth.controller';
     UserModule,
   ],
   controllers: [AuthController],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: RateLimiterInterceptor,
+    },
+  ],
 })
 export class AppModule {}
