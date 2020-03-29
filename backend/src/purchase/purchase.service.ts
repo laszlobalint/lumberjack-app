@@ -105,7 +105,7 @@ export class PurchaseService {
       return purchase;
     } catch (error) {
       await queryRunner.rollbackTransaction();
-      throw new UnprocessableEntityException();
+      throw error;
     } finally {
       await queryRunner.release();
     }

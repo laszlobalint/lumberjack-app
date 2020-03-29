@@ -1,11 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-
 import { AppModule } from './app.module';
+import { DatabaseExceptionFilter } from './shared/exception-filters/database.exception-filter';
+import { HttpExceptionFilter } from './shared/exception-filters/http.exception-filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({ origin: 'http://localhost:4200' });
+  app.useGlobalFilters(new DatabaseExceptionFilter(), new HttpExceptionFilter());
 
   const options = new DocumentBuilder()
     .setTitle(process.env['PROJECT_NAME'])
