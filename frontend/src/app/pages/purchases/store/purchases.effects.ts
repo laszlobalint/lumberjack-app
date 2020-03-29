@@ -10,7 +10,14 @@ export class PurchasesEffects {
   getPurchases$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PurchasesActions.GetPurchases),
-      mergeMap(() => this.purchasesService.fetchAll().pipe(map(purchases => PurchasesActions.GetPurchasesSuccess({ purchases })))),
+      mergeMap(({ load }) =>
+        this.purchasesService.fetchAll().pipe(
+          map(purchases => {
+            load(purchases);
+            return PurchasesActions.GetPurchasesSuccess({ purchases });
+          }),
+        ),
+      ),
     ),
   );
 

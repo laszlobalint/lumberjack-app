@@ -1,6 +1,18 @@
 <nb-card>
   <nb-card-header>
-    Purchases
+    <div class="d-flex justify-content-between w-100">
+      <span>Purchases</span>
+      <div>
+        <button nbButton
+          ghost
+          status="warning"
+          nbTooltip="Refresh data"
+          nbTooltipPlacement="bottom"
+          (click)="loadData()">
+          <nb-icon icon="repeat-outline"></nb-icon>
+        </button>
+      </div>
+    </div>
   </nb-card-header>
   <nb-card-body>
     <ng2-smart-table [settings]="settings"

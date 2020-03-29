@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NbCardModule, NbCheckboxModule, NbIconModule, NbInputModule, NbTreeGridModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbCheckboxModule, NbIconModule, NbInputModule, NbTreeGridModule } from '@nebular/theme';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
@@ -27,6 +27,8 @@ import { PurchasesEffects } from './store/purchases.effects';
     Ng2SmartTableModule,
     NbCheckboxModule,
     FormsModule,
+    NbButtonModule,
+    NbIconModule,
   ],
   entryComponents: [CustomBooleanEditorComponent],
 })

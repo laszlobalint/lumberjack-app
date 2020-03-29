@@ -2,7 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { SmartTableConfirm } from '../../../helpers/ng2-smart-table/ng2-smart-table.model';
 import { PurchaseDto, UpdatePurchaseDto } from '../../../models';
 
-export const GetPurchases = createAction('[Purchases] Get Purchases');
+export const GetPurchases = createAction('[Purchases] Get Purchases', props<{ load: (purchases: PurchaseDto[]) => any }>());
 export const GetPurchasesSuccess = createAction('[Purchases] Get Purchases Success', props<{ purchases: PurchaseDto[] }>());
 export const UpdatePurchase = createAction(
   '[Purchases] Update Purchase',

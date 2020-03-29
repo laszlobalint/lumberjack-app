@@ -27,16 +27,23 @@ export class PurchasesComponent implements OnDestroy {
     private readonly toastrService: NbToastrService,
     private readonly changeDetectionRef: ChangeDetectorRef,
   ) {
-    this.purchasesStore.dispatch(fromPurchases.GetPurchases());
-    this.purchasesSubscription = this.purchases$.subscribe(purchases => {
-      this.source.load(purchases);
-      this.source.setSort([{ field: 'date', direction: 'desc' }]);
-      this.changeDetectionRef.markForCheck();
-    });
+    this.loadData();
+    this.source.setSort([{ field: 'date', direction: 'desc' }]);
   }
 
   public ngOnDestroy() {
     this.purchasesSubscription.unsubscribe();
+  }
+
+  public loadData() {
+    this.purchasesStore.dispatch(
+      fromPurchases.GetPurchases({
+        load: purchases => {
+          this.source.load(purchases);
+          this.changeDetectionRef.markForCheck();
+        },
+      }),
+    );
   }
 
   public onEditConfirm({ newData, confirm }: any): void {
