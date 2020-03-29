@@ -8,12 +8,14 @@ import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
 import { LoginDto, LoginResponseDto } from './auth.dto';
+import { RateLimit } from 'nestjs-rate-limiter';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService, private readonly userService: UserService) {}
 
+  @RateLimit({ points: 20, duration: 60 })
   @Post('login')
   @UseGuards(LocalAuthGuard)
   async login(@Body() loginDto: LoginDto): Promise<LoginResponseDto> {

@@ -1,19 +1,13 @@
 import { NestFactory, NestApplication } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as helmet from 'helmet';
-import * as rateLimit from 'express-rate-limit';
 
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestApplication>(AppModule, { cors: { origin: process.env['CORS'] } });
+
   app.use(helmet());
-  app.use(
-    rateLimit({
-      windowMs: 15 * 60 * 1000,
-      max: 100,
-    }),
-  );
 
   const options = new DocumentBuilder()
     .setTitle(process.env['PROJECT_NAME'])
