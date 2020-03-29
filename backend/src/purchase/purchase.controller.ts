@@ -1,11 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Req, UnprocessableEntityException, UseGuards } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { PurchaseService } from './purchase.service';
 import { CreatePurchaseDto, UpdatePurchaseDto } from './purchase.dto';
 import { Purchase } from './purchase.entity';
+import { PurchaseService } from './purchase.service';
 
 @ApiTags('purchase')
 @Controller('purchase')
@@ -42,8 +41,8 @@ export class PurchaseController {
 
   @Put(':id')
   @ApiResponse({ status: 204, description: 'Modified a purchase.' })
-  async update(@Param('id') id: string, @Body() updateCustomerDto: UpdatePurchaseDto): Promise<Purchase> {
-    return this.purchaseService.update(+id, updateCustomerDto);
+  async update(@Param('id') id: string, @Body() updatePurchaseDto: UpdatePurchaseDto): Promise<Purchase> {
+    return this.purchaseService.update(+id, updatePurchaseDto);
   }
 
   @Delete(':id')
