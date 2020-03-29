@@ -1,4 +1,5 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
+import { equalsOrGreater } from '../../../helpers/ng2-smart-table/filters';
 import { CustomerDto, ProductDto } from '../../../models';
 import { CustomBooleanEditorComponent } from './custom-boolean-editor/custom-boolean-editor.component';
 import { CustomBooleanViewComponent } from './custom-boolean-view/custom-boolean-view.component';
@@ -21,6 +22,7 @@ export const PURCHASES_SMART_TABLE_SETTINGS = {
   columns: {
     amount: {
       title: 'Amount',
+      filterFunction: equalsOrGreater,
     },
     reduceStock: {
       title: 'Reduce Stock',
@@ -51,6 +53,7 @@ export const PURCHASES_SMART_TABLE_SETTINGS = {
       valuePrepareFunction: (price: number): string => {
         return new DecimalPipe('en-US').transform(price);
       },
+      filterFunction: equalsOrGreater,
     },
     customer: {
       title: 'Customer',
