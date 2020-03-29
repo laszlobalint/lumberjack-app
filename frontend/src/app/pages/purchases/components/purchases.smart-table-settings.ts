@@ -62,7 +62,7 @@ export const PURCHASES_SMART_TABLE_SETTINGS = {
     customer: {
       title: 'Customer',
       editable: false,
-      valuePrepareFunction: (customer: CustomerDto) => customer.name || customer.address,
+      valuePrepareFunction: (customer: CustomerDto) => customer.address || customer.name,
       editor: {
         type: 'list',
       },
