@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
-import { NbCalendarRange, NbToastrService } from '@nebular/theme';
+import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
@@ -44,18 +44,6 @@ export class PurchasesComponent {
         },
       }),
     );
-  }
-
-  public onDateRangeChange(range: NbCalendarRange<Date>) {
-    this.source.addFilter({
-      field: 'date',
-      search: [range.start, range.end],
-      filter: (cell: string, range: Date[]) => {
-        const cellDate = new Date(cell);
-        return (!range[0] || cellDate.getTime() >= range[0].getTime()) && (!range[1] || cellDate.getTime() <= range[1].getTime());
-      },
-    });
-    this.changeDetectionRef.markForCheck();
   }
 
   public onEditConfirm({ newData, confirm }: any): void {

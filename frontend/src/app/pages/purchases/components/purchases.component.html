@@ -2,25 +2,14 @@
   <nb-card-header>
     <div class="d-flex justify-content-between w-100">
       <span>Purchases</span>
-      <div class="d-flex">
-        <div>
-          <input nbInput
-            status="info"
-            fieldSize="small"
-            placeholder="Pick Date Range"
-            [nbDatepicker]="formpicker" />
-          <nb-rangepicker (rangeChange)="onDateRangeChange($event)"
-            #formpicker></nb-rangepicker>
-        </div>
-        <button nbButton
-          ghost
-          status="warning"
-          nbTooltip="Refresh data"
-          nbTooltipPlacement="bottom"
-          (click)="loadData()">
-          <nb-icon icon="repeat-outline"></nb-icon>
-        </button>
-      </div>
+      <button nbButton
+        ghost
+        status="warning"
+        nbTooltip="Refresh data"
+        nbTooltipPlacement="bottom"
+        (click)="loadData()">
+        <nb-icon icon="repeat-outline"></nb-icon>
+      </button>
     </div>
   </nb-card-header>
   <nb-card-body>

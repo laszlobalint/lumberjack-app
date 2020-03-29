@@ -3,6 +3,7 @@ import { equalsOrGreater } from '../../../helpers/ng2-smart-table/filters';
 import { CustomerDto, ProductDto } from '../../../models';
 import { CustomBooleanEditorComponent } from './custom-boolean-editor/custom-boolean-editor.component';
 import { CustomBooleanViewComponent } from './custom-boolean-view/custom-boolean-view.component';
+import { CustomDateFilterComponent } from './custom-date-filter/custom-date-filter.component';
 
 export const PURCHASES_SMART_TABLE_SETTINGS = {
   mode: 'inline',
@@ -74,7 +75,14 @@ export const PURCHASES_SMART_TABLE_SETTINGS = {
       valuePrepareFunction: (date: string): string => {
         return new DatePipe('en-US').transform(date, 'yyyy.MM.dd. HH:mm');
       },
-      filter: false,
+      filter: {
+        type: 'custom',
+        component: CustomDateFilterComponent,
+      },
+      filterFunction: (cell: string, range: Date[]) => {
+        const cellDate = new Date(cell);
+        return (!range[0] || cellDate.getTime() >= range[0].getTime()) && (!range[1] || cellDate.getTime() <= range[1].getTime());
+      },
     },
     completed: {
       title: 'Completed',
