@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
 import { PurchaseDto } from '../../../models';
@@ -15,12 +14,10 @@ import { PURCHASES_SMART_TABLE_SETTINGS } from './purchases.smart-table-settings
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class PurchasesComponent implements OnDestroy {
+export class PurchasesComponent {
   public readonly source = new LocalDataSource<PurchaseDto>();
   public readonly settings = PURCHASES_SMART_TABLE_SETTINGS;
   public purchases$ = this.purchasesStore.select('purchases').pipe(map(state => state.purchases));
-
-  purchasesSubscription: Subscription;
 
   constructor(
     private readonly purchasesStore: Store<fromPurchases.State>,
@@ -29,10 +26,6 @@ export class PurchasesComponent implements OnDestroy {
   ) {
     this.loadData();
     this.source.setSort([{ field: 'date', direction: 'desc' }]);
-  }
-
-  public ngOnDestroy() {
-    this.purchasesSubscription.unsubscribe();
   }
 
   public loadData() {
