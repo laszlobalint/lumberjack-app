@@ -47,6 +47,9 @@ export const PURCHASES_SMART_TABLE_SETTINGS = {
       title: 'Product',
       editable: false,
       valuePrepareFunction: (product: ProductDto) => product.name,
+      editor: {
+        type: 'list',
+      },
     },
     price: {
       title: 'Price',
@@ -59,6 +62,9 @@ export const PURCHASES_SMART_TABLE_SETTINGS = {
       title: 'Customer',
       editable: false,
       valuePrepareFunction: (customer: CustomerDto) => customer.name || customer.address,
+      editor: {
+        type: 'list',
+      },
     },
     description: {
       title: 'Description',
