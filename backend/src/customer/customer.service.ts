@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
 import { User } from '../user/user.entity';
 import { CreateCustomerDto, UpdateCustomerDto } from './customer.dto';
 import { Customer } from './customer.entity';
@@ -23,9 +22,9 @@ export class CustomerService {
     return await this.customerRepository.findOneOrFail({ where: { id } });
   }
 
-  async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
+  async create(createCustomerDto: CreateCustomerDto, userId: number): Promise<Customer> {
     let user = await this.userRepository.findOneOrFail({
-      where: { id: createCustomerDto.createdBy },
+      where: { id: userId },
       relations: ['customers', 'products', 'purchases'],
     });
 

@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { NbToastrService } from '@nebular/theme';
+import { Store } from '@ngrx/store';
 import { LocalDataSource } from 'ng2-smart-table';
-
-import * as fromProducts from '../store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CreateProductDto, ProductDto, UpdateProductDto } from '../../../models';
+import * as fromProducts from '../store';
 import { SETTINGS } from './products.settings.constant';
 
 @Component({
@@ -78,9 +77,6 @@ export class ProductsComponent implements OnInit {
   }
 
   private validateInputData(data: CreateProductDto | UpdateProductDto): { data: CreateProductDto | UpdateProductDto; error: string } {
-    data.price = Number(data.price);
-    data.amount = Number(data.amount);
-
     let error = '';
     let isNameRepresent: boolean;
 
@@ -89,8 +85,6 @@ export class ProductsComponent implements OnInit {
       .then(elements => (isNameRepresent = elements.some((p: ProductDto) => p.name.toLowerCase() === data.name.toLowerCase())));
 
     if (!data.name || isNameRepresent) error += 'Name has to be given and uniqe! ';
-    if (isNaN(data.amount) || data.amount < 0 || !data.amount) error += 'Amount has to be a positive number! ';
-    if (isNaN(data.price) || data.price < 0 || !data.price) error += 'Price has to be a positive number! ';
 
     return { data, error };
   }
