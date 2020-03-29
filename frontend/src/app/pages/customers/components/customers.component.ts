@@ -16,7 +16,7 @@ import { SETTINGS } from './customers.settings.constant';
 })
 export class CustomersComponent implements OnInit {
   public customers$: Observable<CustomerDto[]>;
-  public readonly source: LocalDataSource = new LocalDataSource();
+  public source: LocalDataSource = new LocalDataSource();
   public readonly settings = SETTINGS;
 
   constructor(
@@ -60,8 +60,7 @@ export class CustomersComponent implements OnInit {
     }
 
     this.customersStore.dispatch(fromCustomers.SaveCustomer({ createCustomerDto: event.newData as CreateCustomerDto }));
-    event.confirm.resolve();
-    this.source.empty();
+    event.confirm.resolve(this.source.empty());
   }
 
   private onUpdateCustomer(event: any): void {

@@ -60,8 +60,7 @@ export class ProductsComponent implements OnInit {
     }
 
     this.productsStore.dispatch(fromProducts.SaveProduct({ createProductDto: validated.data as CreateProductDto }));
-    event.confirm.resolve();
-    this.source.empty();
+    event.confirm.resolve(this.source.empty());
   }
 
   private onUpdateProduct(event: any): void {
