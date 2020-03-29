@@ -48,20 +48,20 @@ class LocalDataSource<T> extends Ng2LocalDataSource {
   count(): number {
     return super.count();
   }
-  setSort(conf: Array<any>, doEmit?: boolean): Ng2LocalDataSource {
-    return super.setSort(conf, doEmit);
+  setSort(conf: Array<SortConfig<T>>, doEmit?: boolean): LocalDataSource<T> {
+    return super.setSort(conf, doEmit) as LocalDataSource<T>;
   }
-  setFilter(conf: Array<any>, andOperator?: boolean, doEmit?: boolean): Ng2LocalDataSource {
-    return super.setFilter(conf, andOperator, doEmit);
+  setFilter(conf: Array<FilterConfig<T>>, andOperator?: boolean, doEmit?: boolean): LocalDataSource<T> {
+    return super.setFilter(conf, andOperator, doEmit) as LocalDataSource<T>;
   }
-  addFilter(fieldConf: any, andOperator?: boolean, doEmit?: boolean): Ng2LocalDataSource {
-    return super.addFilter(fieldConf, andOperator, doEmit);
+  addFilter(fieldConf: FilterConfig<T>, andOperator?: boolean, doEmit?: boolean): LocalDataSource<T> {
+    return super.addFilter(fieldConf, andOperator, doEmit) as LocalDataSource<T>;
   }
-  setPaging(page: number, perPage: number, doEmit?: boolean): Ng2LocalDataSource {
-    return super.setPaging(page, perPage, doEmit);
+  setPaging(page: number, perPage: number, doEmit?: boolean): LocalDataSource<T> {
+    return super.setPaging(page, perPage, doEmit) as LocalDataSource<T>;
   }
-  setPage(page: number, doEmit?: boolean): Ng2LocalDataSource {
-    return super.setPage(page, doEmit);
+  setPage(page: number, doEmit?: boolean): LocalDataSource<T> {
+    return super.setPage(page, doEmit) as LocalDataSource<T>;
   }
   getSort(): any {
     return super.getSort();
@@ -84,6 +84,18 @@ class LocalDataSource<T> extends Ng2LocalDataSource {
   protected paginate(data: Array<T>): Array<T> {
     return super.paginate(data);
   }
+}
+
+export interface SortConfig<T> {
+  field: keyof T;
+  direction: 'asc' | 'desc' | null;
+  compare?: Function | null;
+}
+
+export interface FilterConfig<T> {
+  field: keyof T;
+  search?: string;
+  filter?: Function | null;
 }
 
 export default LocalDataSource;

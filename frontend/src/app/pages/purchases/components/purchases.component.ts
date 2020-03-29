@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
-import { DeleteConfirm, EditConfirm } from '../../../helpers/ng2-smart-table/ng2-smart-table.model';
 import { PurchaseDto } from '../../../models';
 import * as fromPurchases from '../store';
 import { PURCHASES_SMART_TABLE_SETTINGS } from './purchases.smart-table-settings';
@@ -40,7 +39,7 @@ export class PurchasesComponent implements OnDestroy {
     this.purchasesSubscription.unsubscribe();
   }
 
-  public onEditConfirm({ newData, confirm }: EditConfirm<PurchaseDto>): void {
+  public onEditConfirm({ newData, confirm }: any): void {
     if (window.confirm('Are you sure you want to edit the product?') && this.validateData(newData)) {
       const { id, ...updatePurchase } = newData;
       this.purchasesStore.dispatch(fromPurchases.UpdatePurchase({ id, updatePurchase, confirm }));
@@ -49,7 +48,7 @@ export class PurchasesComponent implements OnDestroy {
     }
   }
 
-  public onDeleteConfirm({ data, confirm }: DeleteConfirm<PurchaseDto>): void {
+  public onDeleteConfirm({ data, confirm }: any): void {
     if (window.confirm('Are you sure you want to delete the product?')) {
       this.purchasesStore.dispatch(fromPurchases.DeletePurchase({ id: data.id, confirm }));
     } else {
