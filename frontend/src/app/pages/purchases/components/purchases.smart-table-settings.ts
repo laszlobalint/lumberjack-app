@@ -1,6 +1,7 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { CustomerDto, ProductDto } from '../../../models';
 import { CustomBooleanEditorComponent } from './custom-boolean-editor/custom-boolean-editor.component';
+import { CustomBooleanViewComponent } from './custom-boolean-view/custom-boolean-view.component';
 
 export const PURCHASES_SMART_TABLE_SETTINGS = {
   mode: 'inline',
@@ -23,9 +24,21 @@ export const PURCHASES_SMART_TABLE_SETTINGS = {
     },
     reduceStock: {
       title: 'Reduce Stock',
+      type: 'custom',
+      renderComponent: CustomBooleanViewComponent,
       editor: {
         type: 'custom',
         component: CustomBooleanEditorComponent,
+      },
+      filter: {
+        type: 'list',
+        config: {
+          list: [
+            { value: true, title: 'True' },
+            { value: false, title: 'False' },
+          ],
+          selectText: 'All',
+        },
       },
     },
     product: {
@@ -56,11 +69,21 @@ export const PURCHASES_SMART_TABLE_SETTINGS = {
     },
     completed: {
       title: 'Completed',
-      type: 'html',
-      class: 'text-center',
+      type: 'custom',
+      renderComponent: CustomBooleanViewComponent,
       editor: {
         type: 'custom',
         component: CustomBooleanEditorComponent,
+      },
+      filter: {
+        type: 'list',
+        config: {
+          list: [
+            { value: true, title: 'True' },
+            { value: false, title: 'False' },
+          ],
+          selectText: 'All',
+        },
       },
     },
   },

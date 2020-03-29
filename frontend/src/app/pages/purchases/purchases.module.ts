@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NbButtonModule, NbCardModule, NbCheckboxModule, NbIconModule, NbInputModule, NbTreeGridModule } from '@nebular/theme';
 import { EffectsModule } from '@ngrx/effects';
@@ -8,12 +8,13 @@ import { StoreModule } from '@ngrx/store';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from './../../@theme/theme.module';
 import { CustomBooleanEditorComponent } from './components/custom-boolean-editor/custom-boolean-editor.component';
+import { CustomBooleanViewComponent } from './components/custom-boolean-view/custom-boolean-view.component';
 import { PurchasesComponent } from './components/purchases.component';
 import { purchasesFeatureKey, reducer } from './store';
 import { PurchasesEffects } from './store/purchases.effects';
 
 @NgModule({
-  declarations: [PurchasesComponent, CustomBooleanEditorComponent],
+  declarations: [PurchasesComponent, CustomBooleanEditorComponent, CustomBooleanViewComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([{ path: '', component: PurchasesComponent }]),
@@ -29,7 +30,8 @@ import { PurchasesEffects } from './store/purchases.effects';
     FormsModule,
     NbButtonModule,
     NbIconModule,
+    ReactiveFormsModule,
   ],
-  entryComponents: [CustomBooleanEditorComponent],
+  entryComponents: [CustomBooleanEditorComponent, CustomBooleanViewComponent],
 })
 export class PurchasesModule {}
