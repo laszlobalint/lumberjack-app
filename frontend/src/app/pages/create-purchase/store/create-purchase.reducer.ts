@@ -1,5 +1,4 @@
 import { Action, createReducer, on } from '@ngrx/store';
-
 import { CustomerDto, ProductDto, PurchaseDto } from '../../../models';
 import * as CreatePurchaseActions from './create-purchase.actions';
 
@@ -56,7 +55,7 @@ export interface State {
   createPurchase: CreatePurchaseState;
 }
 
-export const purchasesFeatureKey = 'createPurchase';
+export const createPurchasesFeatureKey = 'createPurchase';
 
 export function reducer(state: CreatePurchaseState | undefined, action: Action): CreatePurchaseState {
   return reducerFunction(state, action);

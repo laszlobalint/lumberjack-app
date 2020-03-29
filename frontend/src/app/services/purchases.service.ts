@@ -13,7 +13,7 @@ export class PurchasesService {
     return this.http.get<PurchaseDto[]>(`${this.apiUrl}/purchase`);
   }
 
-  fetchOne(id: string): Observable<PurchaseDto> {
+  fetchOne(id: number): Observable<PurchaseDto> {
     return this.http.get<PurchaseDto>(`${this.apiUrl}/purchase/${id}`);
   }
 
@@ -21,11 +21,11 @@ export class PurchasesService {
     return this.http.post<PurchaseDto>(`${this.apiUrl}/purchase`, createPurchaseDto);
   }
 
-  update(id: string, updatePurchaseDto: UpdatePurchaseDto): Observable<PurchaseDto> {
+  update(id: number, updatePurchaseDto: UpdatePurchaseDto): Observable<PurchaseDto> {
     return this.http.put<PurchaseDto>(`${this.apiUrl}/purchase/${id}`, updatePurchaseDto);
   }
 
-  delete(id: string): Observable<number> {
+  delete(id: number): Observable<number> {
     return this.http.delete<number>(`${this.apiUrl}/purchase/${id}`);
   }
 }

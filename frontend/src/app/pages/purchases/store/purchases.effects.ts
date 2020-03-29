@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import * as PurchasesActions from '../store/purchases.actions';
 import { PurchasesService } from './../../../services/purchases.service';
 
@@ -16,8 +17,16 @@ export class PurchasesEffects {
   updateProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PurchasesActions.UpdatePurchase),
-      mergeMap(({ id, updatePurchase }) =>
-        this.purchasesService.update(id, updatePurchase).pipe(map(purchase => PurchasesActions.UpdatePurchaseSuccess({ purchase }))),
+      mergeMap(({ id, updatePurchase, confirm }) =>
+        this.purchasesService.update(id, updatePurchase).pipe(
+          map(purchase => {
+            confirm.resolve(purchase);
+            return PurchasesActions.UpdatePurchaseSuccess({ purchase });
+          }),
+          catchError(() => {
+            return of(PurchasesActions.UpdatePurchaseFailure);
+          }),
+        ),
       ),
     ),
   );
@@ -25,7 +34,17 @@ export class PurchasesEffects {
   deleteProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PurchasesActions.DeletePurchase),
-      mergeMap(({ id }) => this.purchasesService.delete(id).pipe(map(resId => PurchasesActions.DeletePurchaseSuccess({ resId })))),
+      mergeMap(({ id, confirm }) =>
+        this.purchasesService.delete(id).pipe(
+          map(resId => {
+            confirm.resolve();
+            return PurchasesActions.DeletePurchaseSuccess({ resId });
+          }),
+          catchError(() => {
+            return of(PurchasesActions.DeletePurchaseFailure);
+          }),
+        ),
+      ),
     ),
   );
 

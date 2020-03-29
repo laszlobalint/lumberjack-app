@@ -1,3 +1,3 @@
-export * from './products.actions';
-export * from './products.effects';
-export * from './products.reducer';
+export * from './purchases.actions';
+export * from './purchases.effects';
+export * from './purchases.reducer';

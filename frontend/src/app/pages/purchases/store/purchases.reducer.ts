@@ -3,7 +3,7 @@ import { PurchaseDto } from '../../../models';
 import * as PurchasesActions from './purchases.actions';
 
 interface PurchasesState {
-  purchases?: PurchaseDto[];
+  purchases: PurchaseDto[];
 }
 
 export const initialState: PurchasesState = {

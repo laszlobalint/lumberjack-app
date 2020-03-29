@@ -26,4 +26,10 @@ export interface CreatePurchaseDto {
   description?: string;
 }
 
-export type UpdatePurchaseDto = CreatePurchaseDto;
+export interface UpdatePurchaseDto {
+  amount?: number;
+  reduceStock?: boolean;
+  price?: number;
+  completed?: boolean;
+  description?: string;
+}
