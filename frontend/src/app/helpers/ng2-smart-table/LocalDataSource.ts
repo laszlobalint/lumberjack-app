@@ -94,8 +94,8 @@ export interface SortConfig<T> {
 
 export interface FilterConfig<T> {
   field: keyof T;
-  search?: string;
-  filter?: Function | null;
+  search?: any;
+  filter?: (cell: any, query: any) => boolean | null;
 }
 
 export default LocalDataSource;

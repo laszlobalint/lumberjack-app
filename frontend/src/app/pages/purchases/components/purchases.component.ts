@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
-import { NbToastrService } from '@nebular/theme';
+import { NbCalendarRange, NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
@@ -10,7 +10,14 @@ import { PURCHASES_SMART_TABLE_SETTINGS } from './purchases.smart-table-settings
 @Component({
   selector: 'purchases',
   templateUrl: './purchases.component.html',
-  styleUrls: ['./purchases.component.scss'],
+  styles: [
+    `
+      table-cell-edit-mode,
+      div[ng-reflect-ng-switch='custom'] {
+        text-align: center;
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
@@ -37,6 +44,18 @@ export class PurchasesComponent {
         },
       }),
     );
+  }
+
+  public onDateRangeChange(range: NbCalendarRange<Date>) {
+    this.source.addFilter({
+      field: 'date',
+      search: [range.start, range.end],
+      filter: (cell: string, range: Date[]) => {
+        const cellDate = new Date(cell);
+        return (!range[0] || cellDate.getTime() >= range[0].getTime()) && (!range[1] || cellDate.getTime() <= range[1].getTime());
+      },
+    });
+    this.changeDetectionRef.markForCheck();
   }
 
   public onEditConfirm({ newData, confirm }: any): void {

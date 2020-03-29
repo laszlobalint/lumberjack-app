@@ -71,10 +71,10 @@ export const PURCHASES_SMART_TABLE_SETTINGS = {
     },
     date: {
       title: 'Date',
-      editable: false,
       valuePrepareFunction: (date: string): string => {
         return new DatePipe('en-US').transform(date, 'yyyy.MM.dd. HH:mm');
       },
+      filter: false,
     },
     completed: {
       title: 'Completed',
