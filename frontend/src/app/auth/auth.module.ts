@@ -6,10 +6,11 @@ import { NbAuthModule } from '@nebular/auth';
 import { NbAlertModule, NbButtonModule, NbCardModule, NbIconModule, NbInputModule, NbLayoutModule } from '@nebular/theme';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+
+import { AuthEffects, authFeatureKey, reducer } from './store';
+import { AuthService } from './services/auth.service';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
-import { AuthService } from './services/auth.service';
-import { AuthEffects, authFeatureKey, reducer } from './store';
 
 @NgModule({
   imports: [

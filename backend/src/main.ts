@@ -6,9 +6,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestApplication>(AppModule, { cors: { origin: process.env['CORS_ORIGIN'] } });
-
   app.use(helmet());
-
   const options = new DocumentBuilder()
     .setTitle(process.env['PROJECT_NAME'])
     .setDescription(process.env['PROJECT_DESCRIPTION'])
@@ -17,8 +15,6 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
-
   await app.listen(process.env['SERVER_PORT']);
 }
-
 bootstrap();

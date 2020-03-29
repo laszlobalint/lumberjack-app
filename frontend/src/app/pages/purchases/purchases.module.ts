@@ -15,12 +15,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from './../../@theme/theme.module';
+
+import { purchasesFeatureKey, reducer } from './store';
+import { PurchasesEffects } from './store/purchases.effects';
 import { CustomBooleanEditorComponent } from './components/custom-boolean-editor/custom-boolean-editor.component';
 import { CustomBooleanViewComponent } from './components/custom-boolean-view/custom-boolean-view.component';
 import { CustomDateFilterComponent } from './components/custom-date-filter/custom-date-filter.component';
 import { PurchasesComponent } from './components/purchases.component';
-import { purchasesFeatureKey, reducer } from './store';
-import { PurchasesEffects } from './store/purchases.effects';
 
 @NgModule({
   declarations: [PurchasesComponent, CustomBooleanEditorComponent, CustomBooleanViewComponent, CustomDateFilterComponent],

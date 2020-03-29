@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
-import { LocalDataSource } from 'ng2-smart-table';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CreateCustomerDto, CustomerDto, UpdateCustomerDto } from '../../../models';
+
+import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
 import * as fromCustomers from '../store';
-import { SETTINGS } from './customers.settings.constant';
+import { CreateCustomerDto, CustomerDto, UpdateCustomerDto } from '../../../models';
+import { CUSTOMERS_SMART_TABLE_SETTINGS } from './customers.smart-table-settings';
 
 @Component({
   selector: 'ngx-customers',
@@ -14,19 +15,16 @@ import { SETTINGS } from './customers.settings.constant';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomersComponent implements OnInit, OnDestroy {
-  public customers$: Observable<CustomerDto[]>;
-  public source: LocalDataSource = new LocalDataSource();
-  public readonly settings = SETTINGS;
-
+  public readonly source = new LocalDataSource<CustomerDto>();
+  public readonly settings = CUSTOMERS_SMART_TABLE_SETTINGS;
+  public customers$ = this.customersStore.select('customers').pipe(map(state => state.customers));
   private customersSubscription: Subscription;
 
   constructor(
     private readonly customersStore: Store<fromCustomers.State>,
     private readonly toastrService: NbToastrService,
     private readonly changeDetectionRef: ChangeDetectorRef,
-  ) {
-    this.customers$ = this.customersStore.select('customers').pipe(map(state => state.customers));
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.customersStore.dispatch(fromCustomers.GetCustomers());
@@ -39,7 +37,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
     });
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.customersSubscription.unsubscribe();
   }
 
@@ -58,7 +56,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
   }
 
   private onCreateCustomer(event: any): void {
-    const error = this.validateInputData(event.newData);
+    const error = this.validateData(event.newData);
     if (error) {
       this.toastrService.show(error, 'Error', { status: 'warning' });
       return;
@@ -69,7 +67,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
   }
 
   private onUpdateCustomer(event: any): void {
-    const error = this.validateInputData(event.newData);
+    const error = this.validateData(event.newData);
     if (error) {
       this.toastrService.show(error, 'Error', { status: 'warning' });
       return;
@@ -84,7 +82,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
     this.customersStore.dispatch(fromCustomers.DeleteCustomer({ id }));
   }
 
-  private validateInputData(data: CreateCustomerDto | UpdateCustomerDto): string {
+  private validateData(data: CreateCustomerDto | UpdateCustomerDto): string {
     let error = '';
     if (!data.name || data.name.length === 0) error += 'Name is a mandatory! ';
 

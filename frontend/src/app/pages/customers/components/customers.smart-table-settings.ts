@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 
-export const SETTINGS = {
+export const CUSTOMERS_SMART_TABLE_SETTINGS = {
   mode: 'inline',
   add: {
     addButtonContent: '<i class="nb-plus"></i>',

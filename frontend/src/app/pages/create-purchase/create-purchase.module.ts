@@ -20,9 +20,10 @@ import {
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ThemeModule } from '../../@theme/theme.module';
-import { CreatePurchaseComponent } from './components/create-purchase.component';
+
 import { createPurchasesFeatureKey, reducer } from './store';
 import { CreatePurchaseEffects } from './store/create-purchase.effects';
+import { CreatePurchaseComponent } from './components/create-purchase.component';
 
 @NgModule({
   declarations: [CreatePurchaseComponent],

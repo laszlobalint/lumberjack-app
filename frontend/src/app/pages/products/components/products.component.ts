@@ -4,9 +4,10 @@ import { Store } from '@ngrx/store';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CreateProductDto, ProductDto, UpdateProductDto } from '../../../models';
+
 import * as fromProducts from '../store';
-import { SETTINGS } from './products.settings.constant';
+import { CreateProductDto, ProductDto, UpdateProductDto } from '../../../models';
+import { PRODUCTS_SMART_TABLE_SETTINGS } from './products.smart-table-settings';
 
 @Component({
   selector: 'ngx-products',
@@ -16,7 +17,7 @@ import { SETTINGS } from './products.settings.constant';
 export class ProductsComponent implements OnInit, OnDestroy {
   public products$: Observable<ProductDto[]>;
   public source: LocalDataSource = new LocalDataSource();
-  public readonly settings = SETTINGS;
+  public readonly settings = PRODUCTS_SMART_TABLE_SETTINGS;
 
   private productsSubscription: Subscription;
 

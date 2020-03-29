@@ -1,6 +1,6 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 
-export const SETTINGS = {
+export const PRODUCTS_SMART_TABLE_SETTINGS = {
   mode: 'inline',
   add: {
     addButtonContent: '<i class="nb-plus"></i>',
