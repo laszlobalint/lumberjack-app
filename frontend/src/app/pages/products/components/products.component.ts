@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CreateProductDto, ProductDto, UpdateProductDto } from '../../../models';
 import * as fromProducts from '../store';
@@ -13,10 +13,12 @@ import { SETTINGS } from './products.settings.constant';
   templateUrl: './products.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, OnDestroy {
   public products$: Observable<ProductDto[]>;
   public source: LocalDataSource = new LocalDataSource();
   public readonly settings = SETTINGS;
+
+  private productsSubscription: Subscription;
 
   constructor(
     private readonly productsStore: Store<fromProducts.State>,
@@ -28,13 +30,17 @@ export class ProductsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.productsStore.dispatch(fromProducts.GetProducts());
-    this.products$.subscribe(products => {
+    this.productsSubscription = this.products$.subscribe(products => {
       if (products) {
         this.source.load(products);
         this.source.setSort([{ field: 'date', direction: 'desc' }]);
         this.changeDetectionRef.markForCheck();
       }
     });
+  }
+
+  public ngOnDestroy() {
+    this.productsSubscription.unsubscribe();
   }
 
   public onCreateConfirm(event: any): void {

@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
+import { Store } from '@ngrx/store';
 import { LocalDataSource } from 'ng2-smart-table';
-
+import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { CreateCustomerDto, CustomerDto, UpdateCustomerDto } from '../../../models';
 import * as fromCustomers from '../store';
-import { CustomerDto, CreateCustomerDto, UpdateCustomerDto } from '../../../models';
 import { SETTINGS } from './customers.settings.constant';
 
 @Component({
@@ -14,10 +13,12 @@ import { SETTINGS } from './customers.settings.constant';
   templateUrl: './customers.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CustomersComponent implements OnInit {
+export class CustomersComponent implements OnInit, OnDestroy {
   public customers$: Observable<CustomerDto[]>;
   public source: LocalDataSource = new LocalDataSource();
   public readonly settings = SETTINGS;
+
+  private customersSubscription: Subscription;
 
   constructor(
     private readonly customersStore: Store<fromCustomers.State>,
@@ -29,13 +30,17 @@ export class CustomersComponent implements OnInit {
 
   public ngOnInit(): void {
     this.customersStore.dispatch(fromCustomers.GetCustomers());
-    this.customers$.subscribe(customers => {
+    this.customersSubscription = this.customers$.subscribe(customers => {
       if (customers) {
         this.source.load(customers);
         this.source.setSort([{ field: 'date', direction: 'desc' }]);
         this.changeDetectionRef.markForCheck();
       }
     });
+  }
+
+  public ngOnDestroy() {
+    this.customersSubscription.unsubscribe();
   }
 
   public onCreateConfirm(event: any): void {
