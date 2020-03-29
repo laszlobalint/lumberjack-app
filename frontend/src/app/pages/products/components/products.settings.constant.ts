@@ -21,26 +21,21 @@ export const SETTINGS = {
   columns: {
     name: {
       title: 'Name',
-      type: 'string',
     },
     price: {
       title: 'Price',
-      type: 'number',
       valuePrepareFunction: (price: number): string => {
         return new DecimalPipe('en-US').transform(price);
       },
     },
     amount: {
       title: 'Amount',
-      type: 'number',
     },
     description: {
       title: 'Description',
-      type: 'string',
     },
     date: {
       title: 'Date',
-      type: 'date',
       editable: false,
       addable: false,
       valuePrepareFunction: (date: string): string => {

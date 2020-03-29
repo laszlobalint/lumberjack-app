@@ -23,7 +23,7 @@ export class Customer {
   @Exclude()
   purchases: Purchase[];
 
-  @Column({ type: 'varchar', unique: true, length: 100 })
+  @Column({ type: 'varchar', length: 100 })
   name?: string;
 
   @Column({ type: 'varchar', nullable: true, length: 200 })

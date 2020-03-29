@@ -21,39 +21,30 @@ export const SETTINGS = {
   columns: {
     name: {
       title: 'Name',
-      type: 'string',
     },
     address: {
       title: 'Address',
-      type: 'string',
     },
     phone: {
       title: 'Phone',
-      type: 'string',
     },
     companyName: {
       title: 'Company name',
-      type: 'string',
     },
     taxId: {
       title: 'Tax Id',
-      type: 'string',
     },
     nationalId: {
       title: 'National Id',
-      type: 'string',
     },
     checkingAccount: {
       title: 'Checking account',
-      type: 'string',
     },
     description: {
       title: 'Description',
-      type: 'string',
     },
     date: {
       title: 'Date',
-      type: 'date',
       editable: false,
       addable: false,
       valuePrepareFunction: (date: string): string => {
