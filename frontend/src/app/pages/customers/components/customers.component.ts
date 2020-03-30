@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation, OnChanges, SimpleChanges } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
@@ -25,7 +25,6 @@ export class CustomersComponent {
     private readonly changeDetectionRef: ChangeDetectorRef,
   ) {
     this.loadData();
-    this.source.setSort([{ field: 'date', direction: 'desc' }]);
   }
 
   public loadData(): void {
@@ -33,6 +32,7 @@ export class CustomersComponent {
       fromCustomers.GetCustomers({
         load: customers => {
           this.source.load(customers);
+          this.source.setSort([{ field: 'date', direction: 'desc' }]);
           this.changeDetectionRef.markForCheck();
         },
       }),

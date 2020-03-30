@@ -17,7 +17,7 @@ import { PRODUCTS_SMART_TABLE_SETTINGS } from './products.smart-table-settings';
 export class ProductsComponent {
   public source = new LocalDataSource<ProductDto>();
   public readonly settings = PRODUCTS_SMART_TABLE_SETTINGS;
-  public customers$ = this.productsStore.select('products').pipe(map(state => state.products));
+  public products$ = this.productsStore.select('products').pipe(map(state => state.products));
 
   constructor(
     private readonly productsStore: Store<fromProducts.State>,
@@ -25,7 +25,6 @@ export class ProductsComponent {
     private readonly changeDetectionRef: ChangeDetectorRef,
   ) {
     this.loadData();
-    this.source.setSort([{ field: 'date', direction: 'desc' }]);
   }
 
   public loadData(): void {
@@ -33,6 +32,7 @@ export class ProductsComponent {
       fromProducts.GetProducts({
         load: products => {
           this.source.load(products);
+          this.source.setSort([{ field: 'date', direction: 'desc' }]);
           this.changeDetectionRef.markForCheck();
         },
       }),

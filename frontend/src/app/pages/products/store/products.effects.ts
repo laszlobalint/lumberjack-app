@@ -27,7 +27,7 @@ export class ProductsEffects {
       mergeMap(({ createProductDto, confirm }) =>
         this.productsService.save(createProductDto).pipe(
           map(product => {
-            confirm.resolve({ ...product, date: new Date() });
+            confirm.resolve(product);
             return ProductsActions.SaveProductSuccess({ product });
           }),
         ),

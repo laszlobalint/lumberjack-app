@@ -27,7 +27,7 @@ export class CustomerEffects {
       mergeMap(({ createCustomerDto, confirm }) =>
         this.customersService.save(createCustomerDto).pipe(
           map(customer => {
-            confirm.resolve({ ...customer, date: new Date().toUTCString() });
+            confirm.resolve(customer);
             return CustomersActions.SaveCustomerSuccess({ customer });
           }),
         ),
