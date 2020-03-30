@@ -8,8 +8,8 @@ import { PurchaseController } from './purchase.controller';
 import { PurchaseService } from './purchase.service';
 import { User } from '../user/user.entity';
 import { Purchase } from './purchase.entity';
-import { Product } from 'src/product/product.entity';
-import { Customer } from 'src/customer/customer.entity';
+import { Product } from '../product/product.entity';
+import { Customer } from '../customer/customer.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Customer, User, Purchase, Product]), CustomerModule, UserModule, ProductModule],

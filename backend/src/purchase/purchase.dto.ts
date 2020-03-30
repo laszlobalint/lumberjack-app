@@ -1,5 +1,6 @@
-import { Type } from 'class-transformer';
 import { IsBoolean, IsNotEmpty, IsNumber, ValidateIf, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+
 import { CreateCustomerDto } from './../customer/customer.dto';
 
 export class CreatePurchaseDto {
