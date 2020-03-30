@@ -9,12 +9,12 @@ import { ViewCell } from 'ng2-smart-table';
   `,
 })
 export class CustomBooleanViewComponent implements ViewCell, OnInit {
-  renderValue = false;
-
   @Input() value: string | number;
   @Input() rowData: any;
 
-  ngOnInit() {
+  public renderValue = false;
+
+  public ngOnInit(): void {
     this.renderValue = Boolean(this.value);
   }
 }

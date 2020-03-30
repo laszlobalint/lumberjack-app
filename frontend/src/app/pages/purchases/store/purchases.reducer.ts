@@ -1,6 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { PurchaseDto } from '../../../models';
+
 import * as PurchasesActions from './purchases.actions';
+import { PurchaseDto } from '../../../models';
 
 interface PurchasesState {
   purchases?: PurchaseDto[];
@@ -22,7 +23,7 @@ const purchasesReducer = createReducer(
   })),
   on(PurchasesActions.DeletePurchaseSuccess, (state, { resId }) => ({
     ...state,
-    purchases: state.purchases.filter(purchase => purchase.id !== resId),
+    purchases: [...state.purchases.filter(purchase => purchase.id !== resId)],
   })),
 );
 

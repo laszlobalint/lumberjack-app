@@ -30,6 +30,7 @@ export const PRODUCTS_SMART_TABLE_SETTINGS = {
     },
     amount: {
       title: 'Amount',
+      class: '',
     },
     description: {
       title: 'Description',

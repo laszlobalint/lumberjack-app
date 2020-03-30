@@ -16,7 +16,7 @@ import { PURCHASES_SMART_TABLE_SETTINGS } from './purchases.smart-table-settings
       table-cell-edit-mode,
       div[ng-reflect-ng-switch='custom'] {
         text-align: center;
-      }
+      },
     `,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,7 +36,7 @@ export class PurchasesComponent {
     this.source.setSort([{ field: 'date', direction: 'desc' }]);
   }
 
-  public loadData() {
+  public loadData(): void {
     this.purchasesStore.dispatch(
       fromPurchases.GetPurchases({
         load: purchases => {
