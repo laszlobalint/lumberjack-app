@@ -22,7 +22,6 @@ import { CapitalizePipe, NumberWithCommasPipe, PluralPipe, RoundPipe, TimingPipe
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { DARK_THEME } from './styles/theme.dark';
 import { DEFAULT_THEME } from './styles/theme.default';
-import { TranslateModule } from '@ngx-translate/core';
 
 const NB_MODULES = [
   NbLayoutModule,
