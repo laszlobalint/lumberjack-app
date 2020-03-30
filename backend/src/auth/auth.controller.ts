@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { classToPlain } from 'class-transformer';
+import { RateLimit } from 'nestjs-rate-limiter';
 
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -8,7 +9,6 @@ import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
 import { LoginDto, LoginResponseDto } from './auth.dto';
-import { RateLimit } from 'nestjs-rate-limiter';
 
 @ApiTags('auth')
 @Controller('auth')

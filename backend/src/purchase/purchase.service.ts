@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, DeleteResult, Repository } from 'typeorm';
 import { classToPlain } from 'class-transformer';
 
-import { Product } from 'src/product/product.entity';
-import { User } from 'src/user/user.entity';
+import { Product } from '../product/product.entity';
+import { User } from '../user/user.entity';
 import { Customer } from '../customer/customer.entity';
 import { Purchase } from './purchase.entity';
 import { CreatePurchaseDto, UpdatePurchaseDto } from './purchase.dto';
@@ -36,6 +36,7 @@ export class PurchaseService {
       purchase = await purchaseRepository.save(
         new Purchase({
           amount: createPurchaseDto.amount,
+          reduceStock: createPurchaseDto.reduceStock,
           price: createPurchaseDto.price,
           description: createPurchaseDto.description,
           completed: false,

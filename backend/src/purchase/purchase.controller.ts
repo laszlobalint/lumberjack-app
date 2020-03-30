@@ -4,8 +4,8 @@ import { DeleteResult } from 'typeorm';
 
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { PurchaseService } from './purchase.service';
-import { CreatePurchaseDto, UpdatePurchaseDto } from './purchase.dto';
 import { Purchase } from './purchase.entity';
+import { CreatePurchaseDto, UpdatePurchaseDto } from './purchase.dto';
 
 @ApiTags('purchase')
 @Controller('purchase')
@@ -31,7 +31,6 @@ export class PurchaseController {
     if (!createProductDto.customerId && !createProductDto.customer) {
       throw new UnprocessableEntityException('Field customerId or customer must exist.');
     }
-
     const purchase = await this.purchaseService.create(createProductDto, req.user.userId);
     if (!purchase) {
       throw new UnprocessableEntityException();
@@ -42,8 +41,8 @@ export class PurchaseController {
 
   @Put(':id')
   @ApiResponse({ status: 204, description: 'Modified a purchase.' })
-  async update(@Param('id') id: string, @Body() updateCustomerDto: UpdatePurchaseDto): Promise<Purchase> {
-    return this.purchaseService.update(+id, updateCustomerDto);
+  async update(@Param('id') id: string, @Body() updatePurchaseDto: UpdatePurchaseDto): Promise<Purchase> {
+    return this.purchaseService.update(+id, updatePurchaseDto);
   }
 
   @Delete(':id')

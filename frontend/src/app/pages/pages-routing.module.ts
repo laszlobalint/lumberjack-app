@@ -26,6 +26,10 @@ const routes: Routes = [
         loadChildren: () => import('./create-purchase/create-purchase.module').then(m => m.CreatePurchaseModule),
       },
       {
+        path: 'purchases',
+        loadChildren: () => import('./purchases/purchases.module').then(m => m.PurchasesModule),
+      },
+      {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full',

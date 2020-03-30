@@ -21,7 +21,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ThemeModule } from '../../@theme/theme.module';
 
-import { purchasesFeatureKey, reducer } from './store';
+import { createPurchasesFeatureKey, reducer } from './store';
 import { CreatePurchaseEffects } from './store/create-purchase.effects';
 import { CreatePurchaseComponent } from './components/create-purchase.component';
 
@@ -30,7 +30,7 @@ import { CreatePurchaseComponent } from './components/create-purchase.component'
   imports: [
     CommonModule,
     RouterModule.forChild([{ path: '', component: CreatePurchaseComponent }]),
-    StoreModule.forFeature(purchasesFeatureKey, reducer),
+    StoreModule.forFeature(createPurchasesFeatureKey, reducer),
     EffectsModule.forFeature([CreatePurchaseEffects]),
     FormsModule,
     ReactiveFormsModule,

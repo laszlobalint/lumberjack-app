@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, mergeMap } from 'rxjs/operators';
+import { NbToastrService } from '@nebular/theme';
 
 import { ProductsService } from '../../../services/products.service';
 import * as ProductsActions from './products.actions';
@@ -10,15 +11,28 @@ export class ProductsEffects {
   getProducts$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductsActions.GetProducts),
-      mergeMap(() => this.productsService.fetchAll().pipe(map(products => ProductsActions.GetProductsSuccess({ products })))),
+      mergeMap(({ load }) =>
+        this.productsService.fetchAll().pipe(
+          map(products => {
+            load(products);
+            return ProductsActions.GetProductsSuccess({ products });
+          }),
+        ),
+      ),
     ),
   );
 
   saveProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductsActions.SaveProduct),
-      mergeMap(({ createProductDto }) =>
-        this.productsService.save(createProductDto).pipe(map(product => ProductsActions.SaveProductSuccess({ product }))),
+      mergeMap(({ createProductDto, confirm }) =>
+        this.productsService.save(createProductDto).pipe(
+          map(product => {
+            confirm.resolve({ ...product, date: new Date() });
+            this.toastrService.show('New product saved!', 'Success', { status: 'success' });
+            return ProductsActions.SaveProductSuccess({ product });
+          }),
+        ),
       ),
     ),
   );
@@ -26,8 +40,14 @@ export class ProductsEffects {
   updateProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductsActions.UpdateProduct),
-      mergeMap(({ id, updateProductDto }) =>
-        this.productsService.update(id, updateProductDto).pipe(map(product => ProductsActions.UpdateProductSuccess({ product }))),
+      mergeMap(({ id, updateProductDto, confirm }) =>
+        this.productsService.update(id, updateProductDto).pipe(
+          map(product => {
+            confirm.resolve(product);
+            this.toastrService.show('Updated product saved!', 'Success', { status: 'success' });
+            return ProductsActions.UpdateProductSuccess({ product });
+          }),
+        ),
       ),
     ),
   );
@@ -35,9 +55,21 @@ export class ProductsEffects {
   deleteProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductsActions.DeleteProduct),
-      mergeMap(({ id }) => this.productsService.delete(id).pipe(map(resId => ProductsActions.DeleteProductSuccess({ resId })))),
+      mergeMap(({ id, confirm }) =>
+        this.productsService.delete(id).pipe(
+          map(resId => {
+            confirm.resolve();
+            this.toastrService.show('Product deleted!', 'Success', { status: 'success' });
+            return ProductsActions.DeleteProductSuccess({ resId });
+          }),
+        ),
+      ),
     ),
   );
 
-  constructor(private readonly actions$: Actions, private readonly productsService: ProductsService) {}
+  constructor(
+    private readonly actions$: Actions,
+    private readonly productsService: ProductsService,
+    private readonly toastrService: NbToastrService,
+  ) {}
 }

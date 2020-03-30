@@ -1,6 +1,6 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 
-export const SETTINGS = {
+export const PRODUCTS_SMART_TABLE_SETTINGS = {
   mode: 'inline',
   add: {
     addButtonContent: '<i class="nb-plus"></i>',
@@ -22,23 +22,15 @@ export const SETTINGS = {
     name: {
       title: 'Name',
     },
-    address: {
-      title: 'Address',
+    price: {
+      title: 'Price',
+      valuePrepareFunction: (price: number): string => {
+        return new DecimalPipe('en-US').transform(price);
+      },
     },
-    phone: {
-      title: 'Phone',
-    },
-    companyName: {
-      title: 'Company name',
-    },
-    taxId: {
-      title: 'Tax Id',
-    },
-    nationalId: {
-      title: 'National Id',
-    },
-    checkingAccount: {
-      title: 'Checking account',
+    amount: {
+      title: 'Amount',
+      class: '',
     },
     description: {
       title: 'Description',
