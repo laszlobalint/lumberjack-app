@@ -8,7 +8,6 @@ export class TimingPipe implements PipeTransform {
       const seconds = Math.floor(time % 60);
       return `${this.initZero(minutes)}${minutes}:${this.initZero(seconds)}${seconds}`;
     }
-
     return '00:00';
   }
 

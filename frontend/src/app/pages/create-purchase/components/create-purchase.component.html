@@ -1,0 +1,175 @@
+<div
+  *ngIf="{ isBusy: isBusy$ | async, createdPurchase: purchase$ | async, failed: failed$ | async } as state"
+  class="d-flex justify-center items-center"
+>
+  <nb-card class="w-100 w-100" [accent]="state.failed ? 'danger' : state.createdPurchase ? 'success' : 'primary'">
+    <nb-card-header>
+      <div class="d-flex justify-content-between w-100">
+        <span>{{ state.createdPurchase ? 'Purchase ID ' + state.createdPurchase.id : 'New Purchase' }}</span>
+        <div>
+          <button
+            nbButton
+            *ngIf="!state.createdPurchase"
+            ghost
+            status="danger"
+            nbTooltip="Clear form"
+            nbTooltipPlacement="bottom"
+            (click)="form.reset()"
+          >
+            <nb-icon icon="close"></nb-icon>
+          </button>
+          <button nbButton ghost status="warning" nbTooltip="Refresh data" nbTooltipPlacement="bottom" (click)="fetchData()">
+            <nb-icon icon="repeat-outline"></nb-icon>
+          </button>
+        </div>
+      </div>
+    </nb-card-header>
+    <nb-card-body>
+      <form class="d-flex flex-column items-center" [formGroup]="form">
+        <!-- Purchase -->
+        <div class="row w-100">
+          <div class="col-12 col-sm-6 col-md-4 col-lg-2 form-group">
+            <label for="inputAmount" class="label">Amount <span class="text-danger">*</span></label>
+            <input nbInput fullWidth id="inputAmount" placeholder="Amount" formControlName="amount" />
+          </div>
+
+          <div class="col-12 col-sm-6 col-md-8 col-lg-5 form-group">
+            <label for="inputProductId" class="label">Product <span class="text-danger">*</span></label>
+            <nb-select fullWidth id="inputProductId" placeholder="Select a product" formControlName="productId">
+              <nb-option *ngFor="let product of products$ | async" [value]="product.id">{{ product.name }}</nb-option>
+            </nb-select>
+          </div>
+
+          <div class="col-12 col-lg-5 row w-100">
+            <div class="col form-group mr-1">
+              <label for="inputPrice" class="label">Price <span class="text-danger">*</span></label>
+              <input nbInput fullWidth id="inputPrice" placeholder="Price" formControlName="price" />
+            </div>
+
+            <div class="col-3 d-flex align-items-center bg-light-gray border-fuchsia">
+              <nb-checkbox
+                class="align-self-center"
+                [disabled]="!form.get('productId').value || form.disabled"
+                (checkedChange)="toggleEnableCustomPrice($event)"
+              >
+                <span>Custom</span>
+              </nb-checkbox>
+            </div>
+          </div>
+        </div>
+
+        <hr />
+
+        <!-- Customer -->
+        <div class="row w-100">
+          <div class="col form-group">
+            <label for="inputCustomerId" class="label">Customer</label>
+            <nb-select fullWidth id="inputCustomerId" placeholder="Select a customer" formControlName="customerId">
+              <nb-option [value]="undefined">None</nb-option>
+              <nb-option *ngFor="let customer of customers$ | async" [value]="customer.id">{{ customer.name }}</nb-option>
+            </nb-select>
+          </div>
+
+          <div class="col-12 col-md-2 d-flex align-items-center mt-0 mt-md-3">
+            <nb-toggle [(checked)]="enableCustomerEdit" [disabled]="!form.get('customerId').value">Edit</nb-toggle>
+          </div>
+        </div>
+
+        <div formGroupName="customer">
+          <div class="row w-100">
+            <div class="col-12 col-lg-6 form-group">
+              <label for="inputAddress" class="label">Address</label>
+              <input type="text" nbInput fullWidth id="inputAddress" placeholder="Address" formControlName="address" />
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3 form-group">
+              <label for="inputName" class="label">Name</label>
+              <input type="tel" nbInput fullWidth id="inputName" placeholder="Name" formControlName="name" />
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3 form-group">
+              <label for="inputPhone" class="label">Phone</label>
+              <input type="tel" nbInput fullWidth id="inputPhone" placeholder="Phone" formControlName="phone" />
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col form-group">
+              <label for="inputCustomerDescription" class="label">Customer Description</label>
+              <textarea nbInput fullWidth placeholder="Customer description..." formControlName="description"></textarea>
+            </div>
+          </div>
+
+          <div class="row w-100">
+            <div class="col-6 col-md form-group">
+              <label for="inputCompanyName" class="label">Company Name</label>
+              <input nbInput fullWidth fieldSize="small" id="inputCompanyName" placeholder="Company Name" formControlName="companyName" />
+            </div>
+
+            <div class="col-6 col-md form-group">
+              <label for="inputTaxId" class="label">Tax Id</label>
+              <input nbInput fullWidth fieldSize="small" id="inputTaxId" placeholder="Tax Id" formControlName="taxId" />
+            </div>
+
+            <div class="col-6 col-md form-group">
+              <label for="inputNationalId" class="label">National Id</label>
+              <input nbInput fullWidth fieldSize="small" id="inputNationalId" placeholder="National Id" formControlName="nationalId" />
+            </div>
+
+            <div class="col-6 col-md form-group">
+              <label for="inputCheckingAccount" class="label">Checking Account</label>
+              <input
+                nbInput
+                fullWidth
+                fieldSize="small"
+                id="inputCheckingAccount"
+                placeholder="Checking Account"
+                formControlName="checkingAccount"
+              />
+            </div>
+          </div>
+        </div>
+        <hr />
+
+        <!-- Purchase description -->
+        <div class="row w-100">
+          <div class="col form-group">
+            <label for="inputDescription" class="label">Purchase Description</label>
+            <textarea nbInput fullWidth placeholder="Description..." formControlName="description"></textarea>
+          </div>
+        </div>
+
+        <div class="row w-100 d-flex justify-content-end align-items-baseline p-3">
+          <nb-toggle
+            id="inputReduceStock"
+            class="mx-3"
+            labelPosition="left"
+            [status]="toggleReduceStock.checked ? 'primary' : 'warning'"
+            formControlName="reduceStock"
+            #toggleReduceStock
+            >Reduce stock amount</nb-toggle
+          >
+
+          <button
+            nbButton
+            *ngIf="!state.createdPurchase; else successButton"
+            type="submit"
+            size="large"
+            [nbSpinner]="state.isBusy"
+            [disabled]="state.isBusy || form.invalid"
+            (click)="onSubmit()"
+          >
+            <nb-icon icon="save"></nb-icon>
+            Save
+          </button>
+          <ng-template #successButton>
+            <button nbButton type="button" size="large" status="success" (click)="onClear()">
+              <nb-icon icon="plus-outline"></nb-icon>
+              Create new
+            </button>
+          </ng-template>
+        </div>
+      </form>
+    </nb-card-body>
+  </nb-card>
+</div>

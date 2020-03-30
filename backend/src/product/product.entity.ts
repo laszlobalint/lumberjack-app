@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Purchase } from '../purchase/purchase.entity';
 import { User } from '../user/user.entity';
 
@@ -19,9 +20,10 @@ export class Product {
     type => Purchase,
     purchase => purchase.product,
   )
+  @Exclude()
   purchases: Purchase[];
 
-  @Column({ type: 'varchar', length: 100 })
+  @Column({ type: 'varchar', unique: true, length: 100 })
   name: string;
 
   @Column({ type: 'double' })
@@ -35,4 +37,8 @@ export class Product {
 
   @CreateDateColumn({ type: 'datetime' })
   date: Date;
+
+  constructor(partial: Partial<Product>) {
+    Object.assign(this, partial);
+  }
 }

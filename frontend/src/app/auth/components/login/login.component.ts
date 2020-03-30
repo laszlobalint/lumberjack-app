@@ -2,27 +2,22 @@ import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { getDeepFromObject, NbAuthResult, NbAuthService, NB_AUTH_OPTIONS } from '@nebular/auth';
 import { Store } from '@ngrx/store';
-import { LoginResponseDto } from '../../models/login.model';
-import * as fromAuth from '../../store';
 
-/*
-  This is a modified implementation of:
-  https://github.com/akveo/nebular/blob/master/src/framework/auth/components/login/login.component.html
-*/
+import * as fromAuth from '../../store';
+import { LoginResponseDto } from '../../models/login.model';
 
 @Component({
   selector: 'ngx-login',
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  redirectDelay: number = 0;
-  showMessages: any = {};
-  strategy: string = '';
-
-  errors: string[] = [];
-  messages: string[] = [];
-  user: any = {};
-  submitted: boolean = false;
+  public redirectDelay: number = 0;
+  public showMessages: any = {};
+  public strategy: string = '';
+  public errors: string[] = [];
+  public messages: string[] = [];
+  public user: any = {};
+  public submitted: boolean = false;
 
   constructor(
     private readonly service: NbAuthService,
@@ -36,7 +31,7 @@ export class LoginComponent {
     this.strategy = this.getConfigValue('forms.login.strategy');
   }
 
-  login(): void {
+  public login(): void {
     this.errors = [];
     this.messages = [];
     this.submitted = true;
@@ -62,7 +57,7 @@ export class LoginComponent {
     });
   }
 
-  getConfigValue(key: string): any {
+  public getConfigValue(key: string): any {
     return getDeepFromObject(this.options, key, null);
   }
 }

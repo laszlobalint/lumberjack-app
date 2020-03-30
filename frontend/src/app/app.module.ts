@@ -6,6 +6,7 @@ import {
   NbChatModule,
   NbDatepickerModule,
   NbDialogModule,
+  NbLayoutModule,
   NbMenuModule,
   NbSidebarModule,
   NbToastrModule,
@@ -17,9 +18,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
+
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
+import { CustomersService, ProductsService, PurchasesService } from './services';
+import { AppComponent } from './app.component';
 
 const NB_MODULES = [
   NbSidebarModule.forRoot(),
@@ -28,6 +31,7 @@ const NB_MODULES = [
   NbDialogModule.forRoot(),
   NbWindowModule.forRoot(),
   NbToastrModule.forRoot(),
+  NbLayoutModule,
   NbChatModule.forRoot({
     messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
   }),
@@ -48,6 +52,7 @@ const NB_MODULES = [
     CoreModule.forRoot(),
     AuthModule,
   ],
+  providers: [CustomersService, ProductsService, PurchasesService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

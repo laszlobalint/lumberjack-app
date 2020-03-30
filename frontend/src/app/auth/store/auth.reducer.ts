@@ -1,4 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
+
 import { UserDto } from '../models/user.model';
 import * as AuthActions from './auth.actions';
 
@@ -19,10 +20,10 @@ const authReducer = createReducer(
 );
 
 export interface State {
-  user: AuthState;
+  auth: AuthState;
 }
 
-export const userFeatureKey = 'auth';
+export const authFeatureKey = 'auth';
 
 export function reducer(state: AuthState | undefined, action: Action) {
   return authReducer(state, action);

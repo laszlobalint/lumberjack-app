@@ -39,17 +39,20 @@ export class User {
     type => Customer,
     customer => customer.user,
   )
+  @Exclude()
   customers: Customer[];
 
   @OneToMany(
     type => Product,
     product => product.user,
   )
+  @Exclude()
   products: Product[];
 
   @OneToMany(
     type => Purchase,
     purchase => purchase.user,
   )
+  @Exclude()
   purchases: Purchase[];
 }

@@ -30,7 +30,7 @@ export class UserService {
     user.name = createUserDto.name;
     user.email = createUserDto.email;
     user.password = createUserDto.password;
-    user.email = createUserDto.email ? createUserDto.email : undefined;
+    user.email = createUserDto.email;
     user.customers = [];
     user.products = [];
     user.purchases = [];

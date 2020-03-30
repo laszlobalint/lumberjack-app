@@ -1,4 +1,5 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 import { Purchase } from '../purchase/purchase.entity';
 import { User } from '../user/user.entity';
@@ -19,32 +20,37 @@ export class Customer {
     type => Purchase,
     purchase => purchase.customer,
   )
+  @Exclude()
   purchases: Purchase[];
 
   @Column({ type: 'varchar', length: 100 })
   name?: string;
 
-  @Column({ type: 'varchar', length: 200 })
+  @Column({ type: 'varchar', nullable: true, length: 200 })
   address: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', nullable: true, length: 50 })
   phone?: string;
 
-  @Column({ type: 'varchar', length: 100, nullable: true })
+  @Column({ type: 'varchar', nullable: true, length: 100 })
   companyName?: string;
 
-  @Column({ type: 'varchar', length: 20 })
+  @Column({ type: 'varchar', nullable: true, length: 20 })
   taxId?: string;
 
-  @Column({ type: 'varchar', length: 20 })
+  @Column({ type: 'varchar', nullable: true, length: 20 })
   nationalId?: string;
 
-  @Column({ type: 'varchar', length: 40 })
+  @Column({ type: 'varchar', nullable: true, length: 40 })
   checkingAccount?: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   description?: string;
 
   @CreateDateColumn({ type: 'datetime' })
   date: Date;
+
+  constructor(partial: Partial<Customer>) {
+    Object.assign(this, partial);
+  }
 }

@@ -1,10 +1,13 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, NestApplication } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import * as helmet from 'helmet';
+
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.enableCors({ origin: 'http://localhost:4200' });
+  const app = await NestFactory.create<NestApplication>(AppModule, { cors: { origin: process.env['CORS_ORIGIN'] } });
+
+  app.use(helmet());
 
   const options = new DocumentBuilder()
     .setTitle(process.env['PROJECT_NAME'])
@@ -17,4 +20,5 @@ async function bootstrap() {
 
   await app.listen(process.env['SERVER_PORT']);
 }
+
 bootstrap();
