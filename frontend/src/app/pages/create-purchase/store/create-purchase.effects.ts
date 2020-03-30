@@ -14,7 +14,7 @@ export class CreatePurchaseEffects {
     this.actions$.pipe(
       ofType(CreatePurchaseActions.PostPurchase),
       mergeMap(({ createPurchase }) =>
-        this.purchasesService.postPurchase(createPurchase).pipe(
+        this.purchasesService.save(createPurchase).pipe(
           map(purchase => CreatePurchaseActions.PostPurchaseSuccess({ purchase })),
           catchError(error => of(CreatePurchaseActions.PostPurchaseFailure())),
         ),

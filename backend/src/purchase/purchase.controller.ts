@@ -33,8 +33,8 @@ export class PurchaseController {
 
   @Put(':id')
   @ApiResponse({ status: 204, description: 'Modified a purchase.' })
-  async update(@Param('id') id: string, @Body() updateCustomerDto: UpdatePurchaseDto): Promise<Purchase> {
-    return this.purchaseService.update(+id, updateCustomerDto);
+  async update(@Param('id') id: string, @Body() updatePurchaseDto: UpdatePurchaseDto): Promise<Purchase> {
+    return this.purchaseService.update(+id, updatePurchaseDto);
   }
 
   @Delete(':id')

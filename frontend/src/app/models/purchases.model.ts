@@ -25,3 +25,11 @@ export interface CreatePurchaseDto {
   customer?: CreateCustomerDto;
   description?: string;
 }
+
+export interface UpdatePurchaseDto {
+  amount?: number;
+  reduceStock?: boolean;
+  price?: number;
+  completed?: boolean;
+  description?: string;
+}

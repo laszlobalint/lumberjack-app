@@ -40,6 +40,7 @@ export class PurchaseService {
       purchase = await purchaseRepository.save(
         new Purchase({
           amount: createPurchaseDto.amount,
+          reduceStock: createPurchaseDto.reduceStock,
           price: createPurchaseDto.price,
           description: createPurchaseDto.description,
           completed: false,

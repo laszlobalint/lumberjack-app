@@ -1,13 +1,15 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
 import { AppModule } from './app.module';
+
 import { DatabaseExceptionFilter } from './shared/exception-filters/database.exception-filter';
 import { HttpExceptionFilter } from './shared/exception-filters/http.exception-filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors({ origin: 'http://localhost:4200' });
+  app.enableCors({ origin: process.env['PROJECT_VERSION'] });
 
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new DatabaseExceptionFilter(), new HttpExceptionFilter());
@@ -20,7 +22,6 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
-
   await app.listen(process.env['SERVER_PORT']);
 }
 bootstrap();

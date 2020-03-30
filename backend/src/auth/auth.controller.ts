@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { classToPlain } from 'class-transformer';
+import { RateLimit } from 'nestjs-rate-limiter';
 
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -14,6 +15,7 @@ import { LoginDto, LoginResponseDto } from './auth.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService, private readonly userService: UserService) {}
 
+  @RateLimit({ points: 20, duration: 60 })
   @Post('login')
   @UseGuards(LocalAuthGuard)
   async login(@Body() loginDto: LoginDto): Promise<LoginResponseDto> {
