@@ -1,0 +1,23 @@
+{
+  "global": {
+    "app-title": "Lumberjack Order Management"
+  },
+  "customers": {},
+  "products": {},
+  "purchases": {},
+  "create-purchases": {},
+  "user": {
+    "login-title": "Login",
+    "login-welcome": "Hello! Log in with your email address.",
+    "login-failure": "Cannot log in!",
+    "login-success": "You are logging in",
+    "logout": "Logging out, please wait...",
+    "logout-title": "Logout",
+    "email": "Email address",
+    "email-required": "Email is required!",
+    "email-validation": "Email should be a proper one!",
+    "password": "Password",
+    "password-required": "Password is required!",
+    "password-validation": "Password should contain from {{ minimum }} to {{ maximum }} characters"
+  }
+}

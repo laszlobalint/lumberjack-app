@@ -5,6 +5,9 @@
     </a>
     <a class="logo" href="#" (click)="navigateHome()">{{ SITE_NAME }}</a>
   </div>
+  <nb-select placeholder="Choose..." [selected]="currentLanguage" (selectedChange)="changeLanguage($event)" status="primary">
+    <nb-option *ngFor="let language of LANGUAGES" [value]="language.value">{{ language.name }}</nb-option>
+  </nb-select>
   <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
     <nb-option *ngFor="let theme of THEMES" [value]="theme.value"> {{ theme.name }}</nb-option>
   </nb-select>

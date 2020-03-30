@@ -8,7 +8,7 @@ import * as fromAuth from '../../store';
 @Component({
   selector: 'ngx-logout',
   template: `
-    <div>Logging out, please wait...</div>
+    <div>{{ 'user.logout | translate' }}</div>
   `,
 })
 export class LogoutComponent implements OnInit {
@@ -33,7 +33,7 @@ export class LogoutComponent implements OnInit {
   public logout(strategy: string): void {
     this.nbAuthService.logout(strategy).subscribe((result: NbAuthResult) => {
       this.nbTokenService.clear();
-      this.store.dispatch(fromAuth.SetUser({ user: undefined }));
+      this.store.dispatch(fromAuth.SetUser({ user: undefined, browserLanguage: undefined }));
 
       const redirect = result.getRedirect();
       if (redirect) {

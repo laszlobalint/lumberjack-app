@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,11 +18,17 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
 import { CustomersService, ProductsService, PurchasesService } from './services';
 import { AppComponent } from './app.component';
+
+export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
+}
 
 const NB_MODULES = [
   NbSidebarModule.forRoot(),
@@ -51,8 +57,15 @@ const NB_MODULES = [
     ...NB_MODULES,
     CoreModule.forRoot(),
     AuthModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
   ],
-  providers: [CustomersService, ProductsService, PurchasesService],
+  providers: [TranslateService, CustomersService, ProductsService, PurchasesService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

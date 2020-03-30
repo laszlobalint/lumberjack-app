@@ -5,17 +5,24 @@ import * as AuthActions from './auth.actions';
 
 interface AuthState {
   user?: UserDto;
+  language?: string;
 }
 
 export const initialState: AuthState = {
   user: undefined,
+  language: undefined,
 };
 
 const authReducer = createReducer(
   initialState,
-  on(AuthActions.GetUserSuccess, AuthActions.SetUser, (state, { user }) => ({
+  on(AuthActions.GetUserSuccess, AuthActions.SetUser, (state, { user, browserLanguage }) => ({
     ...state,
     user,
+    language: browserLanguage,
+  })),
+  on(AuthActions.SetLanguage, (state, { language }) => ({
+    ...state,
+    language,
   })),
 );
 

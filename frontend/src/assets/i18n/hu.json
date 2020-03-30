@@ -1,0 +1,22 @@
+{
+  "global": {
+    "app-title": "Fatelep Rendeléskezelés"
+  },
+  "customers": {},
+  "products": {},
+  "purchases": {},
+  "user": {
+    "login-title": "Bejelentkezés",
+    "login-welcome": "Üdv! Jelentkezz be az e-mail címeddel.",
+    "login-failure": "Nem lehet bejelentkezni!",
+    "login-success": "Bejelentkezés folyamatban",
+    "logout": "Kijelentkezés, kérlek, várj...",
+    "logout-title": "Kijelentkezés",
+    "email": "E-mail cím",
+    "email-required": "E-mail cím kötelező!",
+    "email-validation": "E-mail legyen megfelelő formátumú!",
+    "password": "Jelszó",
+    "password-required": "A jelszó kötelező!",
+    "password-validation": "A jelszó legalább #{{ minimum }}, legfeljebb #{{ maximum }} karaktert tartalmazhat."
+  }
+}

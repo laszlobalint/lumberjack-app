@@ -19,10 +19,10 @@ import {
 import { FooterComponent, HeaderComponent, SearchInputComponent, SwitcherComponent } from './components';
 import { OneColumnLayoutComponent, ThreeColumnsLayoutComponent, TwoColumnsLayoutComponent } from './layouts';
 import { CapitalizePipe, NumberWithCommasPipe, PluralPipe, RoundPipe, TimingPipe } from './pipes';
-import { CORPORATE_THEME } from './styles/theme.corporate';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { DARK_THEME } from './styles/theme.dark';
 import { DEFAULT_THEME } from './styles/theme.default';
+import { TranslateModule } from '@ngx-translate/core';
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -63,7 +63,7 @@ export class ThemeModule {
           {
             name: 'default',
           },
-          [DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME],
+          [DEFAULT_THEME, COSMIC_THEME, DARK_THEME],
         ).providers,
       ],
     } as ModuleWithProviders;

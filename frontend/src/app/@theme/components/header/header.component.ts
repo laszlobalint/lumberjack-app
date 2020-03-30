@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMenuItem, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
-import { Subject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { Subject, Subscription } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 import * as fromAuth from '../../../auth/store';
 import { UserDto } from '../../../auth/models/user.model';
+import { LANGUAGES, THEMES } from './header.constants';
 import { SITE_NAME } from '../../../app.constants';
 import { Store } from '@ngrx/store';
 
@@ -14,32 +16,32 @@ import { Store } from '@ngrx/store';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  private destroy$: Subject<void> = new Subject<void>();
   public user?: UserDto;
-  public userMenu: NbMenuItem[] = [{ title: 'Logout', link: '/auth/logout' }];
+  public userMenu: NbMenuItem[] = [{ title: this.translate.instant('user.logout-title'), link: '/auth/logout' }];
+
   public readonly SITE_NAME = SITE_NAME;
-  public currentTheme = 'default';
-  public readonly THEMES = [
-    {
-      value: 'default',
-      name: 'Light',
-    },
-    {
-      value: 'dark',
-      name: 'Dark',
-    },
-    {
-      value: 'cosmic',
-      name: 'Cosmic',
-    },
-  ];
+  public readonly LANGUAGES = LANGUAGES;
+  public readonly THEMES = THEMES;
+  public currentTheme = THEMES[0].value;
+  public currentLanguage = LANGUAGES[0].value;
+
+  public languageSubscription = new Subscription();
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private readonly menuService: NbMenuService,
     private readonly sidebarService: NbSidebarService,
     private readonly themeService: NbThemeService,
     private readonly authStore: Store<fromAuth.State>,
-  ) {}
+    private readonly translate: TranslateService,
+  ) {
+    this.languageSubscription = this.authStore.select('auth').subscribe(state => {
+      this.LANGUAGES.some(l => l.value === state.language)
+        ? this.translate.use(state.language)
+        : this.translate.use(this.LANGUAGES[0].value);
+    });
+    this.currentLanguage = this.translate.currentLang;
+  }
 
   public ngOnInit(): void {
     this.currentTheme = this.themeService.currentTheme;
@@ -56,6 +58,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
+    this.languageSubscription.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -72,5 +75,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public navigateHome(): boolean {
     this.menuService.navigateHome();
     return false;
+  }
+
+  public changeLanguage(value: string): void {
+    this.currentLanguage = value;
+    this.translate.use(this.currentLanguage);
+    this.authStore.dispatch(fromAuth.SetLanguage({ language: this.currentLanguage }));
   }
 }
