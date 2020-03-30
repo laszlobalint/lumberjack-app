@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulatio
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
-import * as fromCustomers from '../store';
+import { EditConfirm } from '../../../helpers/ng2-smart-table/ng2-smart-table.model';
 import { CustomerDto } from '../../../models';
+import * as fromCustomers from '../store';
 import { CUSTOMERS_SMART_TABLE_SETTINGS } from './customers.smart-table-settings';
 
 @Component({
@@ -48,7 +48,7 @@ export class CustomersComponent {
     }
   }
 
-  public onEditConfirm({ newData, confirm }: any): void {
+  public onEditConfirm({ newData, confirm }: EditConfirm<CustomerDto>): void {
     if (window.confirm('Are you sure you want to edit the customer?') && this.validateData(newData)) {
       const { id, ...updateCustomerDto } = newData;
       this.customersStore.dispatch(fromCustomers.UpdateCustomer({ id, updateCustomerDto, confirm }));

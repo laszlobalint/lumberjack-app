@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { API_URL } from '../app.constants';
 import { CreateProductDto, ProductDto, UpdateProductDto } from '../models/products.model';
 
@@ -13,7 +12,7 @@ export class ProductsService {
     return this.http.get<ProductDto[]>(`${this.apiUrl}/product`);
   }
 
-  fetchOne(id: string): Observable<ProductDto> {
+  fetchOne(id: number): Observable<ProductDto> {
     return this.http.get<ProductDto>(`${this.apiUrl}/product/${id}`);
   }
 
@@ -21,11 +20,11 @@ export class ProductsService {
     return this.http.post<ProductDto>(`${this.apiUrl}/product`, createProductDto);
   }
 
-  update(id: string, updateProductDto: UpdateProductDto): Observable<ProductDto> {
+  update(id: number, updateProductDto: UpdateProductDto): Observable<ProductDto> {
     return this.http.put<ProductDto>(`${this.apiUrl}/product/${id}`, updateProductDto);
   }
 
-  delete(id: string): Observable<number> {
+  delete(id: number): Observable<number> {
     return this.http.delete<number>(`${this.apiUrl}/product/${id}`);
   }
 }
