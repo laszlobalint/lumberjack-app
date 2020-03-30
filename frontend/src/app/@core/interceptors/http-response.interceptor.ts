@@ -21,10 +21,15 @@ export class HttpResponseInterceptor implements HttpInterceptor {
         }
       }),
       catchError((error: HttpErrorResponse) => {
-        if (TRACK_FAILURE_FOR_METHODS.includes(request.method) && error instanceof HttpErrorResponse) {
+        if (
+          error instanceof HttpErrorResponse &&
+          TRACK_FAILURE_FOR_METHODS.includes(request.method) &&
+          error.error &&
+          error.error.message
+        ) {
           const { message }: ErrorResponseBody = error.error.message;
           if (isArray(message)) {
-            this.getMessages(message as ValidationError[]).forEach(message => this.nbToastrService.danger(message, 'Failure!'));
+            this.getMessages(message as ValidationError[]).forEach(errorMsg => this.nbToastrService.danger(errorMsg, 'Failure!'));
           } else if (isString(message)) {
             this.nbToastrService.danger(message, 'Failure!');
           }
