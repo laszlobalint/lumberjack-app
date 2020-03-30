@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulatio
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
+
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
+import * as fromCustomers from '../store';
 import { DeleteConfirm, EditConfirm } from '../../../helpers/ng2-smart-table/ng2-smart-table.model';
 import { CustomerDto } from '../../../models';
-import * as fromCustomers from '../store';
 import { CreateConfirm } from './../../../helpers/ng2-smart-table/ng2-smart-table.model';
 import { CUSTOMERS_SMART_TABLE_SETTINGS } from './customers.smart-table-settings';
 
