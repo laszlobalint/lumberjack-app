@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsBoolean, IsNotEmpty, IsNumber, ValidateIf } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, ValidateIf, ValidateNested } from 'class-validator';
 import { CreateCustomerDto } from './../customer/customer.dto';
 
 export class CreatePurchaseDto {
@@ -23,6 +23,7 @@ export class CreatePurchaseDto {
 
   @ValidateIf((o: CreatePurchaseDto) => !o.customerId)
   @IsNotEmpty()
+  @ValidateNested()
   customer?: CreateCustomerDto;
 
   description?: string;
