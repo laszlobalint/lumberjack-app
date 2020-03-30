@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
 import * as fromProducts from '../store';
-import { CreateProductDto, ProductDto, UpdateProductDto } from '../../../models';
+import { ProductDto } from '../../../models';
 import { PRODUCTS_SMART_TABLE_SETTINGS } from './products.smart-table-settings';
 
 @Component({
@@ -41,8 +41,6 @@ export class ProductsComponent {
 
   public onCreateConfirm({ newData, confirm }: any): void {
     if (window.confirm('Are you sure you want to create the customer?') && this.validateData(newData)) {
-      newData.price = Number(newData.price);
-      newData.amount = Number(newData.amount);
       const { id, ...createProductDto } = newData;
       this.productsStore.dispatch(fromProducts.SaveProduct({ createProductDto, confirm }));
     } else {
@@ -52,8 +50,6 @@ export class ProductsComponent {
 
   public onEditConfirm({ newData, confirm }: any): void {
     if (window.confirm('Are you sure you want to edit the product?') && this.validateData(newData)) {
-      newData.price = Number(newData.price);
-      newData.amount = Number(newData.amount);
       const { id, ...updateProductDto } = newData;
       this.productsStore.dispatch(fromProducts.UpdateProduct({ id, updateProductDto, confirm }));
     } else {
@@ -69,7 +65,7 @@ export class ProductsComponent {
     }
   }
 
-  private validateData(data: CreateProductDto | UpdateProductDto): boolean {
+  private validateData(data: ProductDto): boolean {
     let error = '';
     let isNameRepresent: boolean;
     this.source
@@ -77,8 +73,6 @@ export class ProductsComponent {
       .then(elements => (isNameRepresent = elements.some((p: ProductDto) => p.name.toLowerCase() === data.name.toLowerCase())));
 
     if (!data.name || isNameRepresent) error += 'Name has to be given and uniqe! ';
-    if (isNaN(data.amount) || data.amount < 0 || !data.amount) error += 'Amount has to be a positive number! ';
-    if (isNaN(data.price) || data.price < 0 || !data.price) error += 'Price has to be a positive number! ';
 
     if (error) {
       this.toastrService.show(error, 'Error', { status: 'warning' });

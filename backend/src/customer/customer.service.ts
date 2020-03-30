@@ -23,9 +23,9 @@ export class CustomerService {
     return await this.customerRepository.findOneOrFail({ where: { id } });
   }
 
-  async create(createCustomerDto: CreateCustomerDto): Promise<Customer> {
+  async create(createCustomerDto: CreateCustomerDto, userId: number): Promise<Customer> {
     let user = await this.userRepository.findOneOrFail({
-      where: { id: createCustomerDto.createdBy },
+      where: { id: userId },
       relations: ['customers', 'products', 'purchases'],
     });
 

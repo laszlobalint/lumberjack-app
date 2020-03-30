@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
@@ -27,8 +27,7 @@ export class ProductController {
   @Post()
   @ApiResponse({ status: 201, description: 'Created a product.' })
   async create(@Body() createProductDto: CreateProductDto, @Req() req: any): Promise<Product> {
-    createProductDto.createdBy = req.user.userId;
-    return this.productService.create(createProductDto);
+    return this.productService.create(createProductDto, +req.user.userId);
   }
 
   @Put(':id')

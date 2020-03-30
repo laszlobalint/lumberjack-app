@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, DeleteResult, Repository } from 'typeorm';
 import { classToPlain } from 'class-transformer';
@@ -26,6 +26,10 @@ export class PurchaseService {
   }
 
   async create(createPurchaseDto: CreatePurchaseDto, userId: number): Promise<Purchase> {
+    if (!createPurchaseDto.customerId && !createPurchaseDto.customer) {
+      throw new UnprocessableEntityException('Field customerId or customer must exist.');
+    }
+
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -99,12 +103,13 @@ export class PurchaseService {
         product: classToPlain(product) as Product,
         user: classToPlain(user) as User,
       };
+
+      return purchase;
     } catch (error) {
       await queryRunner.rollbackTransaction();
-      purchase = null;
+      throw error;
     } finally {
       await queryRunner.release();
-      return purchase;
     }
   }
 

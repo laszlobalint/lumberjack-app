@@ -3,12 +3,13 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
 import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
-import { of as observableOf, Observable } from 'rxjs';
+import { Observable, of as observableOf } from 'rxjs';
 
 import { environment } from '../../environments/environment';
+import { TokenInterceptor } from './interceptors/token.interceptor';
+import { HttpResponseInterceptor } from './interceptors/http-response.interceptor';
 import { AuthGuard } from './guards/auth.guard';
 import { throwIfAlreadyLoaded } from './module-import-guard';
-import { TokenInterceptor } from './interceptors/token.interceptor';
 import { AnalyticsService } from './utils';
 
 export class NbSimpleRoleProvider extends NbRoleProvider {
@@ -91,7 +92,12 @@ export class CoreModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: CoreModule,
-      providers: [...NB_CORE_PROVIDERS, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }, AuthGuard],
+      providers: [
+        ...NB_CORE_PROVIDERS,
+        { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: HttpResponseInterceptor, multi: true },
+        AuthGuard,
+      ],
     } as ModuleWithProviders;
   }
 }

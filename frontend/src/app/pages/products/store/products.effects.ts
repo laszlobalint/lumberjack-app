@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, mergeMap } from 'rxjs/operators';
-import { NbToastrService } from '@nebular/theme';
 
 import { ProductsService } from '../../../services/products.service';
 import * as ProductsActions from './products.actions';
@@ -29,7 +28,6 @@ export class ProductsEffects {
         this.productsService.save(createProductDto).pipe(
           map(product => {
             confirm.resolve({ ...product, date: new Date() });
-            this.toastrService.show('New product saved!', 'Success', { status: 'success' });
             return ProductsActions.SaveProductSuccess({ product });
           }),
         ),
@@ -44,7 +42,6 @@ export class ProductsEffects {
         this.productsService.update(id, updateProductDto).pipe(
           map(product => {
             confirm.resolve(product);
-            this.toastrService.show('Updated product saved!', 'Success', { status: 'success' });
             return ProductsActions.UpdateProductSuccess({ product });
           }),
         ),
@@ -59,7 +56,6 @@ export class ProductsEffects {
         this.productsService.delete(id).pipe(
           map(resId => {
             confirm.resolve();
-            this.toastrService.show('Product deleted!', 'Success', { status: 'success' });
             return ProductsActions.DeleteProductSuccess({ resId });
           }),
         ),
@@ -67,9 +63,5 @@ export class ProductsEffects {
     ),
   );
 
-  constructor(
-    private readonly actions$: Actions,
-    private readonly productsService: ProductsService,
-    private readonly toastrService: NbToastrService,
-  ) {}
+  constructor(private readonly actions$: Actions, private readonly productsService: ProductsService) {}
 }
