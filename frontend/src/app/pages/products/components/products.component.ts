@@ -41,8 +41,6 @@ export class ProductsComponent {
 
   public onCreateConfirm({ newData, confirm }: any): void {
     if (window.confirm('Are you sure you want to create the customer?') && this.validateData(newData)) {
-      newData.price = Number(newData.price);
-      newData.amount = Number(newData.amount);
       const { id, ...createProductDto } = newData;
       this.productsStore.dispatch(fromProducts.SaveProduct({ createProductDto, confirm }));
     } else {
@@ -52,8 +50,6 @@ export class ProductsComponent {
 
   public onEditConfirm({ newData, confirm }: any): void {
     if (window.confirm('Are you sure you want to edit the product?') && this.validateData(newData)) {
-      newData.price = Number(newData.price);
-      newData.amount = Number(newData.amount);
       const { id, ...updateProductDto } = newData;
       this.productsStore.dispatch(fromProducts.UpdateProduct({ id, updateProductDto, confirm }));
     } else {
