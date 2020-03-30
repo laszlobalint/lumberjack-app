@@ -1,13 +1,18 @@
 export interface ErrorResponseBody {
   statusCode: number;
-  message: string | ValidationErrorMessage[];
+  message: string | ValidationError[];
   timestamp: string;
   path: string;
 }
 
-export interface ValidationErrorMessage {
-  target: any;
+export interface ValidationError {
+  target: Object;
   property: string;
-  children: ValidationErrorMessage[];
-  constraints: { [key: string]: string };
+  value: any;
+  constraints?: ValidationConstraint;
+  children?: ValidationError[];
+}
+
+export interface ValidationConstraint {
+  [type: string]: string;
 }
