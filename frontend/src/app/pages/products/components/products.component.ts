@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulatio
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
-import * as fromProducts from '../store';
+import { DeleteConfirm } from '../../../helpers/ng2-smart-table/ng2-smart-table.model';
 import { ProductDto } from '../../../models';
+import * as fromProducts from '../store';
+import { CreateConfirm, EditConfirm } from './../../../helpers/ng2-smart-table/ng2-smart-table.model';
 import { PRODUCTS_SMART_TABLE_SETTINGS } from './products.smart-table-settings';
 
 @Component({
@@ -39,7 +40,7 @@ export class ProductsComponent {
     );
   }
 
-  public onCreateConfirm({ newData, confirm }: any): void {
+  public onCreateConfirm({ newData, confirm }: CreateConfirm<ProductDto>): void {
     if (window.confirm('Are you sure you want to create the customer?') && this.validateData(newData)) {
       const { id, ...createProductDto } = newData;
       this.productsStore.dispatch(fromProducts.SaveProduct({ createProductDto, confirm }));
@@ -48,7 +49,7 @@ export class ProductsComponent {
     }
   }
 
-  public onEditConfirm({ newData, confirm }: any): void {
+  public onEditConfirm({ newData, confirm }: EditConfirm<ProductDto>): void {
     if (window.confirm('Are you sure you want to edit the product?') && this.validateData(newData)) {
       const { id, ...updateProductDto } = newData;
       this.productsStore.dispatch(fromProducts.UpdateProduct({ id, updateProductDto, confirm }));
@@ -57,7 +58,7 @@ export class ProductsComponent {
     }
   }
 
-  public onDeleteConfirm({ data, confirm }: any): void {
+  public onDeleteConfirm({ data, confirm }: DeleteConfirm<ProductDto>): void {
     if (window.confirm('Are you sure you want to delete the product?')) {
       this.productsStore.dispatch(fromProducts.DeleteProduct({ id: data.id, confirm }));
     } else {

@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulatio
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
-import * as fromPurchases from '../store';
 import { PurchaseDto } from '../../../models';
+import * as fromPurchases from '../store';
+import { DeleteConfirm, EditConfirm } from './../../../helpers/ng2-smart-table/ng2-smart-table.model';
 import { PURCHASES_SMART_TABLE_SETTINGS } from './purchases.smart-table-settings';
 
 @Component({
@@ -47,7 +47,7 @@ export class PurchasesComponent {
     );
   }
 
-  public onEditConfirm({ newData, confirm }: any): void {
+  public onEditConfirm({ newData, confirm }: EditConfirm<PurchaseDto>): void {
     if (window.confirm('Are you sure you want to edit the product?') && this.validateData(newData)) {
       const { id, ...updatePurchase } = newData;
       this.purchasesStore.dispatch(fromPurchases.UpdatePurchase({ id, updatePurchase, confirm }));
@@ -56,7 +56,7 @@ export class PurchasesComponent {
     }
   }
 
-  public onDeleteConfirm({ data, confirm }: any): void {
+  public onDeleteConfirm({ data, confirm }: DeleteConfirm<PurchaseDto>): void {
     if (window.confirm('Are you sure you want to delete the product?')) {
       this.purchasesStore.dispatch(fromPurchases.DeletePurchase({ id: data.id, confirm }));
     } else {

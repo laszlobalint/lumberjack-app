@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { API_URL } from '../app.constants';
 import { CreateCustomerDto, CustomerDto, UpdateCustomerDto } from '../models';
 
@@ -13,7 +12,7 @@ export class CustomersService {
     return this.http.get<CustomerDto[]>(`${this.apiUrl}/customer`);
   }
 
-  fetchOne(id: string): Observable<CustomerDto> {
+  fetchOne(id: number): Observable<CustomerDto> {
     return this.http.get<CustomerDto>(`${this.apiUrl}/customer/${id}`);
   }
 
@@ -21,11 +20,11 @@ export class CustomersService {
     return this.http.post<CustomerDto>(`${this.apiUrl}/customer`, createCustomerDto);
   }
 
-  update(id: string, updateCustomerDto: UpdateCustomerDto): Observable<CustomerDto> {
+  update(id: number, updateCustomerDto: UpdateCustomerDto): Observable<CustomerDto> {
     return this.http.put<CustomerDto>(`${this.apiUrl}/customer/${id}`, updateCustomerDto);
   }
 
-  delete(id: string): Observable<number> {
+  delete(id: number): Observable<number> {
     return this.http.delete<number>(`${this.apiUrl}/customer/${id}`);
   }
 }
