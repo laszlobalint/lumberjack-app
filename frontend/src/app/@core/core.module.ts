@@ -4,10 +4,11 @@ import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core
 import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
 import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
 import { Observable, of as observableOf } from 'rxjs';
+
 import { environment } from '../../environments/environment';
-import { AuthGuard } from './guards/auth.guard';
-import { HttpResponseInterceptor } from './interceptors/http-response.interceptor';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { HttpResponseInterceptor } from './interceptors/http-response.interceptor';
+import { AuthGuard } from './guards/auth.guard';
 import { throwIfAlreadyLoaded } from './module-import-guard';
 import { AnalyticsService } from './utils';
 
