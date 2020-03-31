@@ -27,16 +27,13 @@ import { AuthModule } from './auth/auth.module';
 import { CustomersService, ProductsService, PurchasesService } from './services';
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector): () => Promise<any> {
-  return () =>
-    new Promise<void>((resolve: any) => {
-      const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
-      locationInitialized.then(() => {
-        const storedLanguage = localStorage.getItem(LANGUAGE_LOCAL_STORAGE_KEY);
-        const browserLanguage = translate.getBrowserLang().toLowerCase();
-        translate.use(storedLanguage || (LANGUAGES.includes(browserLanguage) && browserLanguage) || LANGUAGES[0]);
-        resolve(null);
-      });
-    });
+  return async () => {
+    await injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
+    const storedLanguage = localStorage.getItem(LANGUAGE_LOCAL_STORAGE_KEY);
+    const browserLanguage = translate.getBrowserLang().toLowerCase();
+    translate.use(storedLanguage || (LANGUAGES.includes(browserLanguage) && browserLanguage) || LANGUAGES[0]);
+    return null;
+  };
 }
 
 export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
