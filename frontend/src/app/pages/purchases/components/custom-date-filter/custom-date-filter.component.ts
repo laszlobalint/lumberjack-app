@@ -1,8 +1,8 @@
 import { Component, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NbCalendarRange } from '@nebular/theme';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DefaultFilter } from 'ng2-smart-table';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'custom-date-filter',
@@ -12,7 +12,7 @@ import { DefaultFilter } from 'ng2-smart-table';
       class="form-control bg-white"
       [nbDatepicker]="formpicker"
       [formControl]="rangePickerFormControl"
-      placeholder="Pick Date Range"
+      [placeholder]="'date-range-picker.placeholder' | translate"
     />
     <nb-rangepicker #formpicker></nb-rangepicker>
   `,
@@ -27,6 +27,7 @@ import { DefaultFilter } from 'ng2-smart-table';
 })
 export class CustomDateFilterComponent extends DefaultFilter implements OnInit, OnChanges {
   public readonly rangePickerFormControl = new FormControl();
+  public placeholder = 'Pick Date Range';
 
   public ngOnInit(): void {
     this.rangePickerFormControl.valueChanges

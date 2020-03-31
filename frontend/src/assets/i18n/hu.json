@@ -16,7 +16,8 @@
     "price": "Ár",
     "confirm-create": "Biztosan létre akarod hozni a/az {{ item }}(e)t?",
     "confirm-edit": "Biztosan módosítani akarod a/az {{ item }}(e)t?",
-    "confirm-delete": "Biztosan törölni akarod a/az {{ item }}(e)t?"
+    "confirm-delete": "Biztosan törölni akarod a/az {{ item }}(e)t?",
+    "all": "Mind"
   },
   "validation": {
     "name": "A név kötelező! ",
@@ -62,5 +63,8 @@
     "password": "Jelszó",
     "password-required": "Jelszó szükséges!",
     "password-validation": "A jelszó legalább {{ minimum }}, és legfeljebb {{ maximum }} karakter lehet."
+  },
+  "date-range-picker": {
+    "placeholder": "Válassz időintervallumot"
   }
 }

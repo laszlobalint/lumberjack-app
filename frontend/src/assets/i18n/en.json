@@ -16,7 +16,8 @@
     "price": "Price",
     "confirm-create": "Are you sure you want to create the {{ item }}?",
     "confirm-edit": "Are you sure you want to edit the {{ item }}?",
-    "confirm-delete": "Are you sure you want to delete the {{ item }}?"
+    "confirm-delete": "Are you sure you want to delete the {{ item }}?",
+    "all": "All"
   },
   "validation": {
     "name": "Name is mandatory! ",
@@ -62,5 +63,8 @@
     "password": "Password",
     "password-required": "Password is required!",
     "password-validation": "Password should contain from {{ minimum }} to {{ maximum }} characters"
+  },
+  "date-range-picker": {
+    "placeholder": "Pick date range"
   }
 }

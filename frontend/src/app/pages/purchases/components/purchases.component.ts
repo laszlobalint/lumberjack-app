@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgZone, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
@@ -32,7 +32,6 @@ export class PurchasesComponent {
     private readonly purchasesStore: Store<fromPurchases.State>,
     private readonly toastrService: NbToastrService,
     private readonly changeDetectionRef: ChangeDetectorRef,
-    private readonly ngZone: NgZone,
     public readonly translate: TranslateService,
   ) {
     this.settings = getSettings(this.translate);
