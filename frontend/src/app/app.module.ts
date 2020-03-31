@@ -28,7 +28,7 @@ import { CustomersService, ProductsService, PurchasesService } from './services'
 import { AppComponent } from './app.component';
 import { LANGUAGES } from './app.constants';
 
-export function appInitializerFactory(translate: TranslateService, injector: Injector) {
+export function appInitializerFactory(translate: TranslateService, injector: Injector): () => Promise<any> {
   return () =>
     new Promise<any>((resolve: any) => {
       const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
@@ -51,17 +51,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
 function setLanguageSettings(props: any): void {
   props.translate.setDefaultLang(props.language);
   localStorage.setItem('language', props.language);
-  props.translate.use(props.language).subscribe(
-    () => {
-      console.info(`Successfully initialized '${props.language}' language.`);
-    },
-    (err: any) => {
-      console.error(`Problem with '${props.language}' language initialization.`);
-    },
-    () => {
-      props.resolve(null);
-    },
-  );
+  props.resolve(null);
 }
 
 export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
