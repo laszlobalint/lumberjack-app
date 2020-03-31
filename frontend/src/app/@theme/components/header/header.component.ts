@@ -1,14 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
-
-import * as fromAuth from '../../../auth/store';
+import { LANGUAGE_LOCAL_STORAGE_KEY, SITE_NAME } from '../../../app.constants';
 import { UserDto } from '../../../auth/models/user.model';
-import { THEMES } from './header.constants';
-import { LANGUAGES, SITE_NAME } from '../../../app.constants';
+import * as fromAuth from '../../../auth/store';
+import { LANGUAGES } from './../../../app.constants';
+import { LANGUAGE_OPTIONS, THEMES } from './header.constants';
 
 @Component({
   selector: 'ngx-header',
@@ -17,10 +17,10 @@ import { LANGUAGES, SITE_NAME } from '../../../app.constants';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   public readonly SITE_NAME = SITE_NAME;
-  public readonly LANGUAGES = LANGUAGES;
+  public readonly LANGUAGE_OPTIONS = LANGUAGE_OPTIONS;
   public readonly THEMES = THEMES;
   public currentTheme = THEMES[0].value;
-  public currentLanguage = localStorage.getItem('language') ? localStorage.getItem('language') : LANGUAGES[0].value;
+  public currentLanguage = localStorage.getItem(LANGUAGE_LOCAL_STORAGE_KEY) || LANGUAGES[0];
   public user?: UserDto;
   private destroy$: Subject<void> = new Subject<void>();
 

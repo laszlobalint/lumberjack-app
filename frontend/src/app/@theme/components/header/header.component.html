@@ -19,7 +19,7 @@
   <nb-select [selected]="currentLanguage"
     (selectedChange)="changeLanguage($event)"
     status="primary">
-    <nb-option *ngFor="let language of LANGUAGES"
+    <nb-option *ngFor="let language of LANGUAGE_OPTIONS"
       [value]="language.value">{{ language.name }}</nb-option>
   </nb-select>
 </div>

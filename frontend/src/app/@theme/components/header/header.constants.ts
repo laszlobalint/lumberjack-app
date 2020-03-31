@@ -1,3 +1,4 @@
+import { LANGUAGES } from './../../../app.constants';
 export const THEMES = [
   {
     value: 'default',
@@ -16,3 +17,8 @@ export const THEMES = [
     name: 'Corporate',
   },
 ];
+
+export const LANGUAGE_OPTIONS = LANGUAGES.map((language: string) => ({
+  value: language,
+  name: language.toUpperCase(),
+}));
