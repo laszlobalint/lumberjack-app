@@ -11,4 +11,8 @@ export const THEMES = [
     value: 'cosmic',
     name: 'Cosmic',
   },
+  {
+    value: 'corporate',
+    name: 'Corporate',
+  },
 ];

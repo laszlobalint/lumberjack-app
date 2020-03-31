@@ -20,6 +20,7 @@ import { FooterComponent, HeaderComponent, SearchInputComponent, SwitcherCompone
 import { OneColumnLayoutComponent, ThreeColumnsLayoutComponent, TwoColumnsLayoutComponent } from './layouts';
 import { CapitalizePipe, NumberWithCommasPipe, PluralPipe, RoundPipe, TimingPipe } from './pipes';
 import { COSMIC_THEME } from './styles/theme.cosmic';
+import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
 import { DEFAULT_THEME } from './styles/theme.default';
 
@@ -62,7 +63,7 @@ export class ThemeModule {
           {
             name: 'default',
           },
-          [DEFAULT_THEME, COSMIC_THEME, DARK_THEME],
+          [DEFAULT_THEME, COSMIC_THEME, CORPORATE_THEME, DARK_THEME],
         ).providers,
       ],
     } as ModuleWithProviders;
