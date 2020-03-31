@@ -2,10 +2,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulatio
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
-import * as fromPurchases from '../store';
 import { PurchaseDto } from '../../../models';
+import * as fromPurchases from '../store';
 import { DeleteConfirm, EditConfirm } from './../../../helpers/ng2-smart-table/ng2-smart-table.model';
 import { PURCHASES_SMART_TABLE_SETTINGS } from './purchases.smart-table-settings';
 
@@ -41,7 +40,7 @@ export class PurchasesComponent {
       fromPurchases.GetPurchases({
         load: purchases => {
           this.source.load(purchases);
-          this.source.setSort([{ field: 'date', direction: 'desc' }]);
+          this.source.setSort([{ field: 'createdDate', direction: 'desc' }]);
           this.changeDetectionRef.markForCheck();
         },
       }),

@@ -43,7 +43,7 @@ export const CUSTOMERS_SMART_TABLE_SETTINGS = {
     description: {
       title: 'Description',
     },
-    date: {
+    createdDate: {
       title: 'Date',
       editable: false,
       addable: false,

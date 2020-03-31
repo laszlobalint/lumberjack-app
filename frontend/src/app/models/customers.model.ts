@@ -8,7 +8,7 @@ export interface CustomerDto {
   nationalId?: string;
   checkingAccount?: string;
   description?: string;
-  date: string;
+  createdDate: string;
 }
 
 export interface CreateCustomerDto {

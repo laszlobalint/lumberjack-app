@@ -43,7 +43,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
     this.purchaseSubscription = this.purchase$
       .pipe(filter(purchase => !!purchase))
       .subscribe(
-        ({ amount, price, description, customer: { id: customerId, date, ...customer }, product: { id: productId }, reduceStock }) =>
+        ({ amount, price, description, customer: { id: customerId, createdDate, ...customer }, product: { id: productId }, reduceStock }) =>
           this.form.setValue({
             amount,
             productId,
@@ -127,7 +127,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
 
     const customerFormGroup = this.form.get('customer');
     if (customerId) {
-      const { id, date, ...createCustomer } = await this.findCustomer(customerId);
+      const { id, createdDate, ...createCustomer } = await this.findCustomer(customerId);
       customerFormGroup.setValue(createCustomer);
     } else {
       customerFormGroup.reset();

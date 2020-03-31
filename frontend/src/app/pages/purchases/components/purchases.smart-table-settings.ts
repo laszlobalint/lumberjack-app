@@ -1,5 +1,4 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
-
 import { equalsOrGreater } from '../../../helpers/ng2-smart-table/filters';
 import { CustomerDto, ProductDto } from '../../../models';
 import { CustomBooleanEditorComponent } from './custom-boolean-editor/custom-boolean-editor.component';
@@ -71,8 +70,23 @@ export const PURCHASES_SMART_TABLE_SETTINGS = {
     description: {
       title: 'Description',
     },
-    date: {
-      title: 'Date',
+    createdDate: {
+      title: 'Created',
+      valuePrepareFunction: (date: string): string => {
+        return new DatePipe('en-US').transform(date, 'yyyy.MM.dd. HH:mm');
+      },
+      editable: false,
+      filter: {
+        type: 'custom',
+        component: CustomDateFilterComponent,
+      },
+      filterFunction: (cell: string, range: Date[]) => {
+        const cellDate = new Date(cell);
+        return (!range[0] || cellDate.getTime() >= range[0].getTime()) && (!range[1] || cellDate.getTime() <= range[1].getTime());
+      },
+    },
+    deliveryDate: {
+      title: 'Delivery',
       valuePrepareFunction: (date: string): string => {
         return new DatePipe('en-US').transform(date, 'yyyy.MM.dd. HH:mm');
       },
