@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { LANGUAGE_LOCAL_STORAGE_KEY, SITE_NAME } from '../../../app.constants';
 import { UserDto } from '../../../auth/models/user.model';
 import * as fromAuth from '../../../auth/store';
-import { LANGUAGES } from './../../../app.constants';
 import { LANGUAGE_OPTIONS, THEMES } from './header.constants';
 
 @Component({
@@ -20,7 +19,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public readonly LANGUAGE_OPTIONS = LANGUAGE_OPTIONS;
   public readonly THEMES = THEMES;
   public currentTheme = THEMES[0].value;
-  public currentLanguage = localStorage.getItem(LANGUAGE_LOCAL_STORAGE_KEY) || LANGUAGES[0];
+  public currentLanguage = this.translateService.currentLang;
   public user?: UserDto;
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -29,7 +28,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private readonly sidebarService: NbSidebarService,
     private readonly themeService: NbThemeService,
     private readonly authStore: Store<fromAuth.State>,
-    public readonly translate: TranslateService,
+    public readonly translateService: TranslateService,
   ) {}
 
   public ngOnInit(): void {
@@ -44,6 +43,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe(themeName => (this.currentTheme = themeName));
+
+    this.translateService.onLangChange
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(({ lang }: LangChangeEvent) => (this.currentLanguage = lang));
   }
 
   public ngOnDestroy(): void {
@@ -66,7 +69,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public changeLanguage(selectedLanguage: string): void {
-    this.translate.use(selectedLanguage);
+    this.translateService.use(selectedLanguage);
     localStorage.setItem(LANGUAGE_LOCAL_STORAGE_KEY, selectedLanguage);
   }
 }

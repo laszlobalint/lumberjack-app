@@ -15,12 +15,12 @@ import {
   NbThemeModule,
   NbUserModule,
 } from '@nebular/theme';
-
+import { TranslateModule } from '@ngx-translate/core';
 import { FooterComponent, HeaderComponent, SearchInputComponent, SwitcherComponent } from './components';
 import { OneColumnLayoutComponent, ThreeColumnsLayoutComponent, TwoColumnsLayoutComponent } from './layouts';
 import { CapitalizePipe, NumberWithCommasPipe, PluralPipe, RoundPipe, TimingPipe } from './pipes';
-import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
+import { COSMIC_THEME } from './styles/theme.cosmic';
 import { DARK_THEME } from './styles/theme.dark';
 import { DEFAULT_THEME } from './styles/theme.default';
 
@@ -37,6 +37,7 @@ const NB_MODULES = [
   NbSelectModule,
   NbIconModule,
   NbEvaIconsModule,
+  TranslateModule,
 ];
 const COMPONENTS = [
   SwitcherComponent,

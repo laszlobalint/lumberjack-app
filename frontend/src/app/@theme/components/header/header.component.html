@@ -32,7 +32,7 @@
       icon="bell-outline"></nb-action>
     <nb-action class="user-action"
       *nbIsGranted="['view', 'user']">
-      <nb-user [nbContextMenu]="[{ title: translate.instant('user.logout-title'), link: '/auth/logout' }]"
+      <nb-user [nbContextMenu]="[{ title: 'user.logout-title' | translate, link: '/auth/logout' }]"
         [name]="user?.name"> </nb-user>
     </nb-action>
   </nb-actions>
