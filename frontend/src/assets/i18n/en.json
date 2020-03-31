@@ -1,0 +1,73 @@
+{
+  "global": {
+    "app-title": "Lumberjack Order Management",
+    "address": "Address",
+    "name": "Name",
+    "phone": "Phone",
+    "save": "Save",
+    "new": "Create new",
+    "company-name": "Company name",
+    "tax-id": "Tax ID",
+    "national-id": "National ID",
+    "checking-account": "Checking account",
+    "description": "Description",
+    "date": "Date",
+    "amount": "Amount",
+    "price": "Price",
+    "confirm-create": "Are you sure you want to create the {{ item }}?",
+    "confirm-edit": "Are you sure you want to edit the {{ item }}?",
+    "confirm-delete": "Are you sure you want to delete the {{ item }}?",
+    "all": "All"
+  },
+  "validation": {
+    "name": "Name is mandatory! ",
+    "name-uniqe": "Name has to be given and unique! ",
+    "amount": "Amount has to be a positive number! ",
+    "price": "Price has to be a positive number! ",
+    "success": "Success! ",
+    "failure": "Failure! "
+  },
+  "customers": {
+    "customers": "Customers"
+  },
+  "products": {
+    "products": "Products",
+    "product": "Product"
+  },
+  "purchases": {
+    "purchases": "Purchases",
+    "all": "All Purchases",
+    "id": "Purchase ID {{ createPurchaseId }}",
+    "new": "New Purchase",
+    "clear": "Clear form",
+    "refresh": "Refresh data",
+    "product": "Product",
+    "select-product": "Select a product",
+    "custom": "Custom",
+    "customer": "Customer",
+    "select-customer": "Select a customer",
+    "none": "None",
+    "edit-customer": "Edit",
+    "customer-descr": "Customer description",
+    "purchase-descr": "Purchase description",
+    "reduce-stock": "Reduce stock amount",
+    "completed": "Completed"
+  },
+  "user": {
+    "login-title": "Login",
+    "login-welcome": "Hello! Log in with your email address.",
+    "login-failure": "Cannot log in!",
+    "login-success": "You are logging in",
+    "logout": "Logging out, please wait...",
+    "logout-title": "Logout",
+    "email": "Email address",
+    "email-required": "Email is required!",
+    "email-validation": "Email should be a proper one!",
+    "password": "Password",
+    "password-required": "Password is required!",
+    "password-validation": "Password should contain from {{ minimum }} to {{ maximum }} characters"
+  },
+  "date-range-picker": {
+    "placeholder": "Pick date range"
+  }
+}

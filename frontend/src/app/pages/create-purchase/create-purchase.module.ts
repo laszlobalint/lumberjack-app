@@ -20,6 +20,7 @@ import {
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ThemeModule } from '../../@theme/theme.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { createPurchasesFeatureKey, reducer } from './store';
 import { CreatePurchaseEffects } from './store/create-purchase.effects';
@@ -48,6 +49,7 @@ import { CreatePurchaseComponent } from './components/create-purchase.component'
     NbToggleModule,
     NbSpinnerModule,
     NbTooltipModule,
+    TranslateModule,
   ],
 })
 export class CreatePurchaseModule {}

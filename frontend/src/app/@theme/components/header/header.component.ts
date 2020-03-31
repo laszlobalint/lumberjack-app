@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMenuItem, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import { NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import { Store } from '@ngrx/store';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
-import * as fromAuth from '../../../auth/store';
 import { UserDto } from '../../../auth/models/user.model';
-import { SITE_NAME } from '../../../app.constants';
-import { Store } from '@ngrx/store';
+import * as fromAuth from '../../../auth/store';
+import { LANGUAGE_LOCAL_STORAGE_KEY, SITE_NAME } from '../../../app.constants';
+import { LANGUAGE_OPTIONS, THEMES } from './header.constants';
 
 @Component({
   selector: 'ngx-header',
@@ -14,31 +16,20 @@ import { Store } from '@ngrx/store';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  private destroy$: Subject<void> = new Subject<void>();
-  public user?: UserDto;
-  public userMenu: NbMenuItem[] = [{ title: 'Logout', link: '/auth/logout' }];
   public readonly SITE_NAME = SITE_NAME;
-  public currentTheme = 'default';
-  public readonly THEMES = [
-    {
-      value: 'default',
-      name: 'Light',
-    },
-    {
-      value: 'dark',
-      name: 'Dark',
-    },
-    {
-      value: 'cosmic',
-      name: 'Cosmic',
-    },
-  ];
+  public readonly LANGUAGE_OPTIONS = LANGUAGE_OPTIONS;
+  public readonly THEMES = THEMES;
+  public currentTheme = THEMES[0].value;
+  public currentLanguage = this.translateService.currentLang;
+  public user?: UserDto;
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private readonly menuService: NbMenuService,
     private readonly sidebarService: NbSidebarService,
     private readonly themeService: NbThemeService,
     private readonly authStore: Store<fromAuth.State>,
+    public readonly translateService: TranslateService,
   ) {}
 
   public ngOnInit(): void {
@@ -72,5 +63,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public navigateHome(): boolean {
     this.menuService.navigateHome();
     return false;
+  }
+
+  public changeLanguage(selectedLanguage: string): void {
+    this.translateService.use(selectedLanguage);
+    localStorage.setItem(LANGUAGE_LOCAL_STORAGE_KEY, selectedLanguage);
   }
 }

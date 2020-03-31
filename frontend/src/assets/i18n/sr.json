@@ -1,0 +1,73 @@
+{
+  "global": {
+    "app-title": "Upravaljanje narudžbama drvare",
+    "address": "Adresa",
+    "name": "Ime",
+    "phone": "Telefon",
+    "save": "Sačuvaj",
+    "new": "Dodaj novi",
+    "company-name": "Naziv firme",
+    "tax-id": "PIB",
+    "national-id": "Matični broj",
+    "checking-account": "Tekući račun",
+    "description": "Opis",
+    "date": "Datum",
+    "amount": "Količina",
+    "price": "Cena",
+    "confirm-create": "Sigurno želiš da sačuvaš {{ item }}?",
+    "confirm-edit": "Sigurno želiš da promeniš {{ item }}?",
+    "confirm-delete": "Sigurno želiš da brišeš {{ item }}?",
+    "all": "Sve"
+  },
+  "validation": {
+    "name": "Ime je obazezno! ",
+    "name-uniqe": "Jedisntveno ime je obavezno! ",
+    "amount": "Količina mora da bude pozitivan broj! ",
+    "price": "Cena mora da bude pozitivan broj! ",
+    "success": "Uspešan! ",
+    "failure": "Neuspešan! "
+  },
+  "customers": {
+    "customers": "Klijenti"
+  },
+  "products": {
+    "products": "Proizvodi",
+    "product": "Proizvod"
+  },
+  "purchases": {
+    "purchases": "Narudžbine",
+    "all": "Sve narudžbine",
+    "id": "Broj narudžbine {{ createPurchaseId }}",
+    "new": "Nova narudžbina",
+    "clear": "Obriši obrazac",
+    "refresh": "Ažuriranje podataka",
+    "product": "Proizvod",
+    "select-product": "Odaberi proizvod",
+    "custom": "Jedinstven",
+    "customer": "Klijent",
+    "select-customer": "Odaberi klijenta",
+    "edit-customer": "Uredi",
+    "none": "Nijedan",
+    "customer-descr": "Opis klijenta",
+    "purchase-descr": "Opis narudžbine",
+    "reduce-stock": "Smanjenje količine u magacinu",
+    "completed": "Izvršena"
+  },
+  "user": {
+    "login-title": "Prijava",
+    "login-welcome": "Zdravo! Prijavi se sa emailom.",
+    "login-failure": "Prijava neušpesna!",
+    "login-success": "Uspešna prijava",
+    "logout": "Prijavljivanje, molim te, sačekaj...",
+    "logout-title": "Odjava",
+    "email": "Email adresa",
+    "email-required": "Email je obavezan!",
+    "email-validation": "Emal je pogrešnog formata!",
+    "password": "Lozinka",
+    "password-required": "Lozinka je obavezna!",
+    "password-validation": "Lozinka ima najmanje {{ minimum }}, a najviše {{ maximum }} karaktera."
+  },
+  "date-range-picker": {
+    "placeholder": "Izaberi interval"
+  }
+}

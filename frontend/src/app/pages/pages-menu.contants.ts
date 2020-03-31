@@ -1,23 +1,24 @@
 import { NbMenuItem } from '@nebular/theme';
+import { TranslateService } from '@ngx-translate/core';
 
-export const MENU_ITEMS: NbMenuItem[] = [
+export const getMenuItems = (translate: TranslateService): NbMenuItem[] => [
   {
-    title: 'New Purchase',
+    title: translate.instant('purchases.new'),
     icon: 'plus-square-outline',
     link: '/pages/create-purchase',
   },
   {
-    title: 'All Purchases',
+    title: translate.instant('purchases.all'),
     icon: 'shopping-cart-outline',
     link: '/pages/purchases',
   },
   {
-    title: 'Customers',
+    title: translate.instant('customers.customers'),
     icon: 'person-add-outline',
     link: '/pages/customers',
   },
   {
-    title: 'Products',
+    title: translate.instant('products.products'),
     icon: 'shopping-bag-outline',
     link: '/pages/products',
   },
