@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
 import { DeleteConfirm, EditConfirm } from '../../../helpers/ng2-smart-table/ng2-smart-table.model';
@@ -16,10 +17,11 @@ import { getSettings } from './customers.smart-table-settings';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class CustomersComponent {
+export class CustomersComponent implements OnDestroy {
   public readonly source = new LocalDataSource<CustomerDto>();
   public settings: any;
   public customers$ = this.customersStore.select('customers').pipe(map(state => state.customers));
+  private languageSubscription: Subscription;
 
   constructor(
     private readonly customersStore: Store<fromCustomers.State>,
@@ -29,10 +31,14 @@ export class CustomersComponent {
   ) {
     this.settings = getSettings(this.translate);
     this.loadData();
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+    this.languageSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.settings = getSettings(this.translate);
       this.changeDetectionRef.markForCheck();
     });
+  }
+
+  public ngOnDestroy() {
+    this.languageSubscription.unsubscribe();
   }
 
   public loadData(): void {

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { LANGUAGE_LOCAL_STORAGE_KEY, SITE_NAME } from '../../../app.constants';
@@ -43,10 +43,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe(themeName => (this.currentTheme = themeName));
-
-    this.translateService.onLangChange
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(({ lang }: LangChangeEvent) => (this.currentLanguage = lang));
   }
 
   public ngOnDestroy(): void {
