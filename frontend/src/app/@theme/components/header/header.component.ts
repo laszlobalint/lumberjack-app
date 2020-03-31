@@ -65,9 +65,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  public changeLanguage(value: string): void {
-    this.currentLanguage = value;
-    this.translate.use(this.currentLanguage);
-    localStorage.setItem('language', value);
+  public changeLanguage(selectedLanguage: string): void {
+    this.translate.use(selectedLanguage);
+    localStorage.setItem(LANGUAGE_LOCAL_STORAGE_KEY, selectedLanguage);
   }
 }

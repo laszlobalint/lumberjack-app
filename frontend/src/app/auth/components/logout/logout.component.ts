@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { getDeepFromObject, NbAuthResult, NbAuthService, NbTokenService, NB_AUTH_OPTIONS } from '@nebular/auth';
 import { Store } from '@ngrx/store';
-
 import * as fromAuth from '../../store';
 
 @Component({
@@ -33,7 +32,6 @@ export class LogoutComponent implements OnInit {
   public logout(strategy: string): void {
     this.nbAuthService.logout(strategy).subscribe((result: NbAuthResult) => {
       this.nbTokenService.clear();
-      localStorage.clear();
       this.store.dispatch(fromAuth.SetUser({ user: undefined }));
 
       const redirect = result.getRedirect();
