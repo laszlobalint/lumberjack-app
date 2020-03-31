@@ -43,6 +43,7 @@
     "customer": "Customer",
     "select-customer": "Select a customer",
     "none": "None",
+    "edit-customer": "Edit",
     "customer-descr": "Customer description",
     "purchase-descr": "Purchase description",
     "reduce-stock": "Reduce stock amount",
