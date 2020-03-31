@@ -12,18 +12,3 @@ export const THEMES = [
     name: 'Cosmic',
   },
 ];
-
-export const LANGUAGES = [
-  {
-    value: 'en',
-    name: 'EN',
-  },
-  {
-    value: 'hu',
-    name: 'HU',
-  },
-  {
-    value: 'srb',
-    name: 'SRB',
-  },
-];

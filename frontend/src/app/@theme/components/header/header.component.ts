@@ -7,8 +7,8 @@ import { Store } from '@ngrx/store';
 
 import * as fromAuth from '../../../auth/store';
 import { UserDto } from '../../../auth/models/user.model';
-import { LANGUAGES, THEMES } from './header.constants';
-import { SITE_NAME } from '../../../app.constants';
+import { THEMES } from './header.constants';
+import { LANGUAGES, SITE_NAME } from '../../../app.constants';
 
 @Component({
   selector: 'ngx-header',

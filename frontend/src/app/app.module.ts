@@ -26,7 +26,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
 import { CustomersService, ProductsService, PurchasesService } from './services';
 import { AppComponent } from './app.component';
-import { LANGUAGES } from './@theme/components/header/header.constants';
+import { LANGUAGES } from './app.constants';
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector) {
   return () =>

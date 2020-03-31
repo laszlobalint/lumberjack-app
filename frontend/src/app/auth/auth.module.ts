@@ -6,12 +6,12 @@ import { NbAuthModule } from '@nebular/auth';
 import { NbAlertModule, NbButtonModule, NbCardModule, NbIconModule, NbInputModule, NbLayoutModule } from '@nebular/theme';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { AuthEffects, authFeatureKey, reducer } from './store';
 import { AuthService } from './services/auth.service';
 import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component';
-import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -31,6 +31,6 @@ import { TranslateModule } from '@ngx-translate/core';
   ],
   providers: [AuthService],
   declarations: [LoginComponent, LogoutComponent],
-  exports: [LoginComponent, LogoutComponent, TranslateModule],
+  exports: [LoginComponent, LogoutComponent],
 })
 export class AuthModule {}
