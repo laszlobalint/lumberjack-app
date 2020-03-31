@@ -21,7 +21,9 @@
   },
   "validation": {
     "name": "Name is mandatory! ",
-    "name-uniqe": "Name has to be given and unique! "
+    "name-uniqe": "Name has to be given and unique! ",
+    "success": "Success! ",
+    "failure": "Failure! "
   },
   "customers": {
     "customers": "Customers"

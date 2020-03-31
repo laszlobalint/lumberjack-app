@@ -21,7 +21,9 @@
   },
   "validation": {
     "name": "Ime je obazezno! ",
-    "name-uniqe": "Jedisntveno ime je obavezno! "
+    "name-uniqe": "Jedisntveno ime je obavezno! ",
+    "success": "Uspešan! ",
+    "failure": "Neuspešan! "
   },
   "customers": {
     "customers": "Klijenti"

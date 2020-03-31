@@ -21,7 +21,9 @@
   },
   "validation": {
     "name": "A név kötelező! ",
-    "name-uniqe": "Egyéni név megadása szükséges! "
+    "name-uniqe": "Egyéni név megadása szükséges! ",
+    "success": "Siker! ",
+    "failure": "Sikertelen! "
   },
   "customers": {
     "customers": "Ügyfelek"
