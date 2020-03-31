@@ -33,7 +33,8 @@ export class LogoutComponent implements OnInit {
   public logout(strategy: string): void {
     this.nbAuthService.logout(strategy).subscribe((result: NbAuthResult) => {
       this.nbTokenService.clear();
-      this.store.dispatch(fromAuth.SetUser({ user: undefined, browserLanguage: undefined }));
+      localStorage.clear();
+      this.store.dispatch(fromAuth.SetUser({ user: undefined }));
 
       const redirect = result.getRedirect();
       if (redirect) {

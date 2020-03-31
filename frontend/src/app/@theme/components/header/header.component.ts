@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
@@ -20,9 +20,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public readonly LANGUAGES = LANGUAGES;
   public readonly THEMES = THEMES;
   public currentTheme = THEMES[0].value;
-  public currentLanguage = LANGUAGES[0].value;
+  public currentLanguage = localStorage.getItem('language') ? localStorage.getItem('language') : LANGUAGES[0].value;
   public user?: UserDto;
-  public languageSubscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -31,14 +30,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private readonly themeService: NbThemeService,
     private readonly authStore: Store<fromAuth.State>,
     public readonly translate: TranslateService,
-  ) {
-    this.languageSubscription = this.authStore.select('auth').subscribe(state => {
-      this.LANGUAGES.some(l => l.value === state.language)
-        ? this.translate.use(state.language)
-        : this.translate.use(this.LANGUAGES[0].value);
-    });
-    this.currentLanguage = this.translate.currentLang;
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.currentTheme = this.themeService.currentTheme;
@@ -55,7 +47,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.languageSubscription.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -77,6 +68,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public changeLanguage(value: string): void {
     this.currentLanguage = value;
     this.translate.use(this.currentLanguage);
-    this.authStore.dispatch(fromAuth.SetLanguage({ language: this.currentLanguage }));
+    localStorage.setItem('language', value);
   }
 }

@@ -33,22 +33,35 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
     new Promise<any>((resolve: any) => {
       const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
       locationInitialized.then(() => {
-        let language: string;
-        LANGUAGES.some(l => l.value === translate.getBrowserLang()) ? (language = translate.getBrowserLang()) : (language = 'en');
-        translate.setDefaultLang(language);
-        translate.use(language).subscribe(
-          () => {
-            console.info(`Successfully initialized '${language}' language.`);
-          },
-          err => {
-            console.error(`Problem with '${language}' language initialization.`);
-          },
-          () => {
-            resolve(null);
-          },
-        );
+        const browserLanguage = translate.getBrowserLang().toLowerCase();
+        const storedLanguage = localStorage.getItem('language');
+        const setLangArgument = { translate, resolve };
+
+        if (!storedLanguage && LANGUAGES.some(l => l.value === browserLanguage)) {
+          setLanguageSettings({ ...setLangArgument, language: browserLanguage });
+        } else if (storedLanguage) {
+          setLanguageSettings({ ...setLangArgument, language: storedLanguage.toLowerCase() });
+        } else {
+          setLanguageSettings({ ...setLangArgument, language: LANGUAGES[0].value });
+        }
       });
     });
+}
+
+function setLanguageSettings(props: any): void {
+  props.translate.setDefaultLang(props.language);
+  localStorage.setItem('language', props.language);
+  props.translate.use(props.language).subscribe(
+    () => {
+      console.info(`Successfully initialized '${props.language}' language.`);
+    },
+    (err: any) => {
+      console.error(`Problem with '${props.language}' language initialization.`);
+    },
+    () => {
+      props.resolve(null);
+    },
+  );
 }
 
 export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
