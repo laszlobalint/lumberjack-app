@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation, NgZone } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgZone, ViewEncapsulation } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
-import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
-import * as fromPurchases from '../store';
 import { PurchaseDto } from '../../../models';
+import * as fromPurchases from '../store';
 import { DeleteConfirm, EditConfirm } from './../../../helpers/ng2-smart-table/ng2-smart-table.model';
 import { getSettings } from './purchases.smart-table-settings';
 
@@ -36,11 +35,11 @@ export class PurchasesComponent {
     private readonly ngZone: NgZone,
     public readonly translate: TranslateService,
   ) {
-    this.getSettings();
+    this.settings = getSettings(this.translate);
     this.loadData();
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.getSettings();
-      this.loadData();
+      this.settings = getSettings(this.translate);
+      this.changeDetectionRef.markForCheck();
     });
   }
 
@@ -54,12 +53,6 @@ export class PurchasesComponent {
         },
       }),
     );
-  }
-
-  public getSettings(): void {
-    this.ngZone.run(() => {
-      this.settings = getSettings(this.translate);
-    });
   }
 
   public onEditConfirm({ newData, confirm }: EditConfirm<PurchaseDto>): void {

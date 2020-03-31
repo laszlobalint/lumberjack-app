@@ -1,13 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation, NgZone } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
-import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
-
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
-import * as fromProducts from '../store';
 import { DeleteConfirm } from '../../../helpers/ng2-smart-table/ng2-smart-table.model';
 import { ProductDto } from '../../../models';
+import * as fromProducts from '../store';
 import { CreateConfirm, EditConfirm } from './../../../helpers/ng2-smart-table/ng2-smart-table.model';
 import { getSettings } from './products.smart-table-settings';
 
@@ -26,14 +25,13 @@ export class ProductsComponent {
     private readonly productsStore: Store<fromProducts.State>,
     private readonly toastrService: NbToastrService,
     private readonly changeDetectionRef: ChangeDetectorRef,
-    private readonly ngZone: NgZone,
     public readonly translate: TranslateService,
   ) {
-    this.getSettings();
+    this.settings = getSettings(this.translate);
     this.loadData();
     this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.getSettings();
-      this.loadData();
+      this.settings = getSettings(this.translate);
+      this.changeDetectionRef.markForCheck();
     });
   }
 
@@ -47,12 +45,6 @@ export class ProductsComponent {
         },
       }),
     );
-  }
-
-  public getSettings(): void {
-    this.ngZone.run(() => {
-      this.settings = getSettings(this.translate);
-    });
   }
 
   public onCreateConfirm({ newData, confirm }: CreateConfirm<ProductDto>): void {

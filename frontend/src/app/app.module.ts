@@ -33,7 +33,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
       locationInitialized.then(() => {
         const storedLanguage = localStorage.getItem(LANGUAGE_LOCAL_STORAGE_KEY);
         const browserLanguage = translate.getBrowserLang().toLowerCase();
-        translate.setDefaultLang(storedLanguage || (LANGUAGES.includes(browserLanguage) && browserLanguage) || LANGUAGES[0]);
+        translate.use(storedLanguage || (LANGUAGES.includes(browserLanguage) && browserLanguage) || LANGUAGES[0]);
         resolve(null);
       });
     });
