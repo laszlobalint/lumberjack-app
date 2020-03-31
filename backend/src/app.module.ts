@@ -10,6 +10,7 @@ import { ProductModule } from './product/product.module';
 import { PurchaseModule } from './purchase/purchase.module';
 import { UserModule } from './user/user.module';
 import { AuthController } from './auth/auth.controller';
+import { FeedModule } from './feed/feed.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { AuthController } from './auth/auth.controller';
     ProductModule,
     PurchaseModule,
     UserModule,
+    FeedModule,
   ],
   controllers: [AuthController],
   providers: [
