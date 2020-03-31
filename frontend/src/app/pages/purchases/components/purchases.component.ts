@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulatio
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
 import * as fromPurchases from '../store';
 import { PurchaseDto } from '../../../models';
 import { DeleteConfirm, EditConfirm } from './../../../helpers/ng2-smart-table/ng2-smart-table.model';
-import { translateSettings } from './purchases.smart-table-settings';
+import { getSettings } from './purchases.smart-table-settings';
 
 @Component({
   selector: 'purchases',
@@ -38,6 +38,10 @@ export class PurchasesComponent {
   ) {
     this.getSettings();
     this.loadData();
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.getSettings();
+      this.loadData();
+    });
   }
 
   public loadData(): void {
@@ -54,7 +58,7 @@ export class PurchasesComponent {
 
   public getSettings(): void {
     this.ngZone.run(() => {
-      this.settings = translateSettings(this.translate);
+      this.settings = getSettings(this.translate);
     });
   }
 

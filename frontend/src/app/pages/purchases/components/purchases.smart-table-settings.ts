@@ -11,6 +11,7 @@ export const PURCHASES_SMART_TABLE_SETTINGS = {
   mode: 'inline',
   actions: {
     add: false,
+    columnTitle: '',
   },
   edit: {
     editButtonContent: '<i class="nb-edit"></i>',
@@ -109,14 +110,107 @@ export const PURCHASES_SMART_TABLE_SETTINGS = {
   },
 };
 
-export function translateSettings(translate: TranslateService): any {
-  PURCHASES_SMART_TABLE_SETTINGS.columns.amount.title = translate.instant('global.amount');
-  PURCHASES_SMART_TABLE_SETTINGS.columns.reduceStock.title = translate.instant('purchases.reduce-stock');
-  PURCHASES_SMART_TABLE_SETTINGS.columns.product.title = translate.instant('products.product');
-  PURCHASES_SMART_TABLE_SETTINGS.columns.price.title = translate.instant('global.price');
-  PURCHASES_SMART_TABLE_SETTINGS.columns.customer.title = translate.instant('purchases.customer');
-  PURCHASES_SMART_TABLE_SETTINGS.columns.date.title = translate.instant('global.date');
-  PURCHASES_SMART_TABLE_SETTINGS.columns.description.title = translate.instant('global.description');
-  PURCHASES_SMART_TABLE_SETTINGS.columns.completed.title = translate.instant('purchases.completed');
-  return PURCHASES_SMART_TABLE_SETTINGS;
+export function getSettings(translate: TranslateService): any {
+  return {
+    mode: 'inline',
+    actions: {
+      add: false,
+      columnTitle: '',
+    },
+    edit: {
+      editButtonContent: '<i class="nb-edit"></i>',
+      saveButtonContent: '<i class="nb-checkmark"></i>',
+      cancelButtonContent: '<i class="nb-close"></i>',
+      confirmSave: true,
+    },
+    delete: {
+      deleteButtonContent: '<i class="nb-trash"></i>',
+      confirmDelete: true,
+    },
+    columns: {
+      amount: {
+        title: translate.instant('global.amount'),
+        filterFunction: equalsOrGreater,
+      },
+      reduceStock: {
+        title: translate.instant('purchases.reduce-stock'),
+        type: 'custom',
+        renderComponent: CustomBooleanViewComponent,
+        editor: {
+          type: 'custom',
+          component: CustomBooleanEditorComponent,
+        },
+        filter: {
+          type: 'list',
+          config: {
+            list: [
+              { value: true, title: 'True' },
+              { value: false, title: 'False' },
+            ],
+            selectText: 'All',
+          },
+        },
+      },
+      product: {
+        title: translate.instant('products.product'),
+        editable: false,
+        valuePrepareFunction: (product: ProductDto) => product.name,
+        editor: {
+          type: 'list',
+        },
+      },
+      price: {
+        title: translate.instant('global.price'),
+        valuePrepareFunction: (price: number): string => {
+          return new DecimalPipe('en-US').transform(price);
+        },
+        filterFunction: equalsOrGreater,
+      },
+      customer: {
+        title: translate.instant('purchases.customer'),
+        editable: false,
+        valuePrepareFunction: (customer: CustomerDto) => customer.address || customer.name,
+        editor: {
+          type: 'list',
+        },
+      },
+      description: {
+        title: translate.instant('global.description'),
+      },
+      date: {
+        title: translate.instant('global.date'),
+        valuePrepareFunction: (date: string): string => {
+          return new DatePipe('en-US').transform(date, 'yyyy.MM.dd. HH:mm');
+        },
+        editable: false,
+        filter: {
+          type: 'custom',
+          component: CustomDateFilterComponent,
+        },
+        filterFunction: (cell: string, range: Date[]) => {
+          const cellDate = new Date(cell);
+          return (!range[0] || cellDate.getTime() >= range[0].getTime()) && (!range[1] || cellDate.getTime() <= range[1].getTime());
+        },
+      },
+      completed: {
+        title: translate.instant('purchases.completed'),
+        type: 'custom',
+        renderComponent: CustomBooleanViewComponent,
+        editor: {
+          type: 'custom',
+          component: CustomBooleanEditorComponent,
+        },
+        filter: {
+          type: 'list',
+          config: {
+            list: [
+              { value: true, title: 'True' },
+              { value: false, title: 'False' },
+            ],
+            selectText: 'All',
+          },
+        },
+      },
+    },
+  };
 }

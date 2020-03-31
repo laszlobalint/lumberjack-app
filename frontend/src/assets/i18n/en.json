@@ -1,7 +1,6 @@
 {
   "global": {
     "app-title": "Lumberjack Order Management",
-    "action-title": "Actions",
     "address": "Address",
     "name": "Name",
     "phone": "Phone",

@@ -1,14 +1,13 @@
 {
   "global": {
     "app-title": "Upravaljanje narudžbama drvare",
-    "action-title": "Operacije",
     "address": "Adresa",
     "name": "Ime",
     "phone": "Telefon",
     "save": "Sačuvaj",
     "new": "Dodaj novi",
     "company-name": "Naziv firme",
-    "tax-id": "Poreski identifikacioni broj",
+    "tax-id": "PIB",
     "national-id": "Matični broj",
     "checking-account": "Tekući račun",
     "description": "Opis",
