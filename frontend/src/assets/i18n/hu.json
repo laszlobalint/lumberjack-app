@@ -22,6 +22,8 @@
   "validation": {
     "name": "A név kötelező! ",
     "name-uniqe": "Egyéni név megadása szükséges! ",
+    "amount": "Mennyiségnek pozitív számnak kell lennie! ",
+    "price": "Árnak pozitív számnak kell lennie! ",
     "success": "Siker! ",
     "failure": "Sikertelen! "
   },
@@ -33,6 +35,7 @@
     "product": "Termék"
   },
   "purchases": {
+    "purchases": "Rendelések",
     "all": "Összes rendelés",
     "id": "Rendelésazonosító {{ createPurchaseId }}",
     "new": "Új rendelés",

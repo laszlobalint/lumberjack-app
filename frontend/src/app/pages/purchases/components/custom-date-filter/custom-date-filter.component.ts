@@ -27,7 +27,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 })
 export class CustomDateFilterComponent extends DefaultFilter implements OnInit, OnChanges {
   public readonly rangePickerFormControl = new FormControl();
-  public placeholder = 'Pick Date Range';
+  public readonly placeholder = 'Pick date range';
 
   public ngOnInit(): void {
     this.rangePickerFormControl.valueChanges

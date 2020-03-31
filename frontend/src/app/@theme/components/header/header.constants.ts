@@ -1,4 +1,5 @@
 import { LANGUAGES } from './../../../app.constants';
+
 export const THEMES = [
   {
     value: 'default',

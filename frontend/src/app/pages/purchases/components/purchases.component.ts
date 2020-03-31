@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
 import { PurchaseDto } from '../../../models';
 import * as fromPurchases from '../store';
@@ -44,7 +45,7 @@ export class PurchasesComponent implements OnDestroy {
     });
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.languageSubscription.unsubscribe();
   }
 
@@ -61,7 +62,7 @@ export class PurchasesComponent implements OnDestroy {
   }
 
   public onEditConfirm({ newData, confirm }: EditConfirm<PurchaseDto>): void {
-    if (window.confirm('Are you sure you want to edit the product?') && this.validateData(newData)) {
+    if (window.confirm(this.translate.instant('global.confirm-edit', { item: 'product' })) && this.validateData(newData)) {
       const { id, ...updatePurchase } = newData;
       this.purchasesStore.dispatch(fromPurchases.UpdatePurchase({ id, updatePurchase, confirm }));
     } else {
@@ -70,7 +71,7 @@ export class PurchasesComponent implements OnDestroy {
   }
 
   public onDeleteConfirm({ data, confirm }: DeleteConfirm<PurchaseDto>): void {
-    if (window.confirm('Are you sure you want to delete the product?')) {
+    if (window.confirm(this.translate.instant('global.confirm-delete', { item: 'product' }))) {
       this.purchasesStore.dispatch(fromPurchases.DeletePurchase({ id: data.id, confirm }));
     } else {
       confirm.reject();
@@ -79,8 +80,8 @@ export class PurchasesComponent implements OnDestroy {
 
   private validateData(data: PurchaseDto): boolean {
     let error = '';
-    if (isNaN(data.amount) || data.amount < 0 || !data.amount) error += 'Amount has to be a positive number! ';
-    if (isNaN(data.price) || data.price < 0 || !data.price) error += 'Price has to be a positive number! ';
+    if (isNaN(data.amount) || data.amount < 0 || !data.amount) error += this.translate.instant('validation.amount');
+    if (isNaN(data.price) || data.price < 0 || !data.price) error += this.translate.instant('validation.price');
 
     if (error) {
       this.toastrService.show(error, 'Error', { status: 'warning' });

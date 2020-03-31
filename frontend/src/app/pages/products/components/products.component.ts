@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
 import { DeleteConfirm } from '../../../helpers/ng2-smart-table/ng2-smart-table.model';
 import { ProductDto } from '../../../models';
@@ -37,7 +38,7 @@ export class ProductsComponent implements OnDestroy {
     });
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.languageSubscription.unsubscribe();
   }
 

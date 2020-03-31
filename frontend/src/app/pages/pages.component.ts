@@ -2,6 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { NbMenuItem } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
+
 import { getMenuItems } from './pages-menu.contants';
 
 @Component({
@@ -25,7 +26,7 @@ export class PagesComponent implements OnDestroy {
     });
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.languageSubscription.unsubscribe();
   }
 }

@@ -22,6 +22,8 @@
   "validation": {
     "name": "Ime je obazezno! ",
     "name-uniqe": "Jedisntveno ime je obavezno! ",
+    "amount": "Količina mora da bude pozitivan broj! ",
+    "price": "Cena mora da bude pozitivan broj! ",
     "success": "Uspešan! ",
     "failure": "Neuspešan! "
   },
@@ -33,6 +35,7 @@
     "product": "Proizvod"
   },
   "purchases": {
+    "purchases": "Narudžbine",
     "all": "Sve narudžbine",
     "id": "Broj narudžbine {{ createPurchaseId }}",
     "new": "Nova narudžbina",

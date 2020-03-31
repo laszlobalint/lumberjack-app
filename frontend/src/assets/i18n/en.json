@@ -22,6 +22,8 @@
   "validation": {
     "name": "Name is mandatory! ",
     "name-uniqe": "Name has to be given and unique! ",
+    "amount": "Amount has to be a positive number! ",
+    "price": "Price has to be a positive number! ",
     "success": "Success! ",
     "failure": "Failure! "
   },
@@ -33,6 +35,7 @@
     "product": "Product"
   },
   "purchases": {
+    "purchases": "Purchases",
     "all": "All Purchases",
     "id": "Purchase ID {{ createPurchaseId }}",
     "new": "New Purchase",

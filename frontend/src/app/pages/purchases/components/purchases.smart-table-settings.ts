@@ -1,5 +1,6 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
+
 import { equalsOrGreater } from '../../../helpers/ng2-smart-table/filters';
 import { CustomerDto, ProductDto } from '../../../models';
 import { CustomBooleanEditorComponent } from './custom-boolean-editor/custom-boolean-editor.component';

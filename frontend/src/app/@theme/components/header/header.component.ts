@@ -4,9 +4,10 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-import { LANGUAGE_LOCAL_STORAGE_KEY, SITE_NAME } from '../../../app.constants';
+
 import { UserDto } from '../../../auth/models/user.model';
 import * as fromAuth from '../../../auth/store';
+import { LANGUAGE_LOCAL_STORAGE_KEY, SITE_NAME } from '../../../app.constants';
 import { LANGUAGE_OPTIONS, THEMES } from './header.constants';
 
 @Component({
