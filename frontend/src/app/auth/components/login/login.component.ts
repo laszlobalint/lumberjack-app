@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { getDeepFromObject, NbAuthResult, NbAuthService, NB_AUTH_OPTIONS } from '@nebular/auth';
 
+import * as fromAuth from '../../../auth/store';
 import { LoginResponseDto } from '../../models/login.model';
 
 @Component({
@@ -23,6 +25,7 @@ export class LoginComponent {
     @Inject(NB_AUTH_OPTIONS) private readonly options = {},
     private readonly cd: ChangeDetectorRef,
     private readonly router: Router,
+    private readonly authStore: Store<fromAuth.State>,
   ) {
     this.redirectDelay = this.getConfigValue('forms.login.redirectDelay');
     this.showMessages = this.getConfigValue('forms.login.showMessages');
@@ -40,6 +43,7 @@ export class LoginComponent {
       if (result.isSuccess()) {
         this.messages = result.getMessages();
         const { user }: LoginResponseDto = result.getResponse().body;
+        this.authStore.dispatch(fromAuth.SetUser({ user }));
       } else {
         this.errors = result.getErrors();
       }
