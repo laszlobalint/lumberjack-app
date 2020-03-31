@@ -5,7 +5,7 @@
     </a>
     <a class="logo" href="#" (click)="navigateHome()">{{ SITE_NAME }}</a>
   </div>
-  <nb-select placeholder="Choose..." [selected]="currentLanguage" (selectedChange)="changeLanguage($event)" status="primary">
+  <nb-select [selected]="currentLanguage" (selectedChange)="changeLanguage($event)" status="primary">
     <nb-option *ngFor="let language of LANGUAGES" [value]="language.value">{{ language.name }}</nb-option>
   </nb-select>
   <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
@@ -19,7 +19,7 @@
     </nb-action>
     <nb-action class="control-item" icon="bell-outline"></nb-action>
     <nb-action class="user-action" *nbIsGranted="['view', 'user']">
-      <nb-user [nbContextMenu]="userMenu" [name]="user?.name"> </nb-user>
+      <nb-user [nbContextMenu]="[{ title: translate.instant('user.logout-title'), link: '/auth/logout' }]" [name]="user?.name"> </nb-user>
     </nb-action>
   </nb-actions>
 </div>

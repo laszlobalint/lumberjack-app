@@ -1,4 +1,5 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 import { equalsOrGreater } from '../../../helpers/ng2-smart-table/filters';
 import { CustomerDto, ProductDto } from '../../../models';
@@ -107,3 +108,15 @@ export const PURCHASES_SMART_TABLE_SETTINGS = {
     },
   },
 };
+
+export function translateSettings(translate: TranslateService): any {
+  PURCHASES_SMART_TABLE_SETTINGS.columns.amount.title = translate.instant('global.amount');
+  PURCHASES_SMART_TABLE_SETTINGS.columns.reduceStock.title = translate.instant('purchases.reduce-stock');
+  PURCHASES_SMART_TABLE_SETTINGS.columns.product.title = translate.instant('products.product');
+  PURCHASES_SMART_TABLE_SETTINGS.columns.price.title = translate.instant('global.price');
+  PURCHASES_SMART_TABLE_SETTINGS.columns.customer.title = translate.instant('purchases.customer');
+  PURCHASES_SMART_TABLE_SETTINGS.columns.date.title = translate.instant('global.date');
+  PURCHASES_SMART_TABLE_SETTINGS.columns.description.title = translate.instant('global.description');
+  PURCHASES_SMART_TABLE_SETTINGS.columns.completed.title = translate.instant('purchases.completed');
+  return PURCHASES_SMART_TABLE_SETTINGS;
+}

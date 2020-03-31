@@ -1,14 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMenuItem, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import { NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject, Subscription } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 import * as fromAuth from '../../../auth/store';
 import { UserDto } from '../../../auth/models/user.model';
 import { LANGUAGES, THEMES } from './header.constants';
 import { SITE_NAME } from '../../../app.constants';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'ngx-header',
@@ -16,15 +16,12 @@ import { Store } from '@ngrx/store';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  public user?: UserDto;
-  public userMenu: NbMenuItem[] = [{ title: this.translate.instant('user.logout-title'), link: '/auth/logout' }];
-
   public readonly SITE_NAME = SITE_NAME;
   public readonly LANGUAGES = LANGUAGES;
   public readonly THEMES = THEMES;
   public currentTheme = THEMES[0].value;
   public currentLanguage = LANGUAGES[0].value;
-
+  public user?: UserDto;
   public languageSubscription = new Subscription();
   private destroy$: Subject<void> = new Subject<void>();
 
@@ -33,7 +30,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private readonly sidebarService: NbSidebarService,
     private readonly themeService: NbThemeService,
     private readonly authStore: Store<fromAuth.State>,
-    private readonly translate: TranslateService,
+    public readonly translate: TranslateService,
   ) {
     this.languageSubscription = this.authStore.select('auth').subscribe(state => {
       this.LANGUAGES.some(l => l.value === state.language)

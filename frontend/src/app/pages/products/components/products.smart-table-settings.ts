@@ -1,7 +1,11 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 export const PRODUCTS_SMART_TABLE_SETTINGS = {
   mode: 'inline',
+  actions: {
+    columnTitle: 'Actions',
+  },
   add: {
     addButtonContent: '<i class="nb-plus"></i>',
     createButtonContent: '<i class="nb-checkmark"></i>',
@@ -30,7 +34,6 @@ export const PRODUCTS_SMART_TABLE_SETTINGS = {
     },
     amount: {
       title: 'Amount',
-      class: '',
     },
     description: {
       title: 'Description',
@@ -45,3 +48,13 @@ export const PRODUCTS_SMART_TABLE_SETTINGS = {
     },
   },
 };
+
+export function translateSettings(translate: TranslateService): any {
+  PRODUCTS_SMART_TABLE_SETTINGS.actions.columnTitle = translate.instant('global.action-title');
+  PRODUCTS_SMART_TABLE_SETTINGS.columns.name.title = translate.instant('global.name');
+  PRODUCTS_SMART_TABLE_SETTINGS.columns.price.title = translate.instant('global.price');
+  PRODUCTS_SMART_TABLE_SETTINGS.columns.amount.title = translate.instant('global.amount');
+  PRODUCTS_SMART_TABLE_SETTINGS.columns.description.title = translate.instant('global.description');
+  PRODUCTS_SMART_TABLE_SETTINGS.columns.date.title = translate.instant('global.date');
+  return PRODUCTS_SMART_TABLE_SETTINGS;
+}

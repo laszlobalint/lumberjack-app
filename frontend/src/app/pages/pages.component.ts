@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { NbMenuItem } from '@nebular/theme';
 
-import { MENU_ITEMS } from './pages-menu.contants';
+import { translateMenuItems } from './pages-menu.contants';
 
 @Component({
   selector: 'ngx-pages',
@@ -13,5 +15,12 @@ import { MENU_ITEMS } from './pages-menu.contants';
   `,
 })
 export class PagesComponent {
-  public readonly MENU_ITEMS = MENU_ITEMS;
+  public MENU_ITEMS: NbMenuItem[];
+
+  constructor(public readonly translate: TranslateService) {
+    this.MENU_ITEMS = translateMenuItems(translate);
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.MENU_ITEMS = translateMenuItems(translate);
+    });
+  }
 }
