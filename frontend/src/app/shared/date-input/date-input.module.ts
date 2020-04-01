@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NbInputModule } from '@nebular/theme';
 import { NgxMaskModule } from 'ngx-mask';
+
 import { DateInputComponent } from './date-input.component';
 
 @NgModule({
