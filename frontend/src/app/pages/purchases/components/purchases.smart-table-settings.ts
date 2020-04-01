@@ -82,6 +82,14 @@ export function getSettings(translate: TranslateService): any {
         valuePrepareFunction: (date: string): string => {
           return new DatePipe('en-US').transform(date, 'yyyy.MM.dd. HH:mm');
         },
+        filter: {
+          type: 'custom',
+          component: CustomDateFilterComponent,
+        },
+        filterFunction: (cell: string, range: Date[]) => {
+          const cellDate = new Date(cell);
+          return (!range[0] || cellDate.getTime() >= range[0].getTime()) && (!range[1] || cellDate.getTime() <= range[1].getTime());
+        },
       },
       customer: {
         title: translate.instant('purchases.customer'),
