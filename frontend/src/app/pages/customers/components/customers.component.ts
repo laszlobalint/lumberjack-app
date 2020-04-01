@@ -26,7 +26,7 @@ export class CustomersComponent implements OnDestroy {
 
   constructor(
     private readonly customersStore: Store<fromCustomers.State>,
-    private readonly toastrService: NbToastrService,
+    private readonly nbToastrService: NbToastrService,
     private readonly changeDetectionRef: ChangeDetectorRef,
     private readonly translate: TranslateService,
   ) {
@@ -85,7 +85,7 @@ export class CustomersComponent implements OnDestroy {
     if (!data.name || data.name.length === 0) error += this.translate.instant('validation.name');
 
     if (error) {
-      this.toastrService.show(error, 'Error', { status: 'warning' });
+      this.nbToastrService.warning('', error);
       return false;
     }
 

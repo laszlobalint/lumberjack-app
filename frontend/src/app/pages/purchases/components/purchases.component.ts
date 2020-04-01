@@ -33,7 +33,7 @@ export class PurchasesComponent implements OnDestroy {
 
   constructor(
     private readonly purchasesStore: Store<fromPurchases.State>,
-    private readonly toastrService: NbToastrService,
+    private readonly nbToastrService: NbToastrService,
     private readonly changeDetectionRef: ChangeDetectorRef,
     public readonly translate: TranslateService,
   ) {
@@ -84,7 +84,7 @@ export class PurchasesComponent implements OnDestroy {
     if (isNaN(data.price) || data.price < 0 || !data.price) error += this.translate.instant('validation.price');
 
     if (error) {
-      this.toastrService.show(error, 'Error', { status: 'warning' });
+      this.nbToastrService.warning('', error);
       return false;
     }
 

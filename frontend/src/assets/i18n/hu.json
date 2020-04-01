@@ -17,7 +17,8 @@
     "confirm-create": "Biztosan létre akarod hozni a/az {{ item }}(e)t?",
     "confirm-edit": "Biztosan módosítani akarod a/az {{ item }}(e)t?",
     "confirm-delete": "Biztosan törölni akarod a/az {{ item }}(e)t?",
-    "all": "Mind"
+    "all": "Mind",
+    "expired": "Lejárt a tokened! 5 másodperc múlva átirányítunk a bejelentkezési oldalra..."
   },
   "validation": {
     "name": "A név kötelező! ",
