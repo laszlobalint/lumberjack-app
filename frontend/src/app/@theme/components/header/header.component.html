@@ -25,10 +25,10 @@
 </div>
 <div class="header-container">
   <nb-actions size="small">
-    <nb-action *ngIf="{ feed: feed$ | async } as data"
+    <nb-action *ngIf="(feed$ | async) as feed"
       class="control-item mx-2"
       icon="bell-outline"
-      [badgeText]="data.feed && !!data.feed.nextUncompletedForTomorrow && '1+'"
+      [badgeText]="feed && feed.uncompletedPurchasesForTomorrow && feed.uncompletedPurchasesForTomorrow.length && feed.uncompletedPurchasesForTomorrow.length"
       badgeStatus="warning"></nb-action>
     <nb-action class="user-action"
       *nbIsGranted="['view', 'user']">

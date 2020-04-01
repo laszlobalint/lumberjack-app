@@ -16,7 +16,7 @@ export class FeedService {
     const tomorrowDateStart = this.getDateWithoutHours(currentDate, 1);
     const tomorrowDateEnd = this.getDateWithoutHours(currentDate, 2);
 
-    const firstUncompletedPurchaseForTomorrow = await this.purchaseRepository.findOne({
+    const uncompletedPurchasesForTomorrow = await this.purchaseRepository.find({
       where: {
         completed: false,
         deliveryDate: Between(tomorrowDateStart, tomorrowDateEnd),
@@ -24,7 +24,7 @@ export class FeedService {
     });
 
     return {
-      nextUncompletedForTomorrow: firstUncompletedPurchaseForTomorrow,
+      uncompletedPurchasesForTomorrow,
     };
   }
 
