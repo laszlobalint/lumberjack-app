@@ -4,7 +4,7 @@ import { HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http'
 import { Injectable } from '@angular/core';
 import { NbAuthService } from '@nebular/auth';
 import { Observable, of } from 'rxjs';
-import { switchMap, catchError } from 'rxjs/operators';
+import { switchMap, catchError, first, flatMap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
 import { environment } from './../../../environments/environment.prod';
@@ -24,7 +24,8 @@ export class TokenInterceptor implements HttpInterceptor {
       switchMap(authenticated => {
         if (authenticated) {
           return this.nbAuthService.getToken().pipe(
-            switchMap((token: any) => {
+            first(),
+            flatMap((token: any) => {
               const JWT = `Bearer ${token.getValue()}`;
               request = request.clone({
                 setHeaders: {
