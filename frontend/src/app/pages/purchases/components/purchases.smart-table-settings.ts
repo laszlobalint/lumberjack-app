@@ -1,6 +1,5 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-
 import { equalsOrGreater } from '../../../helpers/ng2-smart-table/filters';
 import { CustomerDto, ProductDto } from '../../../models';
 import { CustomBooleanEditorComponent } from './custom-boolean-editor/custom-boolean-editor.component';
@@ -63,19 +62,8 @@ export function getSettings(translate: TranslateService): any {
         },
         filterFunction: equalsOrGreater,
       },
-      customer: {
-        title: translate.instant('purchases.customer'),
-        editable: false,
-        valuePrepareFunction: (customer: CustomerDto) => customer.address || customer.name,
-        editor: {
-          type: 'list',
-        },
-      },
-      description: {
-        title: translate.instant('global.description'),
-      },
-      date: {
-        title: translate.instant('global.date'),
+      createdDate: {
+        title: translate.instant('global.created-date'),
         valuePrepareFunction: (date: string): string => {
           return new DatePipe('en-US').transform(date, 'yyyy.MM.dd. HH:mm');
         },
@@ -88,6 +76,31 @@ export function getSettings(translate: TranslateService): any {
           const cellDate = new Date(cell);
           return (!range[0] || cellDate.getTime() >= range[0].getTime()) && (!range[1] || cellDate.getTime() <= range[1].getTime());
         },
+      },
+      deliveryDate: {
+        title: 'Delivery',
+        valuePrepareFunction: (date: string): string => {
+          return new DatePipe('en-US').transform(date, 'yyyy.MM.dd. HH:mm');
+        },
+        filter: {
+          type: 'custom',
+          component: CustomDateFilterComponent,
+        },
+        filterFunction: (cell: string, range: Date[]) => {
+          const cellDate = new Date(cell);
+          return (!range[0] || cellDate.getTime() >= range[0].getTime()) && (!range[1] || cellDate.getTime() <= range[1].getTime());
+        },
+      },
+      customer: {
+        title: translate.instant('purchases.customer'),
+        editable: false,
+        valuePrepareFunction: (customer: CustomerDto) => customer.address || customer.name,
+        editor: {
+          type: 'list',
+        },
+      },
+      description: {
+        title: translate.instant('global.description'),
       },
       completed: {
         title: translate.instant('purchases.completed'),

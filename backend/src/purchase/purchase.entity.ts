@@ -1,5 +1,4 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-
 import { Customer } from '../customer/customer.entity';
 import { Product } from '../product/product.entity';
 import { User } from '../user/user.entity';
@@ -45,8 +44,11 @@ export class Purchase {
   @Column({ type: 'boolean' })
   completed: boolean;
 
+  @Column({ type: 'datetime' })
+  deliveryDate: Date;
+
   @CreateDateColumn({ type: 'datetime' })
-  date: Date;
+  createdDate: Date;
 
   constructor(partial: Partial<Purchase>) {
     Object.assign(this, partial);

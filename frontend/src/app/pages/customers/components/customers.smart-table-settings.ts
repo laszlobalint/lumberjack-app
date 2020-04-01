@@ -48,8 +48,8 @@ export function getSettings(translate: TranslateService): any {
       description: {
         title: translate.instant('global.description'),
       },
-      date: {
-        title: translate.instant('global.date'),
+      createdDate: {
+        title: translate.instant('global.created-date'),
         editable: false,
         addable: false,
         valuePrepareFunction: (date: string): string => {
