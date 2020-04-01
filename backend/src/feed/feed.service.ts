@@ -22,6 +22,9 @@ export class FeedService {
         deliveryDate: Between(tomorrowDateStart, tomorrowDateEnd),
       },
       relations: ['customer'],
+      order: {
+        deliveryDate: 'ASC',
+      },
     });
 
     return {
