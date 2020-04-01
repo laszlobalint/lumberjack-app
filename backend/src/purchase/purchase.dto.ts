@@ -1,6 +1,5 @@
-import { IsBoolean, IsNotEmpty, IsNumber, ValidateIf, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-
+import { IsBoolean, IsDate, IsNotEmpty, IsNumber, ValidateIf, ValidateNested } from 'class-validator';
 import { CreateCustomerDto } from './../customer/customer.dto';
 
 export class CreatePurchaseDto {
@@ -26,6 +25,10 @@ export class CreatePurchaseDto {
   @IsNotEmpty()
   @ValidateNested()
   customer?: CreateCustomerDto;
+
+  @IsDate()
+  @Type(() => Date)
+  deliveryDate?: Date;
 
   description?: string;
 }

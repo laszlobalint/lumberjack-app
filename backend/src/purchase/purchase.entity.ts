@@ -44,7 +44,7 @@ export class Purchase {
   @Column({ type: 'boolean' })
   completed: boolean;
 
-  @CreateDateColumn({ type: 'datetime' })
+  @Column({ type: 'datetime' })
   deliveryDate: Date;
 
   @CreateDateColumn({ type: 'datetime' })
