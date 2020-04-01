@@ -21,6 +21,7 @@ export class FeedService {
         completed: false,
         deliveryDate: Between(tomorrowDateStart, tomorrowDateEnd),
       },
+      relations: ['customer'],
     });
 
     return {

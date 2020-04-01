@@ -23,17 +23,40 @@
       [value]="language.value">{{ language.name }}</nb-option>
   </nb-select>
 </div>
-<div class="header-container">
+<div *ngIf="{ uncompletedPurchasesForTomorrow: uncompletedPurchasesForTomorrow$ | async } as data"
+  class="header-container">
   <nb-actions size="small">
-    <nb-action *ngIf="(feed$ | async) as feed"
-      class="control-item mx-2"
+    <nb-action class="control-item mx-2"
       icon="bell-outline"
-      [badgeText]="feed && feed.uncompletedPurchasesForTomorrow && feed.uncompletedPurchasesForTomorrow.length && feed.uncompletedPurchasesForTomorrow.length"
-      badgeStatus="warning"></nb-action>
+      [badgeText]="data.uncompletedPurchasesForTomorrow.length && data.uncompletedPurchasesForTomorrow.length"
+      badgeStatus="warning"
+      [nbPopover]="purchasesList"
+      nbPopoverPlacement="bottom"
+      #popover="nbPopover"></nb-action>
     <nb-action class="user-action"
       *nbIsGranted="['view', 'user']">
       <nb-user [nbContextMenu]="[{ title: 'user.logout-title' | translate, link: '/auth/logout' }]"
         [name]="user?.name"> </nb-user>
     </nb-action>
   </nb-actions>
+
+  <ng-template #purchasesList>
+    <nb-card class="mb-0">
+      <nb-card-header>For tomorrow</nb-card-header>
+      <nb-list>
+        <nb-list-item *ngFor="let purchase of data.uncompletedPurchasesForTomorrow"
+          (click)="popover.hide()">
+          <a routerLink="/pages/purchases"
+            class="cursor-pointer link text-decoration-none">
+            <span class="mr-2 font-weight-bold">
+              {{ purchase.deliveryDate | date:'HH:mm' }}
+            </span>
+            <span>
+              {{ purchase.customer.address || purchase.customer.name }}
+            </span>
+          </a>
+        </nb-list-item>
+      </nb-list>
+    </nb-card>
+  </ng-template>
 </div>

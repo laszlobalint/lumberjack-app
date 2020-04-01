@@ -23,7 +23,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public currentLanguage = this.translateService.currentLang;
   public user?: UserDto;
 
-  public feed$ = this.rootStore.select('feed').pipe(map(feed => feed.feed));
+  public uncompletedPurchasesForTomorrow$ = this.rootStore
+    .select('feed')
+    .pipe(map(feed => (feed.feed && feed.feed.uncompletedPurchasesForTomorrow) || []));
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
