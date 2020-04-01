@@ -8,7 +8,7 @@ import { UserRoleType } from '../../user/user.entity';
 export class RolesGuard {
   constructor(private reflector: Reflector, private readonly userService: UserService) {}
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  public async canActivate(context: ExecutionContext): Promise<boolean> {
     const roles = this.reflector.get<UserRoleType[]>('roles', context.getHandler());
     if (!roles) return true;
 

@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 import { isArray, isString } from 'util';
 import { ErrorResponseBody, ValidationConstraint, ValidationError } from '../../models/api.model';
-import { TranslateService } from '@ngx-translate/core';
 
 const TRACK_SUCCESS_FOR_METHODS = ['POST', 'PUT', 'DELETE'];
 const TRACK_FAILURE_FOR_METHODS = ['GET', 'POST', 'PUT', 'DELETE'];
@@ -31,7 +31,9 @@ export class HttpResponseInterceptor implements HttpInterceptor {
         ) {
           const { message }: ErrorResponseBody = error.error.message;
           if (isArray(message)) {
-            this.getMessages(message as ValidationError[]).forEach(errorMsg => this.nbToastrService.danger(errorMsg, 'Failure!'));
+            this.getMessages(message as ValidationError[]).forEach(errorMsg =>
+              this.nbToastrService.danger(errorMsg, this.translateService.instant('validation.failure')),
+            );
           } else if (isString(message)) {
             this.nbToastrService.danger(message, this.translateService.instant('validation.failure'));
           }
