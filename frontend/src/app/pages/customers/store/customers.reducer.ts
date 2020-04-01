@@ -27,7 +27,7 @@ const customersReducer = createReducer(
   })),
   on(CustomersActions.DeleteCustomerSuccess, (state, { resId }) => ({
     ...state,
-    customers: state.customers.filter(customer => customer.id !== resId),
+    customers: [...state.customers.filter(customer => customer.id !== resId)],
   })),
 );
 

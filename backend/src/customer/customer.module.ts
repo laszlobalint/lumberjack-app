@@ -6,7 +6,7 @@ import { CustomerController } from './customer.controller';
 import { CustomerService } from './customer.service';
 import { Customer } from './customer.entity';
 import { User } from '../user/user.entity';
-import { Purchase } from 'src/purchase/purchase.entity';
+import { Purchase } from '../purchase/purchase.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Customer, User, Purchase]), UserModule],

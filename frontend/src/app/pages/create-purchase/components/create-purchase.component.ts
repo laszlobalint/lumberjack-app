@@ -39,27 +39,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
     this.isBusy$ = this.purchaseStore.select('createPurchase').pipe(map(state => state.isBusy));
     this.failed$ = this.purchaseStore.select('createPurchase').pipe(map(state => state.failed));
 
-    this.form = this.formBuilder.group(
-      {
-        amount: ['', Validators.required],
-        productId: ['', Validators.required],
-        price: [{ value: '', disabled: true }, Validators.required],
-        customerId: [''],
-        customer: this.formBuilder.group({
-          name: [''],
-          address: [''],
-          phone: [''],
-          description: [''],
-          companyName: [''],
-          taxId: [''],
-          nationalId: [''],
-          checkingAccount: [''],
-        }),
-        description: [''],
-        reduceStock: [true],
-      },
-      { validators: [this.customerValidator] },
-    );
+    this.form = this.createForm();
 
     this.purchaseSubscription = this.purchase$
       .pipe(filter(purchase => !!purchase))
@@ -98,8 +78,8 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
   }
 
   public onClear(): void {
-    this.form.reset();
     this.form.enable();
+    this.form = this.createForm();
     this.purchaseStore.dispatch(fromPurchases.ClearPurchase());
   }
 
@@ -116,6 +96,30 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
       const product = await this.findProduct(productIdFormControl.value);
       priceFormControl.setValue(product && product.price);
     }
+  }
+
+  private createForm(): FormGroup {
+    return this.formBuilder.group(
+      {
+        amount: ['', Validators.required],
+        reduceStock: [true],
+        productId: ['', Validators.required],
+        price: [{ value: '', disabled: true }, Validators.required],
+        customerId: [''],
+        customer: this.formBuilder.group({
+          name: [''],
+          address: [''],
+          phone: [''],
+          description: [''],
+          companyName: [''],
+          taxId: [''],
+          nationalId: [''],
+          checkingAccount: [''],
+        }),
+        description: [''],
+      },
+      { validators: [this.customerValidator] },
+    );
   }
 
   private async handleCustomerIdChange(customerId: number): Promise<void> {

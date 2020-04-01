@@ -10,15 +10,27 @@ export class ProductsEffects {
   getProducts$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductsActions.GetProducts),
-      mergeMap(() => this.productsService.fetchAll().pipe(map(products => ProductsActions.GetProductsSuccess({ products })))),
+      mergeMap(({ load }) =>
+        this.productsService.fetchAll().pipe(
+          map(products => {
+            load(products);
+            return ProductsActions.GetProductsSuccess({ products });
+          }),
+        ),
+      ),
     ),
   );
 
   saveProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductsActions.SaveProduct),
-      mergeMap(({ createProductDto }) =>
-        this.productsService.save(createProductDto).pipe(map(product => ProductsActions.SaveProductSuccess({ product }))),
+      mergeMap(({ createProductDto, confirm }) =>
+        this.productsService.save(createProductDto).pipe(
+          map(product => {
+            confirm.resolve(product);
+            return ProductsActions.SaveProductSuccess({ product });
+          }),
+        ),
       ),
     ),
   );
@@ -26,8 +38,13 @@ export class ProductsEffects {
   updateProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductsActions.UpdateProduct),
-      mergeMap(({ id, updateProductDto }) =>
-        this.productsService.update(id, updateProductDto).pipe(map(product => ProductsActions.UpdateProductSuccess({ product }))),
+      mergeMap(({ id, updateProductDto, confirm }) =>
+        this.productsService.update(id, updateProductDto).pipe(
+          map(product => {
+            confirm.resolve(product);
+            return ProductsActions.UpdateProductSuccess({ product });
+          }),
+        ),
       ),
     ),
   );
@@ -35,7 +52,14 @@ export class ProductsEffects {
   deleteProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductsActions.DeleteProduct),
-      mergeMap(({ id }) => this.productsService.delete(id).pipe(map(resId => ProductsActions.DeleteProductSuccess({ resId })))),
+      mergeMap(({ id, confirm }) =>
+        this.productsService.delete(id).pipe(
+          map(resId => {
+            confirm.resolve();
+            return ProductsActions.DeleteProductSuccess({ resId });
+          }),
+        ),
+      ),
     ),
   );
 

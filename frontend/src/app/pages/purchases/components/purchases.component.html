@@ -1,0 +1,19 @@
+<nb-card>
+  <nb-card-header>
+    <div class="d-flex justify-content-between w-100">
+      <span>{{ 'purchases.purchases' | translate }}</span>
+      <button nbButton ghost status="warning" nbTooltip="Refresh data" nbTooltipPlacement="bottom" (click)="loadData()">
+        <nb-icon icon="repeat-outline"></nb-icon>
+      </button>
+    </div>
+  </nb-card-header>
+  <nb-card-body>
+    <ng2-smart-table
+      [settings]="settings"
+      [source]="source"
+      (editConfirm)="onEditConfirm($event)"
+      (deleteConfirm)="onDeleteConfirm($event)"
+    >
+    </ng2-smart-table>
+  </nb-card-body>
+</nb-card>

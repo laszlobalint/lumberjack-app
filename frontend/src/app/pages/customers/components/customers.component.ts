@@ -1,88 +1,94 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
-import { LocalDataSource } from 'ng2-smart-table';
+import { Store } from '@ngrx/store';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
+import { DeleteConfirm, EditConfirm } from '../../../helpers/ng2-smart-table/ng2-smart-table.model';
+import { CustomerDto } from '../../../models';
 import * as fromCustomers from '../store';
-import { CustomerDto, CreateCustomerDto, UpdateCustomerDto } from '../../../models';
-import { SETTINGS } from './customers.settings.constant';
+import { CreateConfirm } from './../../../helpers/ng2-smart-table/ng2-smart-table.model';
+import { getSettings } from './customers.smart-table-settings';
 
 @Component({
   selector: 'ngx-customers',
   templateUrl: './customers.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
-export class CustomersComponent implements OnInit {
-  public customers$: Observable<CustomerDto[]>;
-  public source: LocalDataSource = new LocalDataSource();
-  public readonly settings = SETTINGS;
+export class CustomersComponent implements OnDestroy {
+  public readonly source = new LocalDataSource<CustomerDto>();
+  public settings: any;
+  public customers$ = this.customersStore.select('customers').pipe(map(state => state.customers));
+  private languageSubscription: Subscription;
 
   constructor(
     private readonly customersStore: Store<fromCustomers.State>,
     private readonly toastrService: NbToastrService,
     private readonly changeDetectionRef: ChangeDetectorRef,
+    private readonly translate: TranslateService,
   ) {
-    this.customers$ = this.customersStore.select('customers').pipe(map(state => state.customers));
-  }
-
-  public ngOnInit(): void {
-    this.customersStore.dispatch(fromCustomers.GetCustomers());
-    this.customers$.subscribe(customers => {
-      if (customers) {
-        this.source.load(customers);
-        this.source.setSort([{ field: 'date', direction: 'desc' }]);
-        this.changeDetectionRef.markForCheck();
-      }
+    this.settings = getSettings(this.translate);
+    this.loadData();
+    this.languageSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.settings = getSettings(this.translate);
+      this.changeDetectionRef.markForCheck();
     });
   }
 
-  public onCreateConfirm(event: any): void {
-    window.confirm('Are you sure you want to create the customer?') ? this.onCreateCustomer(event) : event.confirm.reject();
+  public ngOnDestroy(): void {
+    this.languageSubscription.unsubscribe();
   }
 
-  public onUpdateConfirm(event: any): void {
-    window.confirm('Are you sure you want to edit the customer?') ? this.onUpdateCustomer(event) : event.confirm.reject();
-  }
-
-  public onDeleteConfirm(event: any): void {
-    window.confirm('Are you sure you want to delete the customer?')
-      ? event.confirm.resolve(this.onDeleteCustomer(event.data.id))
-      : event.confirm.reject();
-  }
-
-  private onCreateCustomer(event: any): void {
-    const error = this.validateInputData(event.newData);
-    if (error) {
-      this.toastrService.show(error, 'Error', { status: 'warning' });
-      return;
-    }
-
-    this.customersStore.dispatch(fromCustomers.SaveCustomer({ createCustomerDto: event.newData as CreateCustomerDto }));
-    event.confirm.resolve(this.source.empty());
-  }
-
-  private onUpdateCustomer(event: any): void {
-    const error = this.validateInputData(event.newData);
-    if (error) {
-      this.toastrService.show(error, 'Error', { status: 'warning' });
-      return;
-    }
-
+  public loadData(): void {
     this.customersStore.dispatch(
-      fromCustomers.UpdateCustomer({ id: event.data.id, updateCustomerDto: event.newData as UpdateCustomerDto }),
+      fromCustomers.GetCustomers({
+        load: customers => {
+          this.source.load(customers);
+          this.source.setSort([{ field: 'date', direction: 'desc' }]);
+          this.changeDetectionRef.markForCheck();
+        },
+      }),
     );
   }
 
-  private onDeleteCustomer(id: string): void {
-    this.customersStore.dispatch(fromCustomers.DeleteCustomer({ id }));
+  public onCreateConfirm({ newData, confirm }: CreateConfirm<CustomerDto>): void {
+    if (window.confirm(this.translate.instant('global.confirm-create', { item: 'customer' })) && this.validateData(newData)) {
+      const { id, ...createCustomerDto } = newData;
+      this.customersStore.dispatch(fromCustomers.SaveCustomer({ createCustomerDto, confirm }));
+    } else {
+      confirm.reject();
+    }
   }
 
-  private validateInputData(data: CreateCustomerDto | UpdateCustomerDto): string {
-    let error = '';
-    if (!data.name || data.name.length === 0) error += 'Name is a mandatory! ';
+  public onEditConfirm({ newData, confirm }: EditConfirm<CustomerDto>): void {
+    if (window.confirm(this.translate.instant('global.confirm-edit', { item: 'customer' })) && this.validateData(newData)) {
+      const { id, ...updateCustomerDto } = newData;
+      this.customersStore.dispatch(fromCustomers.UpdateCustomer({ id, updateCustomerDto, confirm }));
+    } else {
+      confirm.reject();
+    }
+  }
 
-    return error;
+  public onDeleteConfirm({ data, confirm }: DeleteConfirm<CustomerDto>): void {
+    if (window.confirm(this.translate.instant('global.confirm-delete', { item: 'customer' }))) {
+      this.customersStore.dispatch(fromCustomers.DeleteCustomer({ id: data.id, confirm }));
+    } else {
+      confirm.reject();
+    }
+  }
+
+  private validateData(data: CustomerDto): boolean {
+    let error = '';
+    if (!data.name || data.name.length === 0) error += this.translate.instant('validation.name');
+
+    if (error) {
+      this.toastrService.show(error, 'Error', { status: 'warning' });
+      return false;
+    }
+
+    return true;
   }
 }

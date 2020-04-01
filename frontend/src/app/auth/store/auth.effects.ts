@@ -10,7 +10,13 @@ export class AuthEffects {
   getUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.GetUser),
-      mergeMap(() => this.authService.getUser().pipe(map(user => AuthActions.GetUserSuccess({ user })))),
+      mergeMap(() =>
+        this.authService.getUser().pipe(
+          map(user => {
+            return AuthActions.GetUserSuccess({ user });
+          }),
+        ),
+      ),
     ),
   );
 

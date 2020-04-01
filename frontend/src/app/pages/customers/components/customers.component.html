@@ -1,13 +1,13 @@
 <nb-card>
   <nb-card-header>
-    Customers
+    {{ 'customers.customers' | translate }}
   </nb-card-header>
   <nb-card-body>
     <ng2-smart-table
       [settings]="settings"
       [source]="source"
       (createConfirm)="onCreateConfirm($event)"
-      (editConfirm)="onUpdateConfirm($event)"
+      (editConfirm)="onEditConfirm($event)"
       (deleteConfirm)="onDeleteConfirm($event)"
     >
     </ng2-smart-table>

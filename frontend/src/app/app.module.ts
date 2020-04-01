@@ -1,9 +1,9 @@
-import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { LOCATION_INITIALIZED } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
-  NbChatModule,
   NbDatepickerModule,
   NbDialogModule,
   NbLayoutModule,
@@ -15,14 +15,31 @@ import {
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 
 import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { environment } from '../environments/environment';
+import { LANGUAGES, LANGUAGE_LOCAL_STORAGE_KEY } from './app.constants';
 import { AuthModule } from './auth/auth.module';
 import { CustomersService, ProductsService, PurchasesService } from './services';
-import { AppComponent } from './app.component';
+
+export function appInitializerFactory(translate: TranslateService, injector: Injector): () => Promise<any> {
+  return async () => {
+    await injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
+    const storedLanguage = localStorage.getItem(LANGUAGE_LOCAL_STORAGE_KEY);
+    const browserLanguage = translate.getBrowserLang().toLowerCase();
+    translate.use(storedLanguage || (LANGUAGES.includes(browserLanguage) && browserLanguage) || LANGUAGES[0]);
+    return null;
+  };
+}
+
+export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
+}
 
 const NB_MODULES = [
   NbSidebarModule.forRoot(),
@@ -32,9 +49,6 @@ const NB_MODULES = [
   NbWindowModule.forRoot(),
   NbToastrModule.forRoot(),
   NbLayoutModule,
-  NbChatModule.forRoot({
-    messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
-  }),
 ];
 
 @NgModule({
@@ -51,8 +65,27 @@ const NB_MODULES = [
     ...NB_MODULES,
     CoreModule.forRoot(),
     AuthModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
   ],
-  providers: [CustomersService, ProductsService, PurchasesService],
+  providers: [
+    TranslateService,
+    CustomersService,
+    ProductsService,
+    PurchasesService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializerFactory,
+      deps: [TranslateService, Injector],
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

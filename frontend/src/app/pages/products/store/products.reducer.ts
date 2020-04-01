@@ -27,7 +27,7 @@ const productsReducer = createReducer(
   })),
   on(ProductsActions.DeleteProductSuccess, (state, { resId }) => ({
     ...state,
-    products: state.products.filter(product => product.id !== resId),
+    products: [...state.products.filter(product => product.id !== resId)],
   })),
 );
 

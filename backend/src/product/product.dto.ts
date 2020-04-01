@@ -1,14 +1,21 @@
+import { Type } from 'class-transformer';
+import { IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+
 export class CreateProductDto {
-  createdBy: number;
+  @IsNotEmpty()
   name: string;
-  price: number;
-  amount: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  price?: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  amount?: number;
+
   description?: string;
 }
 
-export class UpdateProductDto {
-  name: string;
-  price: number;
-  amount: number;
-  description?: string;
-}
+export class UpdateProductDto extends CreateProductDto {}

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
@@ -27,8 +27,7 @@ export class CustomerController {
   @Post()
   @ApiResponse({ status: 201, description: 'Created a customer.' })
   async create(@Body() createCustomerDto: CreateCustomerDto, @Req() req: any): Promise<Customer> {
-    createCustomerDto.createdBy = req.user.userId;
-    return this.customerService.create(createCustomerDto);
+    return this.customerService.create(createCustomerDto, +req.user.userId);
   }
 
   @Put(':id')

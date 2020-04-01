@@ -1,97 +1,99 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
-import { LocalDataSource } from 'ng2-smart-table';
+import { Store } from '@ngrx/store';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
+import { DeleteConfirm } from '../../../helpers/ng2-smart-table/ng2-smart-table.model';
+import { ProductDto } from '../../../models';
 import * as fromProducts from '../store';
-import { CreateProductDto, ProductDto, UpdateProductDto } from '../../../models';
-import { SETTINGS } from './products.settings.constant';
+import { CreateConfirm, EditConfirm } from './../../../helpers/ng2-smart-table/ng2-smart-table.model';
+import { getSettings } from './products.smart-table-settings';
 
 @Component({
   selector: 'ngx-products',
   templateUrl: './products.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
-export class ProductsComponent implements OnInit {
-  public products$: Observable<ProductDto[]>;
-  public source: LocalDataSource = new LocalDataSource();
-  public readonly settings = SETTINGS;
+export class ProductsComponent implements OnDestroy {
+  public source = new LocalDataSource<ProductDto>();
+  public settings: any;
+  public products$ = this.productsStore.select('products').pipe(map(state => state.products));
+  private languageSubscription: Subscription;
 
   constructor(
     private readonly productsStore: Store<fromProducts.State>,
     private readonly toastrService: NbToastrService,
     private readonly changeDetectionRef: ChangeDetectorRef,
+    public readonly translate: TranslateService,
   ) {
-    this.products$ = this.productsStore.select('products').pipe(map(state => state.products));
-  }
-
-  public ngOnInit(): void {
-    this.productsStore.dispatch(fromProducts.GetProducts());
-    this.products$.subscribe(products => {
-      if (products) {
-        this.source.load(products);
-        this.source.setSort([{ field: 'date', direction: 'desc' }]);
-        this.changeDetectionRef.markForCheck();
-      }
+    this.settings = getSettings(this.translate);
+    this.loadData();
+    this.languageSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.settings = getSettings(this.translate);
+      this.changeDetectionRef.markForCheck();
     });
   }
 
-  public onCreateConfirm(event: any): void {
-    window.confirm('Are you sure you want to create the product?') ? this.onCreateProduct(event) : event.confirm.reject();
+  public ngOnDestroy(): void {
+    this.languageSubscription.unsubscribe();
   }
 
-  public onUpdateConfirm(event: any): void {
-    window.confirm('Are you sure you want to edit the product?') ? this.onUpdateProduct(event) : event.confirm.reject();
+  public loadData(): void {
+    this.productsStore.dispatch(
+      fromProducts.GetProducts({
+        load: products => {
+          this.source.load(products);
+          this.source.setSort([{ field: 'date', direction: 'desc' }]);
+          this.changeDetectionRef.markForCheck();
+        },
+      }),
+    );
   }
 
-  public onDeleteConfirm(event: any): void {
-    window.confirm('Are you sure you want to delete the product?')
-      ? event.confirm.resolve(this.onDeleteProduct(event.data.id))
-      : event.confirm.reject();
-  }
-
-  private onCreateProduct(event: any): void {
-    const validated = this.validateInputData(event.newData);
-    if (validated.error) {
-      this.toastrService.show(validated.error, 'Error', { status: 'warning' });
-      return;
+  public onCreateConfirm({ newData, confirm }: CreateConfirm<ProductDto>): void {
+    if (window.confirm(this.translate.instant('global.confirm-create', { item: 'product' })) && this.validateData(newData)) {
+      const { id, ...createProductDto } = newData;
+      this.productsStore.dispatch(fromProducts.SaveProduct({ createProductDto, confirm }));
+    } else {
+      confirm.reject();
     }
-
-    this.productsStore.dispatch(fromProducts.SaveProduct({ createProductDto: validated.data as CreateProductDto }));
-    event.confirm.resolve(this.source.empty());
   }
 
-  private onUpdateProduct(event: any): void {
-    const validated = this.validateInputData(event.newData);
-    if (validated.error) {
-      this.toastrService.show(validated.error, 'Error', { status: 'warning' });
-      return;
+  public onEditConfirm({ newData, confirm }: EditConfirm<ProductDto>): void {
+    if (window.confirm(this.translate.instant('global.confirm-create', { item: 'product' })) && this.validateData(newData)) {
+      const { id, ...updateProductDto } = newData;
+      this.productsStore.dispatch(fromProducts.UpdateProduct({ id, updateProductDto, confirm }));
+    } else {
+      confirm.reject();
     }
-
-    this.productsStore.dispatch(fromProducts.UpdateProduct({ id: event.data.id, updateProductDto: validated.data as UpdateProductDto }));
   }
 
-  private onDeleteProduct(id: string): void {
-    this.productsStore.dispatch(fromProducts.DeleteProduct({ id }));
+  public onDeleteConfirm({ data, confirm }: DeleteConfirm<ProductDto>): void {
+    if (window.confirm(this.translate.instant('global.confirm-create', { item: 'product' }))) {
+      this.productsStore.dispatch(fromProducts.DeleteProduct({ id: data.id, confirm }));
+    } else {
+      confirm.reject();
+    }
   }
 
-  private validateInputData(data: CreateProductDto | UpdateProductDto): { data: CreateProductDto | UpdateProductDto; error: string } {
-    data.price = Number(data.price);
-    data.amount = Number(data.amount);
-
+  private validateData(data: ProductDto): boolean {
     let error = '';
     let isNameRepresent: boolean;
-
     this.source
       .getAll()
       .then(elements => (isNameRepresent = elements.some((p: ProductDto) => p.name.toLowerCase() === data.name.toLowerCase())));
 
-    if (!data.name || isNameRepresent) error += 'Name has to be given and uniqe! ';
-    if (isNaN(data.amount) || data.amount < 0 || !data.amount) error += 'Amount has to be a positive number! ';
-    if (isNaN(data.price) || data.price < 0 || !data.price) error += 'Price has to be a positive number! ';
+    if (!data.name || isNameRepresent) error += this.translate.instant('validation.name-uniqe');
 
-    return { data, error };
+    if (error) {
+      this.toastrService.show(error, 'Error', { status: 'warning' });
+      return false;
+    }
+
+    return true;
   }
 }

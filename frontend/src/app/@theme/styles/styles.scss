@@ -23,3 +23,5 @@
   @include ngx-pace-theme();
   @include nb-overrides();
 }
+
+@import './custom-styles.scss';

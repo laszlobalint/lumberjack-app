@@ -10,15 +10,27 @@ export class CustomerEffects {
   getCustomers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CustomersActions.GetCustomers),
-      mergeMap(() => this.customersService.fetchAll().pipe(map(customers => CustomersActions.GetCustomersSuccess({ customers })))),
+      mergeMap(({ load }) =>
+        this.customersService.fetchAll().pipe(
+          map(customers => {
+            load(customers);
+            return CustomersActions.GetCustomersSuccess({ customers });
+          }),
+        ),
+      ),
     ),
   );
 
   saveCustomer$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CustomersActions.SaveCustomer),
-      mergeMap(({ createCustomerDto }) =>
-        this.customersService.save(createCustomerDto).pipe(map(customer => CustomersActions.SaveCustomerSuccess({ customer }))),
+      mergeMap(({ createCustomerDto, confirm }) =>
+        this.customersService.save(createCustomerDto).pipe(
+          map(customer => {
+            confirm.resolve(customer);
+            return CustomersActions.SaveCustomerSuccess({ customer });
+          }),
+        ),
       ),
     ),
   );
@@ -26,8 +38,13 @@ export class CustomerEffects {
   updateCustomer$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CustomersActions.UpdateCustomer),
-      mergeMap(({ id, updateCustomerDto }) =>
-        this.customersService.update(id, updateCustomerDto).pipe(map(customer => CustomersActions.UpdateCustomerSuccess({ customer }))),
+      mergeMap(({ id, updateCustomerDto, confirm }) =>
+        this.customersService.update(id, updateCustomerDto).pipe(
+          map(customer => {
+            confirm.resolve(customer);
+            return CustomersActions.UpdateCustomerSuccess({ customer });
+          }),
+        ),
       ),
     ),
   );
@@ -35,7 +52,14 @@ export class CustomerEffects {
   deleteCustomer$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CustomersActions.DeleteCustomer),
-      mergeMap(({ id }) => this.customersService.delete(id).pipe(map(resId => CustomersActions.DeleteCustomerSuccess({ resId })))),
+      mergeMap(({ id, confirm }) =>
+        this.customersService.delete(id).pipe(
+          map(resId => {
+            confirm.resolve();
+            return CustomersActions.DeleteCustomerSuccess({ resId });
+          }),
+        ),
+      ),
     ),
   );
 
