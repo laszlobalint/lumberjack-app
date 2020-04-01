@@ -8,7 +8,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
-import { LoginDto, LoginResponseDto } from './auth.dto';
+import { LoginDto, LoginResponseDto, TokenDto } from './auth.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -20,6 +20,12 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   async login(@Body() loginDto: LoginDto): Promise<LoginResponseDto> {
     return this.authService.login(loginDto);
+  }
+
+  @Post('refresh-token')
+  // @UseGuards(LocalAuthGuard)
+  async refreshToken(@Body() tokenDto: TokenDto): Promise<TokenDto> {
+    return this.authService.refreshToken(tokenDto);
   }
 
   @Post('logout')

@@ -13,3 +13,7 @@ export class LoginResponseDto {
   access_token: string;
   user: User;
 }
+
+export class TokenDto {
+  access_token: string;
+}

@@ -3,6 +3,7 @@ import { NbAuthService } from '@nebular/auth';
 import { Store } from '@ngrx/store';
 
 import * as fromAuth from './auth/store';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-app',
@@ -16,5 +17,14 @@ export class AppComponent implements OnInit {
     if (nbAuthToken) {
       this.authStore.dispatch(fromAuth.GetUser());
     }
+    this.nbAuthService
+      .isAuthenticated()
+      .pipe(
+        map(async authenticated => {
+          const result = await this.nbAuthService.refreshToken('email', { access_token: nbAuthToken.getValue() }).toPromise();
+          console.log(result);
+        }),
+      )
+      .subscribe();
   }
 }

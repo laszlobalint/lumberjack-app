@@ -44,6 +44,15 @@ export const NB_CORE_PROVIDERS = [
             failure: '/auth/login',
           },
         },
+        refreshToken: {
+          endpoint: '/auth/refresh-token',
+          method: 'post',
+          requireValidToken: true,
+          redirect: {
+            success: null,
+            failure: null,
+          },
+        },
         register: false,
       }),
     ],
