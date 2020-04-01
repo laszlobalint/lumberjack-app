@@ -1,12 +1,14 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
 import { PurchaseDto } from '../../../models';
 import * as fromPurchases from '../store';
 import { DeleteConfirm, EditConfirm } from './../../../helpers/ng2-smart-table/ng2-smart-table.model';
-import { PURCHASES_SMART_TABLE_SETTINGS } from './purchases.smart-table-settings';
+import { getSettings } from './purchases.smart-table-settings';
 
 @Component({
   selector: 'purchases',
@@ -22,17 +24,28 @@ import { PURCHASES_SMART_TABLE_SETTINGS } from './purchases.smart-table-settings
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class PurchasesComponent {
+export class PurchasesComponent implements OnDestroy {
   public readonly source = new LocalDataSource<PurchaseDto>();
-  public readonly settings = PURCHASES_SMART_TABLE_SETTINGS;
+  public settings: any;
   public purchases$ = this.purchasesStore.select('purchases').pipe(map(state => state.purchases));
+  private languageSubscription: Subscription;
 
   constructor(
     private readonly purchasesStore: Store<fromPurchases.State>,
     private readonly toastrService: NbToastrService,
     private readonly changeDetectionRef: ChangeDetectorRef,
+    public readonly translate: TranslateService,
   ) {
+    this.settings = getSettings(this.translate);
     this.loadData();
+    this.languageSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.settings = getSettings(this.translate);
+      this.changeDetectionRef.markForCheck();
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.languageSubscription.unsubscribe();
   }
 
   public loadData(): void {
@@ -48,7 +61,7 @@ export class PurchasesComponent {
   }
 
   public onEditConfirm({ newData, confirm }: EditConfirm<PurchaseDto>): void {
-    if (window.confirm('Are you sure you want to edit the product?') && this.validateData(newData)) {
+    if (window.confirm(this.translate.instant('global.confirm-edit', { item: 'product' })) && this.validateData(newData)) {
       const { id, ...updatePurchase } = newData;
       this.purchasesStore.dispatch(fromPurchases.UpdatePurchase({ id, updatePurchase, confirm }));
     } else {
@@ -57,7 +70,7 @@ export class PurchasesComponent {
   }
 
   public onDeleteConfirm({ data, confirm }: DeleteConfirm<PurchaseDto>): void {
-    if (window.confirm('Are you sure you want to delete the product?')) {
+    if (window.confirm(this.translate.instant('global.confirm-delete', { item: 'product' }))) {
       this.purchasesStore.dispatch(fromPurchases.DeletePurchase({ id: data.id, confirm }));
     } else {
       confirm.reject();
@@ -66,8 +79,8 @@ export class PurchasesComponent {
 
   private validateData(data: PurchaseDto): boolean {
     let error = '';
-    if (isNaN(data.amount) || data.amount < 0 || !data.amount) error += 'Amount has to be a positive number! ';
-    if (isNaN(data.price) || data.price < 0 || !data.price) error += 'Price has to be a positive number! ';
+    if (isNaN(data.amount) || data.amount < 0 || !data.amount) error += this.translate.instant('validation.amount');
+    if (isNaN(data.price) || data.price < 0 || !data.price) error += this.translate.instant('validation.price');
 
     if (error) {
       this.toastrService.show(error, 'Error', { status: 'warning' });

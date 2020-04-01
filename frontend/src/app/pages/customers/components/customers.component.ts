@@ -1,13 +1,15 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
+import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
 import { DeleteConfirm, EditConfirm } from '../../../helpers/ng2-smart-table/ng2-smart-table.model';
 import { CustomerDto } from '../../../models';
 import * as fromCustomers from '../store';
 import { CreateConfirm } from './../../../helpers/ng2-smart-table/ng2-smart-table.model';
-import { CUSTOMERS_SMART_TABLE_SETTINGS } from './customers.smart-table-settings';
+import { getSettings } from './customers.smart-table-settings';
 
 @Component({
   selector: 'ngx-customers',
@@ -15,17 +17,28 @@ import { CUSTOMERS_SMART_TABLE_SETTINGS } from './customers.smart-table-settings
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class CustomersComponent {
+export class CustomersComponent implements OnDestroy {
   public readonly source = new LocalDataSource<CustomerDto>();
-  public readonly settings = CUSTOMERS_SMART_TABLE_SETTINGS;
+  public settings: any;
   public customers$ = this.customersStore.select('customers').pipe(map(state => state.customers));
+  private languageSubscription: Subscription;
 
   constructor(
     private readonly customersStore: Store<fromCustomers.State>,
     private readonly toastrService: NbToastrService,
     private readonly changeDetectionRef: ChangeDetectorRef,
+    private readonly translate: TranslateService,
   ) {
+    this.settings = getSettings(this.translate);
     this.loadData();
+    this.languageSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.settings = getSettings(this.translate);
+      this.changeDetectionRef.markForCheck();
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.languageSubscription.unsubscribe();
   }
 
   public loadData(): void {
@@ -41,7 +54,7 @@ export class CustomersComponent {
   }
 
   public onCreateConfirm({ newData, confirm }: CreateConfirm<CustomerDto>): void {
-    if (window.confirm('Are you sure you want to create the customer?') && this.validateData(newData)) {
+    if (window.confirm(this.translate.instant('global.confirm-create', { item: 'customer' })) && this.validateData(newData)) {
       const { id, ...createCustomerDto } = newData;
       this.customersStore.dispatch(fromCustomers.SaveCustomer({ createCustomerDto, confirm }));
     } else {
@@ -50,7 +63,7 @@ export class CustomersComponent {
   }
 
   public onEditConfirm({ newData, confirm }: EditConfirm<CustomerDto>): void {
-    if (window.confirm('Are you sure you want to edit the customer?') && this.validateData(newData)) {
+    if (window.confirm(this.translate.instant('global.confirm-edit', { item: 'customer' })) && this.validateData(newData)) {
       const { id, ...updateCustomerDto } = newData;
       this.customersStore.dispatch(fromCustomers.UpdateCustomer({ id, updateCustomerDto, confirm }));
     } else {
@@ -59,7 +72,7 @@ export class CustomersComponent {
   }
 
   public onDeleteConfirm({ data, confirm }: DeleteConfirm<CustomerDto>): void {
-    if (window.confirm('Are you sure you want to delete the customer?')) {
+    if (window.confirm(this.translate.instant('global.confirm-delete', { item: 'customer' }))) {
       this.customersStore.dispatch(fromCustomers.DeleteCustomer({ id: data.id, confirm }));
     } else {
       confirm.reject();
@@ -68,7 +81,7 @@ export class CustomersComponent {
 
   private validateData(data: CustomerDto): boolean {
     let error = '';
-    if (!data.name || data.name.length === 0) error += 'Name is a mandatory! ';
+    if (!data.name || data.name.length === 0) error += this.translate.instant('validation.name');
 
     if (error) {
       this.toastrService.show(error, 'Error', { status: 'warning' });

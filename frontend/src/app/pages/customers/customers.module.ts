@@ -6,6 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ThemeModule } from '../../@theme/theme.module';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { CustomerEffects, customersFeatureKey, reducer } from './store';
 import { ProductsService } from '../../services/products.service';
@@ -21,6 +22,7 @@ import { CustomersComponent } from './components/customers.component';
     NbInputModule,
     ThemeModule,
     Ng2SmartTableModule,
+    TranslateModule,
     StoreModule.forFeature(customersFeatureKey, reducer),
     EffectsModule.forFeature([CustomerEffects]),
   ],

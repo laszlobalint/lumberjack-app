@@ -15,6 +15,7 @@ import {
   NbThemeModule,
   NbUserModule,
 } from '@nebular/theme';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { FooterComponent, HeaderComponent, SearchInputComponent, SwitcherComponent } from './components';
 import { OneColumnLayoutComponent, ThreeColumnsLayoutComponent, TwoColumnsLayoutComponent } from './layouts';
@@ -37,6 +38,7 @@ const NB_MODULES = [
   NbSelectModule,
   NbIconModule,
   NbEvaIconsModule,
+  TranslateModule,
 ];
 const COMPONENTS = [
   SwitcherComponent,

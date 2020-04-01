@@ -1,0 +1,74 @@
+{
+  "global": {
+    "app-title": "Fatelep Rendeléskezelés",
+    "address": "Cím",
+    "name": "Név",
+    "phone": "Telefon",
+    "save": "Mentés",
+    "new": "Új hozzáadása",
+    "company-name": "Cégnév",
+    "tax-id": "Adószám",
+    "national-id": "Személyiszám",
+    "checking-account": "Folyószámlaszám",
+    "description": "Leírás",
+    "created-date": "Létrehozva",
+    "amount": "Mennyiség",
+    "price": "Ár",
+    "confirm-create": "Biztosan létre akarod hozni a/az {{ item }}(e)t?",
+    "confirm-edit": "Biztosan módosítani akarod a/az {{ item }}(e)t?",
+    "confirm-delete": "Biztosan törölni akarod a/az {{ item }}(e)t?",
+    "all": "Mind"
+  },
+  "validation": {
+    "name": "A név kötelező! ",
+    "name-uniqe": "Egyéni név megadása szükséges! ",
+    "amount": "Mennyiségnek pozitív számnak kell lennie! ",
+    "price": "Árnak pozitív számnak kell lennie! ",
+    "success": "Siker! ",
+    "failure": "Sikertelen! "
+  },
+  "customers": {
+    "customers": "Ügyfelek"
+  },
+  "products": {
+    "products": "Termékek",
+    "product": "Termék"
+  },
+  "purchases": {
+    "purchases": "Rendelések",
+    "all": "Összes rendelés",
+    "id": "Rendelésazonosító {{ createPurchaseId }}",
+    "new": "Új rendelés",
+    "clear": "Űrlap ürítése",
+    "refresh": "Adatfrissítés",
+    "product": "Termék",
+    "select-product": "Válassz terméket",
+    "custom": "Egyedi",
+    "customer": "Ügyfél",
+    "select-customer": "Válassz ügyfelet",
+    "edit-customer": "Szerkesztés",
+    "none": "Nincs",
+    "customer-descr": "Ügyfél leírása",
+    "purchase-descr": "Rendelés leírása",
+    "reduce-stock": "Raktármennyiség csökkentése",
+    "completed": "Teljesített",
+    "delivery-date": "Kiszállítás"
+  },
+  "user": {
+    "login-title": "Bejelentkezés",
+    "login-welcome": "Szia! Jelentkezz be e-mail címmel.",
+    "login-failure": "Nem sikerült bejelentkezni!",
+    "login-success": "Sikeresen bejelentkeztél",
+    "logout": "Bejelentkezés, kérlek, várj...",
+    "logout-title": "Kijelentkezés",
+    "email": "E-mail cím",
+    "email-required": "E-mail kötelező!",
+    "email-validation": "E-mail formátuma hibás!",
+    "password": "Jelszó",
+    "password-required": "Jelszó szükséges!",
+    "password-validation": "A jelszó legalább {{ minimum }}, és legfeljebb {{ maximum }} karakter lehet."
+  },
+  "date-range-picker": {
+    "placeholder": "Válassz időintervallumot"
+  }
+}
