@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { Purchase } from './../purchase/purchase.entity';
+import { GetFeedDto } from './feed.dto';
 
 @Injectable()
 export class FeedService {
@@ -10,7 +11,24 @@ export class FeedService {
     private readonly purchaseRepository: Repository<Purchase>,
   ) {}
 
-  // getNextUncompletedPurchase(): Promise<Purchase> {
-  //   this.purchaseRepository.createQueryBuilder("purchase").addSelect("min(deliveryDate)").addSelect("purchase.completed = 0")
-  // }
+  async getFeed(): Promise<GetFeedDto> {
+    const currentDate = new Date();
+    const tomorrowDateStart = this.getDateWithoutHours(currentDate, 1);
+    const tomorrowDateEnd = this.getDateWithoutHours(currentDate, 2);
+
+    const firstUncompletedPurchaseForTomorrow = await this.purchaseRepository.findOne({
+      where: {
+        completed: false,
+        deliveryDate: Between(tomorrowDateStart, tomorrowDateEnd),
+      },
+    });
+
+    return {
+      nextUncompletedForTomorrow: firstUncompletedPurchaseForTomorrow,
+    };
+  }
+
+  private getDateWithoutHours(date: Date, skipDays: number) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate() + skipDays, 0, 0, 0, 0);
+  }
 }
