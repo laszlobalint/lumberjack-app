@@ -11,7 +11,7 @@
     "national-id": "National ID",
     "checking-account": "Checking account",
     "description": "Description",
-    "date": "Date",
+    "created-date": "Created date",
     "amount": "Amount",
     "price": "Price",
     "confirm-create": "Are you sure you want to create the {{ item }}?",
@@ -51,7 +51,9 @@
     "customer-descr": "Customer description",
     "purchase-descr": "Purchase description",
     "reduce-stock": "Reduce stock amount",
-    "completed": "Completed"
+    "completed": "Completed",
+    "delivery-date": "Delivery",
+    "time-of-delivery": "Time of delivery"
   },
   "user": {
     "login-title": "Login",

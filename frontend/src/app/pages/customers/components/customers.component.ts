@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
 import { DeleteConfirm, EditConfirm } from '../../../helpers/ng2-smart-table/ng2-smart-table.model';
 import { CustomerDto } from '../../../models';
@@ -47,7 +46,7 @@ export class CustomersComponent implements OnDestroy {
       fromCustomers.GetCustomers({
         load: customers => {
           this.source.load(customers);
-          this.source.setSort([{ field: 'date', direction: 'desc' }]);
+          this.source.setSort([{ field: 'createdDate', direction: 'desc' }]);
           this.changeDetectionRef.markForCheck();
         },
       }),

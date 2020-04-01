@@ -9,7 +9,7 @@ export const getMenuItems = (translate: TranslateService): NbMenuItem[] => [
   },
   {
     title: translate.instant('purchases.all'),
-    icon: 'shopping-cart-outline',
+    icon: 'shopping-bag-outline',
     link: '/pages/purchases',
   },
   {

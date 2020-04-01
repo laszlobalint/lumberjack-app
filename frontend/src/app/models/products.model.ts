@@ -5,7 +5,7 @@ export class ProductDto {
   name: string;
   price: number;
   amount: number;
-  date: Date;
+  createdDate: Date;
   user: UserDto;
 }
 

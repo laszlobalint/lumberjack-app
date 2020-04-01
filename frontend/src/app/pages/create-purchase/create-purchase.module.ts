@@ -19,12 +19,12 @@ import {
 } from '@nebular/theme';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { ThemeModule } from '../../@theme/theme.module';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { ThemeModule } from '../../@theme/theme.module';
+import { DateInputModule } from '../../shared/date-input/date-input.module';
+import { CreatePurchaseComponent } from './components/create-purchase.component';
 import { createPurchasesFeatureKey, reducer } from './store';
 import { CreatePurchaseEffects } from './store/create-purchase.effects';
-import { CreatePurchaseComponent } from './components/create-purchase.component';
 
 @NgModule({
   declarations: [CreatePurchaseComponent],
@@ -50,6 +50,7 @@ import { CreatePurchaseComponent } from './components/create-purchase.component'
     NbSpinnerModule,
     NbTooltipModule,
     TranslateModule,
+    DateInputModule,
   ],
 })
 export class CreatePurchaseModule {}

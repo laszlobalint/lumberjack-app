@@ -11,7 +11,7 @@
     "national-id": "Matični broj",
     "checking-account": "Tekući račun",
     "description": "Opis",
-    "date": "Datum",
+    "created-date": "Napravljena",
     "amount": "Količina",
     "price": "Cena",
     "confirm-create": "Sigurno želiš da sačuvaš {{ item }}?",
@@ -51,7 +51,9 @@
     "customer-descr": "Opis klijenta",
     "purchase-descr": "Opis narudžbine",
     "reduce-stock": "Smanjenje količine u magacinu",
-    "completed": "Izvršena"
+    "completed": "Izvršena",
+    "delivery-date": "Isporuka",
+    "time-of-delivery": "Vreme isporuke"
   },
   "user": {
     "login-title": "Prijava",

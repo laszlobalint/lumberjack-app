@@ -1,13 +1,12 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Connection, DeleteResult, Repository } from 'typeorm';
 import { classToPlain } from 'class-transformer';
-
+import { Connection, DeleteResult, Repository } from 'typeorm';
+import { Customer } from '../customer/customer.entity';
 import { Product } from '../product/product.entity';
 import { User } from '../user/user.entity';
-import { Customer } from '../customer/customer.entity';
-import { Purchase } from './purchase.entity';
 import { CreatePurchaseDto, UpdatePurchaseDto } from './purchase.dto';
+import { Purchase } from './purchase.entity';
 
 @Injectable()
 export class PurchaseService {
@@ -43,6 +42,7 @@ export class PurchaseService {
           reduceStock: createPurchaseDto.reduceStock,
           price: createPurchaseDto.price,
           description: createPurchaseDto.description,
+          deliveryDate: createPurchaseDto.deliveryDate,
           completed: false,
         }),
       );

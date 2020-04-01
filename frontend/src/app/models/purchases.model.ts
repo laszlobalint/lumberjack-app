@@ -10,7 +10,8 @@ export interface PurchaseDto {
   description: string;
   completed: boolean;
   reduceStock: boolean;
-  date: Date;
+  deliveryDate: string;
+  createdDate: string;
   product: ProductDto;
   customer: CustomerDto;
   user: UserDto;
@@ -24,6 +25,7 @@ export interface CreatePurchaseDto {
   customerId?: number;
   customer?: CreateCustomerDto;
   description?: string;
+  deliveryDate: string;
 }
 
 export interface UpdatePurchaseDto {
@@ -32,4 +34,5 @@ export interface UpdatePurchaseDto {
   price?: number;
   completed?: boolean;
   description?: string;
+  deliveryDate: string;
 }

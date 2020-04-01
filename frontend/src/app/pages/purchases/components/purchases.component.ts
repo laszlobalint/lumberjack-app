@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
 import { PurchaseDto } from '../../../models';
 import * as fromPurchases from '../store';
@@ -54,7 +53,7 @@ export class PurchasesComponent implements OnDestroy {
       fromPurchases.GetPurchases({
         load: purchases => {
           this.source.load(purchases);
-          this.source.setSort([{ field: 'date', direction: 'desc' }]);
+          this.source.setSort([{ field: 'createdDate', direction: 'desc' }]);
           this.changeDetectionRef.markForCheck();
         },
       }),
