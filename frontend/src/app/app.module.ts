@@ -24,7 +24,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LANGUAGES, LANGUAGE_LOCAL_STORAGE_KEY } from './app.constants';
 import { AuthModule } from './auth/auth.module';
-import { CustomersService, ProductsService, PurchasesService } from './services';
+import { CustomersService, FeedService, ProductsService, PurchasesService } from './services';
+import { effects, reducers } from './store';
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector): () => Promise<any> {
   return async () => {
@@ -57,8 +58,8 @@ const NB_MODULES = [
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    StoreModule.forRoot({}),
-    EffectsModule.forRoot([]),
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot(effects),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     ThemeModule.forRoot(),
     ...NB_MODULES,
@@ -78,6 +79,7 @@ const NB_MODULES = [
     CustomersService,
     ProductsService,
     PurchasesService,
+    FeedService,
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,

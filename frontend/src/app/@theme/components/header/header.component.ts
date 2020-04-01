@@ -4,10 +4,10 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
-
+import { LANGUAGE_LOCAL_STORAGE_KEY, SITE_NAME } from '../../../app.constants';
 import { UserDto } from '../../../auth/models/user.model';
 import * as fromAuth from '../../../auth/store';
-import { LANGUAGE_LOCAL_STORAGE_KEY, SITE_NAME } from '../../../app.constants';
+import * as fromRoot from '../../../store';
 import { LANGUAGE_OPTIONS, THEMES } from './header.constants';
 
 @Component({
@@ -22,6 +22,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public currentTheme = THEMES[0].value;
   public currentLanguage = this.translateService.currentLang;
   public user?: UserDto;
+
+  public feed$ = this.rootStore.select('feed').pipe(map(feed => feed.feed));
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -29,6 +31,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private readonly sidebarService: NbSidebarService,
     private readonly themeService: NbThemeService,
     private readonly authStore: Store<fromAuth.State>,
+    private readonly rootStore: Store<fromRoot.State>,
     public readonly translateService: TranslateService,
   ) {}
 

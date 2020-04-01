@@ -1,25 +1,39 @@
 <div class="header-container">
   <div class="logo-container">
-    <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+    <a (click)="toggleSidebar()"
+      href="#"
+      class="sidebar-toggle">
       <nb-icon icon="menu-2-outline"></nb-icon>
     </a>
-    <a class="logo" href="#" (click)="navigateHome()">{{ SITE_NAME }}</a>
+    <a class="logo"
+      href="#"
+      (click)="navigateHome()">{{ SITE_NAME }}</a>
   </div>
-  <nb-select class="mx-2" [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
-    <nb-option *ngFor="let theme of THEMES" [value]="theme.value"> {{ theme.name }}</nb-option>
+  <nb-select class="mx-2"
+    [selected]="currentTheme"
+    (selectedChange)="changeTheme($event)"
+    status="primary">
+    <nb-option *ngFor="let theme of THEMES"
+      [value]="theme.value"> {{ theme.name }}</nb-option>
   </nb-select>
-  <nb-select [selected]="currentLanguage" (selectedChange)="changeLanguage($event)" status="primary">
-    <nb-option *ngFor="let language of LANGUAGE_OPTIONS" [value]="language.value">{{ language.name }}</nb-option>
+  <nb-select [selected]="currentLanguage"
+    (selectedChange)="changeLanguage($event)"
+    status="primary">
+    <nb-option *ngFor="let language of LANGUAGE_OPTIONS"
+      [value]="language.value">{{ language.name }}</nb-option>
   </nb-select>
 </div>
 <div class="header-container">
   <nb-actions size="small">
-    <nb-action class="control-item">
-      <nb-search type="rotate-layout"></nb-search>
-    </nb-action>
-    <nb-action class="control-item" icon="bell-outline"></nb-action>
-    <nb-action class="user-action" *nbIsGranted="['view', 'user']">
-      <nb-user [nbContextMenu]="[{ title: 'user.logout-title' | translate, link: '/auth/logout' }]" [name]="user?.name"> </nb-user>
+    <nb-action *ngIf="{ feed: feed$ | async } as data"
+      class="control-item mx-2"
+      icon="bell-outline"
+      [badgeText]="data.feed && !!data.feed.nextUncompletedForTomorrow && '1+'"
+      badgeStatus="warning"></nb-action>
+    <nb-action class="user-action"
+      *nbIsGranted="['view', 'user']">
+      <nb-user [nbContextMenu]="[{ title: 'user.logout-title' | translate, link: '/auth/logout' }]"
+        [name]="user?.name"> </nb-user>
     </nb-action>
   </nb-actions>
 </div>
