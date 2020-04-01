@@ -17,7 +17,8 @@
     "confirm-create": "Sigurno želiš da sačuvaš {{ item }}?",
     "confirm-edit": "Sigurno želiš da promeniš {{ item }}?",
     "confirm-delete": "Sigurno želiš da brišeš {{ item }}?",
-    "all": "Sve"
+    "all": "Sve",
+    "feed-list-title": "Narudžbine sutra"
   },
   "validation": {
     "name": "Ime je obazezno! ",

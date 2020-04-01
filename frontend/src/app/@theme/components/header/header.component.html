@@ -42,7 +42,7 @@
 
   <ng-template #purchasesList>
     <nb-card class="mb-0">
-      <nb-card-header>For tomorrow</nb-card-header>
+      <nb-card-header>{{ 'global.feed-list-title' | translate }}</nb-card-header>
       <nb-list>
         <nb-list-item *ngFor="let purchase of data.uncompletedPurchasesForTomorrow"
           (click)="popover.hide()">
