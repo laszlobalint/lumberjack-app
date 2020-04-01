@@ -52,7 +52,8 @@
     "purchase-descr": "Opis narudžbine",
     "reduce-stock": "Smanjenje količine u magacinu",
     "completed": "Izvršena",
-    "delivery-date": "Isporuka"
+    "delivery-date": "Isporuka",
+    "time-of-delivery": "Vreme isporuke"
   },
   "user": {
     "login-title": "Prijava",

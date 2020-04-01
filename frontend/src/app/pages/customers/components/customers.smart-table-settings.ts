@@ -49,7 +49,7 @@ export function getSettings(translate: TranslateService): any {
         title: translate.instant('global.description'),
       },
       createdDate: {
-        title: translate.instant('global.create'),
+        title: translate.instant('global.created-date'),
         editable: false,
         addable: false,
         valuePrepareFunction: (date: string): string => {

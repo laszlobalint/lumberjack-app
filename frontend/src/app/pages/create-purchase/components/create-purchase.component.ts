@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-
-import * as fromPurchases from '../store';
 import { CreateCustomerDto, CreatePurchaseDto, CustomerDto, ProductDto, PurchaseDto } from '../../../models';
+import dateValidator from '../../../shared/date-input/validators/date.validator';
+import * as fromPurchases from '../store';
 
 @Component({
   selector: 'create-purchase',
@@ -44,7 +44,15 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
     this.purchaseSubscription = this.purchase$
       .pipe(filter(purchase => !!purchase))
       .subscribe(
-        ({ amount, price, description, customer: { id: customerId, createdDate, ...customer }, product: { id: productId }, reduceStock }) =>
+        ({
+          amount,
+          price,
+          description,
+          customer: { id: customerId, createdDate, ...customer },
+          product: { id: productId },
+          reduceStock,
+          deliveryDate,
+        }) =>
           this.form.setValue({
             amount,
             productId,
@@ -53,6 +61,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
             customer,
             description,
             reduceStock,
+            deliveryDate,
           } as CreatePurchaseDto),
       );
   }
@@ -117,6 +126,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
           checkingAccount: [''],
         }),
         description: [''],
+        deliveryDate: ['', [dateValidator]],
       },
       { validators: [this.customerValidator] },
     );

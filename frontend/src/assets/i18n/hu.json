@@ -52,7 +52,8 @@
     "purchase-descr": "Rendelés leírása",
     "reduce-stock": "Raktármennyiség csökkentése",
     "completed": "Teljesített",
-    "delivery-date": "Kiszállítás"
+    "delivery-date": "Kiszállítás",
+    "time-of-delivery": "Kiszállítás időpontja"
   },
   "user": {
     "login-title": "Bejelentkezés",

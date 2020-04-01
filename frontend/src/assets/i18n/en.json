@@ -52,7 +52,8 @@
     "purchase-descr": "Purchase description",
     "reduce-stock": "Reduce stock amount",
     "completed": "Completed",
-    "delivery-date": "Delivery"
+    "delivery-date": "Delivery",
+    "time-of-delivery": "Time of delivery"
   },
   "user": {
     "login-title": "Login",
