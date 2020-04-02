@@ -14,6 +14,6 @@ export class LoginResponseDto {
   user: User;
 }
 
-export class TokenDto {
+export class RefreshtTokenResponseDto {
   access_token: string;
 }

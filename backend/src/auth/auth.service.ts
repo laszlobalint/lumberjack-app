@@ -2,10 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { classToPlain } from 'class-transformer';
-
-import { UserService } from './../user/user.service';
 import { User } from '../user/user.entity';
-import { LoginDto, LoginResponseDto, TokenDto } from './auth.dto';
+import { UserService } from './../user/user.service';
+import { LoginDto, LoginResponseDto, RefreshtTokenResponseDto } from './auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -28,10 +27,9 @@ export class AuthService {
     };
   }
 
-  async refreshToken(tokenDto: TokenDto): Promise<TokenDto> {
-    const decoded: any = this.jwtService.decode(tokenDto.access_token);
+  async refreshToken(email: string, userId: string): Promise<RefreshtTokenResponseDto> {
     return {
-      access_token: this.jwtService.sign({ email: decoded.email, sub: decoded.sub }),
+      access_token: this.jwtService.sign({ email: email, sub: userId }),
     };
   }
 

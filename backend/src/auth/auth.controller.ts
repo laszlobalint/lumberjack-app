@@ -2,13 +2,12 @@ import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { classToPlain } from 'class-transformer';
 import { RateLimit } from 'nestjs-rate-limiter';
-
+import { User } from '../user/user.entity';
+import { UserService } from '../user/user.service';
+import { LoginDto, LoginResponseDto, RefreshtTokenResponseDto } from './auth.dto';
+import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { AuthService } from './auth.service';
-import { UserService } from '../user/user.service';
-import { User } from '../user/user.entity';
-import { LoginDto, LoginResponseDto, TokenDto } from './auth.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -23,9 +22,10 @@ export class AuthController {
   }
 
   @Post('refresh-token')
-  // @UseGuards(LocalAuthGuard)
-  async refreshToken(@Body() tokenDto: TokenDto): Promise<TokenDto> {
-    return this.authService.refreshToken(tokenDto);
+  @UseGuards(JwtAuthGuard)
+  async refreshToken(@Req() req: any): Promise<RefreshtTokenResponseDto> {
+    const { email, userId } = req.user;
+    return this.authService.refreshToken(email, userId);
   }
 
   @Post('logout')
