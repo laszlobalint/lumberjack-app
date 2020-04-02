@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     const nbAuthToken = await this.nbAuthService.getToken().toPromise();
-    if (nbAuthToken) {
+    if (nbAuthToken && nbAuthToken.isValid()) {
       this.authStore.dispatch(fromAuth.GetUser());
       this.nbAuthService.refreshToken('email');
     }
