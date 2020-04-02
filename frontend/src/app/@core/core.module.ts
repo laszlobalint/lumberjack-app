@@ -10,6 +10,7 @@ import {
 } from '@nebular/auth';
 import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
 import { Observable, of as observableOf } from 'rxjs';
+
 import { environment } from '../../environments/environment';
 import { AuthGuard } from './guards/auth.guard';
 import { HttpResponseInterceptor } from './interceptors/http-response.interceptor';

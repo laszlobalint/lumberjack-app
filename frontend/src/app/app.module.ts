@@ -38,7 +38,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
 }
 
 export class WebpackTranslateLoader implements TranslateLoader {
-  getTranslation(lang: string): Observable<any> {
+  public getTranslation(lang: string): Observable<any> {
     return from(import(`../assets/i18n/${lang}.json`));
   }
 }
@@ -68,7 +68,7 @@ const NB_MODULES = [
     CoreModule.forRoot(),
     AuthModule,
     TranslateModule.forRoot({
-      defaultLanguage: 'en',
+      defaultLanguage: LANGUAGES[0],
       loader: {
         provide: TranslateLoader,
         useClass: WebpackTranslateLoader,
