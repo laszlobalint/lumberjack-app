@@ -87,3 +87,10 @@ $ npm run test:cov
 cd /frontend
 ng serve --open
 ```
+
+## Deployment to Heroku
+
+$ heroku login
+$ git subtree push --prefix backend heroku master
+(or force push)
+$ git push -f heroku \`git subtree split --prefix backend\`:master
