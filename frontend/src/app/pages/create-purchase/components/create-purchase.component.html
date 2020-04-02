@@ -16,7 +16,7 @@
             status="danger"
             nbTooltip="{{ 'purchases.clear' | translate }}"
             nbTooltipPlacement="bottom"
-            (click)="form.reset()">
+            (click)="onClear()">
             <nb-icon icon="close"></nb-icon>
           </button>
           <button nbButton
@@ -198,19 +198,13 @@
 
         <!-- Purchase description -->
         <div class="row w-100">
-          <div class="col-12 col-lg-9 form-group">
+          <div class="col form-group">
             <label for="inputDescription"
               class="label">{{ 'purchases.purchase-descr' | translate }}</label>
             <textarea nbInput
               fullWidth
               placeholder="{{ 'purchases.purchase-descr' | translate }}"
               formControlName="description"></textarea>
-          </div>
-
-          <div class="col-12 col-lg-3 form-group">
-            <label for="inputDeliveryDate"
-              class="label">{{ 'purchases.time-of-delivery' | translate }}</label>
-            <date-input formControlName="deliveryDate"></date-input>
           </div>
         </div>
 
