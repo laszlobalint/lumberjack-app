@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NbAuthService } from '@nebular/auth';
 import { Store } from '@ngrx/store';
+
 import * as fromAuth from './auth/store';
 
 @Component({
@@ -14,7 +15,7 @@ export class AppComponent implements OnInit {
     const nbAuthToken = await this.nbAuthService.getToken().toPromise();
     if (nbAuthToken && nbAuthToken.isValid()) {
       this.authStore.dispatch(fromAuth.GetUser());
-      this.nbAuthService.refreshToken('email');
+      await this.nbAuthService.refreshToken('email', { access_token: nbAuthToken.getValue() }).toPromise();
     }
   }
 }

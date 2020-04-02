@@ -5,7 +5,7 @@ import { RateLimit } from 'nestjs-rate-limiter';
 
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
-import { LoginDto, LoginResponseDto, RefreshTokenDto, RefreshtTokenResponseDto } from './auth.dto';
+import { LoginDto, LoginResponseDto, AccessTokenDto } from './auth.dto';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -23,11 +23,8 @@ export class AuthController {
   }
 
   @Post('refresh-token')
-  async refreshToken(@Body() refreshTokenDto: RefreshTokenDto): Promise<RefreshtTokenResponseDto> {
-    const { payload } = refreshTokenDto;
-    const user = await this.userService.findOneByEmail(payload.email);
-
-    return this.authService.refreshToken(user.email, user.id);
+  async refreshToken(@Body() accessTokenDto: AccessTokenDto): Promise<AccessTokenDto> {
+    return this.authService.refreshToken(accessTokenDto);
   }
 
   @Post('logout')
