@@ -17,7 +17,6 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { from, Observable } from 'rxjs';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { environment } from '../environments/environment';
 import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 
@@ -26,6 +25,7 @@ import { AppComponent } from './app.component';
 import { LANGUAGES, LANGUAGE_LOCAL_STORAGE_KEY } from './app.constants';
 import { AuthModule } from './auth/auth.module';
 import { CustomersService, ProductsService, PurchasesService } from './services';
+import { environment } from '../environments/environment';
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector): () => Promise<any> {
   return async () => {
