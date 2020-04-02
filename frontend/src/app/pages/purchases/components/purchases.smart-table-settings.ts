@@ -23,6 +23,9 @@ export function getSettings(translate: TranslateService): any {
       deleteButtonContent: '<i class="nb-trash"></i>',
       confirmDelete: true,
     },
+    filter: {
+      inputClass: 'text-gray',
+    },
     columns: {
       amount: {
         title: translate.instant('global.amount'),
