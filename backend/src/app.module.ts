@@ -2,13 +2,14 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RateLimiterInterceptor, RateLimiterModule } from 'nestjs-rate-limiter';
-import { AuthController } from './auth/auth.controller';
+import { RateLimiterModule, RateLimiterInterceptor } from 'nestjs-rate-limiter';
 import { AuthModule } from './auth/auth.module';
 import { CustomerModule } from './customer/customer.module';
 import { ProductModule } from './product/product.module';
 import { PurchaseModule } from './purchase/purchase.module';
 import { UserModule } from './user/user.module';
+import { AuthController } from './auth/auth.controller';
+import { FeedModule } from './feed/feed.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UserModule } from './user/user.module';
     ProductModule,
     PurchaseModule,
     UserModule,
+    FeedModule,
   ],
   controllers: [AuthController],
   providers: [

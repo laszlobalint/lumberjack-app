@@ -1,5 +1,4 @@
 import { Action, createReducer, on } from '@ngrx/store';
-
 import * as CustomersActions from './customers.actions';
 import { CustomerDto } from '../../../models';
 

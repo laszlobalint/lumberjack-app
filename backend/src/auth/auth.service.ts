@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
 import { classToPlain } from 'class-transformer';
-import { User } from '../user/user.entity';
+import * as bcrypt from 'bcrypt';
 import { UserService } from './../user/user.service';
-import { LoginDto, LoginResponseDto, RefreshtTokenResponseDto } from './auth.dto';
+import { User } from '../user/user.entity';
+import { LoginDto, LoginResponseDto, AccessTokenDto, DecodedTokenDto } from './auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -27,9 +27,10 @@ export class AuthService {
     };
   }
 
-  async refreshToken(email: string, userId: number): Promise<RefreshtTokenResponseDto> {
+  async refreshToken(accessTokenDto: AccessTokenDto): Promise<AccessTokenDto> {
+    const decodedToken = this.jwtService.decode(accessTokenDto.access_token) as DecodedTokenDto;
     return {
-      access_token: this.jwtService.sign({ email: email, sub: userId }),
+      access_token: this.jwtService.sign({ email: decodedToken.email, sub: decodedToken.sub }),
     };
   }
 

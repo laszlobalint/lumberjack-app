@@ -1,5 +1,4 @@
 import { createAction, props } from '@ngrx/store';
-
 import { CustomerDto, CreatePurchaseDto, ProductDto, PurchaseDto } from '../../../models';
 
 export const PostPurchase = createAction('[Purchase] Post Purchase', props<{ createPurchase: CreatePurchaseDto }>());

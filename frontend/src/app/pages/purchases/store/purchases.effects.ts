@@ -2,20 +2,20 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-
+import * as fromRoot from '../../../store';
+import * as fromActions from '../store/purchases.actions';
 import { PurchasesService } from './../../../services/purchases.service';
-import * as PurchasesActions from '../store/purchases.actions';
 
 @Injectable()
 export class PurchasesEffects {
   getPurchases$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(PurchasesActions.GetPurchases),
+      ofType(fromActions.GetPurchases),
       mergeMap(({ load }) =>
         this.purchasesService.fetchAll().pipe(
           map(purchases => {
             load(purchases);
-            return PurchasesActions.GetPurchasesSuccess({ purchases });
+            return fromActions.GetPurchasesSuccess({ purchases });
           }),
         ),
       ),
@@ -24,15 +24,15 @@ export class PurchasesEffects {
 
   updateProduct$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(PurchasesActions.UpdatePurchase),
+      ofType(fromActions.UpdatePurchase),
       mergeMap(({ id, updatePurchase, confirm }) =>
         this.purchasesService.update(id, updatePurchase).pipe(
           map(purchase => {
             confirm.resolve(purchase);
-            return PurchasesActions.UpdatePurchaseSuccess({ purchase });
+            return fromActions.UpdatePurchaseSuccess({ purchase });
           }),
           catchError(() => {
-            return of(PurchasesActions.UpdatePurchaseFailure);
+            return of(fromActions.UpdatePurchaseFailure);
           }),
         ),
       ),
@@ -41,18 +41,25 @@ export class PurchasesEffects {
 
   deleteProduct$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(PurchasesActions.DeletePurchase),
+      ofType(fromActions.DeletePurchase),
       mergeMap(({ id, confirm }) =>
         this.purchasesService.delete(id).pipe(
           map(resId => {
             confirm.resolve();
-            return PurchasesActions.DeletePurchaseSuccess({ resId });
+            return fromActions.DeletePurchaseSuccess({ resId });
           }),
           catchError(() => {
-            return of(PurchasesActions.DeletePurchaseFailure);
+            return of(fromActions.DeletePurchaseFailure);
           }),
         ),
       ),
+    ),
+  );
+
+  onPurchasesChanged$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(fromActions.GetPurchasesSuccess, fromActions.UpdatePurchaseSuccess, fromActions.DeletePurchaseSuccess),
+      map(() => fromRoot.GetFeed()),
     ),
   );
 

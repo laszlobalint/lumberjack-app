@@ -15,16 +15,17 @@ import {
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { from, Observable } from 'rxjs';
-import { environment } from '../environments/environment';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LANGUAGES, LANGUAGE_LOCAL_STORAGE_KEY } from './app.constants';
 import { AuthModule } from './auth/auth.module';
-import { CustomersService, ProductsService, PurchasesService } from './services';
+import { CustomersService, FeedService, ProductsService, PurchasesService } from './services';
+import { effects, reducers } from './store';
+import { environment } from '../environments/environment';
 
 export function appInitializerFactory(translate: TranslateService, injector: Injector): () => Promise<any> {
   return async () => {
@@ -37,7 +38,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
 }
 
 export class WebpackTranslateLoader implements TranslateLoader {
-  getTranslation(lang: string): Observable<any> {
+  public getTranslation(lang: string): Observable<any> {
     return from(import(`../assets/i18n/${lang}.json`));
   }
 }
@@ -59,15 +60,15 @@ const NB_MODULES = [
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    StoreModule.forRoot({}),
-    EffectsModule.forRoot([]),
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot(effects),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     ThemeModule.forRoot(),
     ...NB_MODULES,
     CoreModule.forRoot(),
     AuthModule,
     TranslateModule.forRoot({
-      defaultLanguage: 'en',
+      defaultLanguage: LANGUAGES[0],
       loader: {
         provide: TranslateLoader,
         useClass: WebpackTranslateLoader,
@@ -79,6 +80,7 @@ const NB_MODULES = [
     CustomersService,
     ProductsService,
     PurchasesService,
+    FeedService,
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializerFactory,

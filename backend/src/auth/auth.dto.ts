@@ -14,18 +14,13 @@ export class LoginResponseDto {
   user: User;
 }
 
-export class RefreshTokenDto {
-  payload: {
-    email: string;
-    sub: number;
-    iat: number;
-    exp: number;
-  };
-  token: string;
-  ownerStrategyName: string;
-  createdAt: string;
+export class DecodedTokenDto {
+  email: string;
+  sub: number;
+  iat: number;
+  exp: number;
 }
 
-export class RefreshtTokenResponseDto {
+export class AccessTokenDto {
   access_token: string;
 }

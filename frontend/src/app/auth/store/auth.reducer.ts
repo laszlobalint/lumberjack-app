@@ -1,5 +1,4 @@
 import { Action, createReducer, on } from '@ngrx/store';
-
 import { UserDto } from '../models/user.model';
 import * as AuthActions from './auth.actions';
 

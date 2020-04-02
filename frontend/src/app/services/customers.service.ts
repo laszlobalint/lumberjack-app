@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { API_URL } from '../app.constants';
 import { CreateCustomerDto, CustomerDto, UpdateCustomerDto } from '../models';
 

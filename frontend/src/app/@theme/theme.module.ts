@@ -1,14 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
 import {
   NbActionsModule,
   NbButtonModule,
+  NbCardModule,
   NbContextMenuModule,
   NbIconModule,
   NbLayoutModule,
+  NbListModule,
   NbMenuModule,
+  NbPopoverModule,
   NbSearchModule,
   NbSelectModule,
   NbSidebarModule,
@@ -16,7 +20,6 @@ import {
   NbUserModule,
 } from '@nebular/theme';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { FooterComponent, HeaderComponent, SearchInputComponent, SwitcherComponent } from './components';
 import { OneColumnLayoutComponent, ThreeColumnsLayoutComponent, TwoColumnsLayoutComponent } from './layouts';
 import { CapitalizePipe, NumberWithCommasPipe, PluralPipe, RoundPipe, TimingPipe } from './pipes';
@@ -38,7 +41,9 @@ const NB_MODULES = [
   NbSelectModule,
   NbIconModule,
   NbEvaIconsModule,
-  TranslateModule,
+  NbPopoverModule,
+  NbCardModule,
+  NbListModule,
 ];
 const COMPONENTS = [
   SwitcherComponent,
@@ -52,7 +57,7 @@ const COMPONENTS = [
 const PIPES = [CapitalizePipe, PluralPipe, RoundPipe, TimingPipe, NumberWithCommasPipe];
 
 @NgModule({
-  imports: [CommonModule, ...NB_MODULES],
+  imports: [CommonModule, RouterModule, TranslateModule, ...NB_MODULES],
   exports: [CommonModule, ...PIPES, ...COMPONENTS],
   declarations: [...COMPONENTS, ...PIPES],
 })
