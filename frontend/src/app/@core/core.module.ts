@@ -1,14 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpRequest, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
-import { NbAuthJWTToken, NbAuthModule, NbPasswordAuthStrategy } from '@nebular/auth';
+import {
+  NbAuthJWTInterceptor,
+  NbAuthJWTToken,
+  NbAuthModule,
+  NbPasswordAuthStrategy,
+  NB_AUTH_TOKEN_INTERCEPTOR_FILTER,
+} from '@nebular/auth';
 import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
 import { Observable, of as observableOf } from 'rxjs';
 
 import { environment } from '../../environments/environment';
-import { TokenInterceptor } from './interceptors/token.interceptor';
-import { HttpResponseInterceptor } from './interceptors/http-response.interceptor';
 import { AuthGuard } from './guards/auth.guard';
+import { HttpResponseInterceptor } from './interceptors/http-response.interceptor';
 import { throwIfAlreadyLoaded } from './module-import-guard';
 import { AnalyticsService } from './utils';
 
@@ -42,6 +47,15 @@ export const NB_CORE_PROVIDERS = [
           redirect: {
             success: '/pages',
             failure: '/auth/login',
+          },
+        },
+        refreshToken: {
+          endpoint: '/auth/refresh-token',
+          method: 'post',
+          requireValidToken: true,
+          redirect: {
+            success: null,
+            failure: null,
           },
         },
         register: false,
@@ -94,8 +108,15 @@ export class CoreModule {
       ngModule: CoreModule,
       providers: [
         ...NB_CORE_PROVIDERS,
-        { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: HttpResponseInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: NbAuthJWTInterceptor, multi: true },
+        {
+          provide: NB_AUTH_TOKEN_INTERCEPTOR_FILTER,
+          useValue: function(req: HttpRequest<any>) {
+            const blacklist = ['/auth/login', '/auth/refresh-token'];
+            return blacklist.some(path => req.url.search(path) > -1);
+          },
+        },
         AuthGuard,
       ],
     } as ModuleWithProviders;

@@ -3,12 +3,12 @@ import { ApiTags } from '@nestjs/swagger';
 import { classToPlain } from 'class-transformer';
 import { RateLimit } from 'nestjs-rate-limiter';
 
+import { User } from '../user/user.entity';
+import { UserService } from '../user/user.service';
+import { LoginDto, LoginResponseDto, AccessTokenDto } from './auth.dto';
+import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { AuthService } from './auth.service';
-import { UserService } from '../user/user.service';
-import { User } from '../user/user.entity';
-import { LoginDto, LoginResponseDto } from './auth.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -20,6 +20,11 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   async login(@Body() loginDto: LoginDto): Promise<LoginResponseDto> {
     return this.authService.login(loginDto);
+  }
+
+  @Post('refresh-token')
+  async refreshToken(@Body() accessTokenDto: AccessTokenDto): Promise<AccessTokenDto> {
+    return this.authService.refreshToken(accessTokenDto);
   }
 
   @Post('logout')

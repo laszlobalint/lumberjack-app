@@ -34,7 +34,7 @@ export class DateInputComponent implements ControlValueAccessor, AfterViewInit, 
   private onChanged: (date: Date) => any;
   private inputValueChangesSubscription: Subscription;
 
-  writeValue(value: Date | string): void {
+  public writeValue(value: Date | string): void {
     if (value instanceof Date && !isNaN(value.valueOf())) {
       this.value = value;
     } else {
@@ -45,16 +45,16 @@ export class DateInputComponent implements ControlValueAccessor, AfterViewInit, 
     this.inputFormControl.setValue(dateString);
   }
 
-  registerOnChange(fn: any): void {
+  public registerOnChange(fn: any): void {
     this.onChanged = fn;
   }
 
-  registerOnTouched(fn: any): void {}
-  setDisabledState?(isDisabled: boolean): void {}
+  public registerOnTouched(fn: any): void {}
+  public setDisabledState?(isDisabled: boolean): void {}
 
   constructor(private readonly datePipe: DatePipe) {}
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.inputFormControl.valueChanges.subscribe(value => {
       if (value.length !== this.mask.length) {
         this.onChanged(null);
@@ -64,7 +64,7 @@ export class DateInputComponent implements ControlValueAccessor, AfterViewInit, 
     });
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     if (this.inputValueChangesSubscription) {
       this.inputValueChangesSubscription.unsubscribe();
     }

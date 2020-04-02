@@ -1,5 +1,5 @@
 import { LOCATION_INITIALIZED } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -15,11 +15,11 @@ import {
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { from, Observable } from 'rxjs';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { environment } from '../environments/environment';
 import { CoreModule } from './@core/core.module';
 import { ThemeModule } from './@theme/theme.module';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LANGUAGES, LANGUAGE_LOCAL_STORAGE_KEY } from './app.constants';
@@ -37,8 +37,10 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
   };
 }
 
-export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(httpClient, 'assets/i18n/', '.json');
+export class WebpackTranslateLoader implements TranslateLoader {
+  public getTranslation(lang: string): Observable<any> {
+    return from(import(`../assets/i18n/${lang}.json`));
+  }
 }
 
 const NB_MODULES = [
@@ -66,11 +68,10 @@ const NB_MODULES = [
     CoreModule.forRoot(),
     AuthModule,
     TranslateModule.forRoot({
-      defaultLanguage: 'en',
+      defaultLanguage: LANGUAGES[0],
       loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
+        useClass: WebpackTranslateLoader,
       },
     }),
   ],

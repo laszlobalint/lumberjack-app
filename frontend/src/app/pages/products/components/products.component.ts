@@ -25,7 +25,7 @@ export class ProductsComponent implements OnDestroy {
 
   constructor(
     private readonly productsStore: Store<fromProducts.State>,
-    private readonly toastrService: NbToastrService,
+    private readonly nbToastrService: NbToastrService,
     private readonly changeDetectionRef: ChangeDetectorRef,
     public readonly translate: TranslateService,
   ) {
@@ -89,7 +89,7 @@ export class ProductsComponent implements OnDestroy {
     if (!data.name || isNameRepresent) error += this.translate.instant('validation.name-uniqe');
 
     if (error) {
-      this.toastrService.show(error, 'Error', { status: 'warning' });
+      this.nbToastrService.warning('', error);
       return false;
     }
 

@@ -1,4 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
+
 import { User } from '../user/user.entity';
 
 export class LoginDto {
@@ -12,4 +13,15 @@ export class LoginDto {
 export class LoginResponseDto {
   access_token: string;
   user: User;
+}
+
+export class DecodedTokenDto {
+  email: string;
+  sub: number;
+  iat: number;
+  exp: number;
+}
+
+export class AccessTokenDto {
+  access_token: string;
 }
