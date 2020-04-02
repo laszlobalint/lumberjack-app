@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { getDeepFromObject, NbAuthResult, NbAuthService, NB_AUTH_OPTIONS } from '@nebular/auth';
-
 import * as fromAuth from '../../../auth/store';
 import { LoginResponseDto } from '../../models/login.model';
 

@@ -7,7 +7,6 @@ import { NbAlertModule, NbButtonModule, NbCardModule, NbIconModule, NbInputModul
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { AuthEffects, authFeatureKey, reducer } from './store';
 import { AuthService } from './services/auth.service';
 import { LoginComponent } from './components/login/login.component';

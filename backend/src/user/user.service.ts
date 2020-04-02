@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-
 import { User } from './user.entity';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
 

@@ -16,7 +16,6 @@ import { StoreModule } from '@ngrx/store';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { ThemeModule } from './../../@theme/theme.module';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { purchasesFeatureKey, reducer } from './store';
 import { PurchasesEffects } from './store/purchases.effects';
 import { CustomBooleanEditorComponent } from './components/custom-boolean-editor/custom-boolean-editor.component';

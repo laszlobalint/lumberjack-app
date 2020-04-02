@@ -32,7 +32,7 @@ export class FeedService {
     };
   }
 
-  private getDateWithoutHours(date: Date, skipDays: number) {
+  private getDateWithoutHours(date: Date, skipDays: number): Date {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate() + skipDays, 0, 0, 0, 0);
   }
 }

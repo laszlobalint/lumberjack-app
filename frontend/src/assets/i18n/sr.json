@@ -71,6 +71,6 @@
     "password-validation": "Lozinka ima najmanje {{ minimum }}, a najviše {{ maximum }} karaktera."
   },
   "date-range-picker": {
-    "placeholder": "Izaberi interval"
+    "placeholder": "Izaberi period"
   }
 }

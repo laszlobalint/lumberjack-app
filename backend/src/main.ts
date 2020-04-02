@@ -1,9 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-
 import { AppModule } from './app.module';
-
 import { DatabaseExceptionFilter } from './shared/exception-filters/database.exception-filter';
 import { HttpExceptionFilter } from './shared/exception-filters/http.exception-filter';
 
@@ -22,4 +20,5 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
   await app.listen(process.env['SERVER_PORT']);
 }
+
 bootstrap();

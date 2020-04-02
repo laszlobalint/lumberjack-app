@@ -1,5 +1,4 @@
 import { Action, createReducer, on } from '@ngrx/store';
-
 import { CustomerDto, ProductDto, PurchaseDto } from '../../../models';
 import * as CreatePurchaseActions from './create-purchase.actions';
 

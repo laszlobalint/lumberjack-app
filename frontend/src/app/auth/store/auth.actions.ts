@@ -1,5 +1,4 @@
 import { createAction, props } from '@ngrx/store';
-
 import { UserDto } from '../models/user.model';
 
 export const GetUser = createAction('[Auth] Get User');
