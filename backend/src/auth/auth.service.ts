@@ -27,7 +27,7 @@ export class AuthService {
     };
   }
 
-  async refreshToken(email: string, userId: string): Promise<RefreshtTokenResponseDto> {
+  async refreshToken(email: string, userId: number): Promise<RefreshtTokenResponseDto> {
     return {
       access_token: this.jwtService.sign({ email: email, sub: userId }),
     };

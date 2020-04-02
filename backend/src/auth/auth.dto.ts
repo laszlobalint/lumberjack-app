@@ -14,6 +14,18 @@ export class LoginResponseDto {
   user: User;
 }
 
+export class RefreshTokenDto {
+  payload: {
+    email: string;
+    sub: number;
+    iat: number;
+    exp: number;
+  };
+  token: string;
+  ownerStrategyName: string;
+  createdAt: string;
+}
+
 export class RefreshtTokenResponseDto {
   access_token: string;
 }
