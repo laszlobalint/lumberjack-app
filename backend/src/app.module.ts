@@ -12,6 +12,8 @@ import { ProductModule } from './product/product.module';
 import { PurchaseModule } from './purchase/purchase.module';
 import { UserModule } from './user/user.module';
 
+const trigger = '';
+
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath: fs.existsSync('.env') ? '.env' : `.env.${process.env.NODE_ENV || 'development'}` }),
