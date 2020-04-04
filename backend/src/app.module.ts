@@ -12,9 +12,12 @@ import { ProductModule } from './product/product.module';
 import { PurchaseModule } from './purchase/purchase.module';
 import { UserModule } from './user/user.module';
 
+const defaultEnvFilePath = fs.existsSync('.env') && '.env';
+const defaultMode = 'development';
+
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath: fs.existsSync('.env') ? '.env' : `.env.${process.env.NODE_ENV || 'development'}` }),
+    ConfigModule.forRoot({ envFilePath: defaultEnvFilePath || `.env.${process.env.NODE_ENV || defaultMode}` }),
     TypeOrmModule.forRoot(),
     RateLimiterModule.register({
       points: 200,
