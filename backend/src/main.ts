@@ -10,6 +10,7 @@ async function bootstrap() {
   app.enableCors({ origin: process.env['CORS_ORIGIN'] });
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new DatabaseExceptionFilter(), new HttpExceptionFilter());
+
   const options = new DocumentBuilder()
     .setTitle(process.env['PROJECT_NAME'])
     .setDescription(process.env['PROJECT_DESCRIPTION'])
@@ -18,7 +19,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
-  await app.listen(process.env['PORT']);
+  await app.listen(process.env['SERVER_PORT']);
 }
 
 bootstrap();
