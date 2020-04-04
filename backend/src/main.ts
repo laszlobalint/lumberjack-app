@@ -7,8 +7,7 @@ import { HttpExceptionFilter } from './shared/exception-filters/http.exception-f
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // app.enableCors({ origin: process.env['CORS_ORIGIN'] });
-  app.enableCors();
+  app.enableCors({ origin: process.env['CORS_ORIGIN'] });
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new DatabaseExceptionFilter(), new HttpExceptionFilter());
   const options = new DocumentBuilder()
