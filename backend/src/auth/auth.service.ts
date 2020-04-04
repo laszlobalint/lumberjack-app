@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { classToPlain } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
-import { UserService } from './../user/user.service';
+import { classToPlain } from 'class-transformer';
 import { User } from '../user/user.entity';
-import { LoginDto, LoginResponseDto, AccessTokenDto, DecodedTokenDto } from './auth.dto';
+import { UserService } from './../user/user.service';
+import { DecodedToken, LoginDto, LoginResponseDto, RefreshTokenResponseDto } from './auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -20,17 +20,19 @@ export class AuthService {
 
   async login(loginDto: LoginDto): Promise<LoginResponseDto> {
     const user = await this.userService.findOneByEmail(loginDto.email);
-    const payload = { email: user.email, sub: user.id };
+
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign({ email: user.email, sub: user.id }),
       user: classToPlain(user) as User,
     };
   }
 
-  async refreshToken(accessTokenDto: AccessTokenDto): Promise<AccessTokenDto> {
-    const decodedToken = this.jwtService.decode(accessTokenDto.access_token) as DecodedTokenDto;
+  async refreshToken(refreshTokenDto: RefreshTokenResponseDto): Promise<RefreshTokenResponseDto> {
+    const { email } = this.jwtService.decode(refreshTokenDto.access_token) as DecodedToken;
+    const user = await this.userService.findOneByEmail(email);
+
     return {
-      access_token: this.jwtService.sign({ email: decodedToken.email, sub: decodedToken.sub }),
+      access_token: this.jwtService.sign({ email: user.email, sub: user.id }),
     };
   }
 
