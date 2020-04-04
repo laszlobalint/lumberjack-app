@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NbAuthService } from '@nebular/auth';
 import { Store } from '@ngrx/store';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
+import { AccessTokenDto } from './auth/models/user.model';
 import * as fromAuth from './auth/store';
 import * as fromRoot from './store';
 
@@ -20,7 +21,10 @@ export class AppComponent implements OnInit {
     const nbAuthToken = await this.nbAuthService.getToken().toPromise();
     if (nbAuthToken && nbAuthToken.isValid()) {
       this.authStore.dispatch(fromAuth.GetUser());
-      await this.nbAuthService.refreshToken('email', { access_token: nbAuthToken.getValue() }).toPromise();
+      this.nbAuthService
+        .refreshToken('email', { access_token: nbAuthToken.getValue() } as AccessTokenDto)
+        .pipe(take(1))
+        .subscribe();
     }
 
     this.authStore

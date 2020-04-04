@@ -60,7 +60,12 @@ const NB_MODULES = [
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(reducers, {
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+      },
+    }),
     EffectsModule.forRoot(effects),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     ThemeModule.forRoot(),
