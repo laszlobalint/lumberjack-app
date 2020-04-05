@@ -21,11 +21,11 @@ sudo chmod 600 /home/${username}/.lumberjack_login.cnf
 4. Create a folder where database backup files will be stored:
 mkdir /home/${username}/db_backup
 
-5. Create a cron job file which will create a full backup of the database every day at 01:00 AM:
+5. Create a cron job file which will create a full backup of the database every day at 03:00 AM:
 
 Path: 
 /etc/cron.daily/database_dump
-0 1 * * * /usr/bin/mysqldump --defaults-extra-file=/home/{username}/.lumberjack_login.cnf -u root --single-transaction --quick --lock-tables=false lumberjack > /home/${username}/db_backup/db_backup_$(date +\%Y\%m\%d\%H\%M\%S).sql
+0 3 * * * /usr/bin/mysqldump --defaults-extra-file=/home/{username}/.lumberjack_login.cnf -u root --single-transaction --quick --lock-tables=false lumberjack > /home/${username}/db_backup/db_backup_$(date +\%Y\%m\%d\%H\%M\%S).sql
 
 6. Depending on the operation system, you need to run the cron job service restart command (command can include 'cron' and 'crond' as they are not the same):
 sudo service cron reload
