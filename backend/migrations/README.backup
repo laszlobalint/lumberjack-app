@@ -1,8 +1,8 @@
 Automate database backup on server (MariaDB on Linux)
 
-Replace {username} with the corresponding OS user!
+* Prerequisites: {username} with the corresponding OS user!
 
-1. Make sure that MySQL dump executable script is accessable in the central Bin folder:
+1. Make sure that MySQL dump executable script is accessible in the central 'bin' folder:
 bash /usr/bin/mysqldump
 
 2. Create a file with MariaDB connection details for root user:
@@ -38,13 +38,13 @@ sudo /etc/init.d/crond reload
 
 Restore database backup on server (MariaDB on Linux)
 
-1. Make sure that MariaDB executable script is accessable in the central Bin folder:
+1. Make sure that MySQL executable script is accessible in the central 'bin' folder:
 bash /usr/bin/mysql
 
 2. Verify if the chosen database dump file is available and readable for the current user:
 ls -l /home${username}/db_backup/db_backup_{chosen_date}.sql
 
 3. Restore a single database dump (no space between -p flag and the password):
-mysql -u lumberjack -plumberjack lumberjack < /home${username}/db_backup/db_backup_{chosen_date}.sql
+mysql -u lumberjack -plumberjack lumberjack < /home/${username}/db_backup/db_backup_{chosen_date}.sql
 
 4. Check your database in database administrator console and on using web client!
