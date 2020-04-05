@@ -1,15 +1,15 @@
 Automate database backup on server (MariaDB on Linux)
 
-* Prerequisites: {username} with the corresponding OS user!
+- Prerequisites: {username} with the corresponding OS user!
 
 1. Make sure that MySQL dump executable script is accessible in the central 'bin' folder:
 
-Command: 
+Command:
 bash /usr/bin/mysqldump
 
 2. Create a file with MariaDB connection details for root user:
 
-Path: 
+Path:
 /home/{username}/.lumberjack_login.cnf
 
 Content:
@@ -29,19 +29,19 @@ mkdir /home/{username}/db_backup
 
 5. Create a cron job file which will create a full backup of the database every day at 03:00 AM:
 
-Path: 
+Path:
 /etc/cron.daily/database_dump
 
 Content:
-0 3 * * * /usr/bin/mysqldump --defaults-extra-file=/home/{username}/.lumberjack_login.cnf -u root --single-transaction --quick --lock-tables=false lumberjack > /home/{username}/db_backup/db_backup_$(date +"%Y-%m-%d").sql
+0 3 \* \* \* /usr/bin/mysqldump --defaults-extra-file=/home/{username}/.lumberjack*login.cnf -u root --single-transaction --quick --lock-tables=false lumberjack > /home/{username}/db_backup/db_backup*\$(date +"%Y-%m-%d").sql
 
 6. Set up a cron job that runs every day at 04:00 AM which deletes all database dump files older than 30 days:
 
-Path: 
+Path:
 /etc/cron.daily/cleanup_db_dumps
 
 Content:
-0 4 * * * /usr/bin/find /home/{username}/db_backup/ -name "*.sql" -type f -mtime +30 -exec rm -f {} \;
+0 4 \* \* _ /usr/bin/find /home/{username}/db_backup/ -name "_.sql" -type f -mtime +30 -exec rm -f {} \;
 
 7. Depending on the operation system, you need to run the cron job service restart command (command can include 'cron' and 'crond' as they are not the same):
 
@@ -64,12 +64,12 @@ bash /usr/bin/mysql
 2. Verify if the chosen database dump file is available and readable for the current user:
 
 Command:
-ls -l /home/{username}/db_backup/db_backup_{chosen_date}.sql
+ls -l /home/{username}/db*backup/db_backup*{chosen_date}.sql
 
 3. Restore a single database dump (no space between -p flag and the password):
 
 Command:
-mysql -u lumberjack -plumberjack lumberjack < /home/{username}/db_backup/db_backup_{chosen_date}.sql
+mysql -u lumberjack -plumberjack lumberjack < /home/{username}/db*backup/db_backup*{chosen_date}.sql
 
 4. Check your database in database administrator console and on using web client!
 
@@ -78,4 +78,4 @@ Administrator steps...
 ######################################################################
 
 1. Set up a cron job that runs every day at 04:00 AM which deletes all database dump files older than 30 days:
-0 0 * * * /usr/bin/find /home/{username}/db_backup/ -name "*.sql" -type f -mtime +30 -exec rm -f {} \;
+   0 0 \* \* _ /usr/bin/find /home/{username}/db_backup/ -name "_.sql" -type f -mtime +30 -exec rm -f {} \;
