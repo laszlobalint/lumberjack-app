@@ -33,7 +33,9 @@ export class ProductsComponent implements OnDestroy {
     this.loadData();
     this.languageSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.settings = getSettings(this.translate);
-      this.changeDetectionRef.markForCheck();
+      setTimeout(() => {
+        this.changeDetectionRef.detectChanges();
+      });
     });
   }
 
@@ -54,7 +56,10 @@ export class ProductsComponent implements OnDestroy {
   }
 
   public onCreateConfirm({ newData, confirm }: CreateConfirm<ProductDto>): void {
-    if (window.confirm(this.translate.instant('global.confirm-create', { item: 'product' })) && this.validateData(newData)) {
+    if (
+      window.confirm(this.translate.instant('global.confirm-create', { item: this.translate.instant('global.product') })) &&
+      this.validateData(newData)
+    ) {
       const { id, ...createProductDto } = newData;
       this.productsStore.dispatch(fromProducts.SaveProduct({ createProductDto, confirm }));
     } else {
@@ -63,7 +68,10 @@ export class ProductsComponent implements OnDestroy {
   }
 
   public onEditConfirm({ newData, confirm }: EditConfirm<ProductDto>): void {
-    if (window.confirm(this.translate.instant('global.confirm-create', { item: 'product' })) && this.validateData(newData)) {
+    if (
+      window.confirm(this.translate.instant('global.confirm-edit', { item: this.translate.instant('global.product') })) &&
+      this.validateData(newData)
+    ) {
       const { id, ...updateProductDto } = newData;
       this.productsStore.dispatch(fromProducts.UpdateProduct({ id, updateProductDto, confirm }));
     } else {
@@ -72,7 +80,7 @@ export class ProductsComponent implements OnDestroy {
   }
 
   public onDeleteConfirm({ data, confirm }: DeleteConfirm<ProductDto>): void {
-    if (window.confirm(this.translate.instant('global.confirm-create', { item: 'product' }))) {
+    if (window.confirm(this.translate.instant('global.confirm-delete', { item: this.translate.instant('global.product') }))) {
       this.productsStore.dispatch(fromProducts.DeleteProduct({ id: data.id, confirm }));
     } else {
       confirm.reject();

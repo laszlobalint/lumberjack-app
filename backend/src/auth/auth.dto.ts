@@ -14,13 +14,13 @@ export class LoginResponseDto {
   user: User;
 }
 
-export class DecodedTokenDto {
+export class DecodedToken {
   email: string;
   sub: number;
   iat: number;
   exp: number;
 }
 
-export class AccessTokenDto {
+export class RefreshTokenResponseDto {
   access_token: string;
 }

@@ -1,6 +1,12 @@
 {
   "global": {
     "app-title": "Fatelep Rendeléskezelés",
+    "customer": "Ügyfél",
+    "customers": "Ügyfelek",
+    "product": "Termék",
+    "products": "Termékek",
+    "purchase": "Rendelés",
+    "purchases": "Rendelések",
     "address": "Cím",
     "name": "Név",
     "phone": "Telefon",
@@ -18,7 +24,9 @@
     "confirm-edit": "Biztosan módosítani akarod a/az {{ item }}(e)t?",
     "confirm-delete": "Biztosan törölni akarod a/az {{ item }}(e)t?",
     "all": "Mind",
-    "feed-list-title": "Holnapi rendelések"
+    "feed-list-title": "Holnapi rendelések",
+    "true": "Igen",
+    "false": "Nem"
   },
   "validation": {
     "name": "A név kötelező! ",
@@ -28,15 +36,7 @@
     "success": "Siker! ",
     "failure": "Sikertelen! "
   },
-  "customers": {
-    "customers": "Ügyfelek"
-  },
-  "products": {
-    "products": "Termékek",
-    "product": "Termék"
-  },
   "purchases": {
-    "purchases": "Rendelések",
     "all": "Összes rendelés",
     "id": "Rendelésazonosító {{ createPurchaseId }}",
     "new": "Új rendelés",
@@ -44,7 +44,6 @@
     "refresh": "Adatfrissítés",
     "product": "Termék",
     "select-product": "Válassz terméket",
-    "custom": "Egyedi",
     "customer": "Ügyfél",
     "select-customer": "Válassz ügyfelet",
     "edit-customer": "Szerkesztés",
