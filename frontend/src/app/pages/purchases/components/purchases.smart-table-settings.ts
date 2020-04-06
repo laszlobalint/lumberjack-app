@@ -81,7 +81,7 @@ export function getSettings(translate: TranslateService): any {
         },
       },
       deliveryDate: {
-        title: 'Delivery',
+        title: translate.instant('purchases.delivery-date'),
         valuePrepareFunction: (date: string): string => {
           return new DatePipe('en-US').transform(date, 'yyyy.MM.dd. HH:mm');
         },
