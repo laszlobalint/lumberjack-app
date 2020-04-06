@@ -43,8 +43,8 @@ export function getSettings(translate: TranslateService): any {
           type: 'list',
           config: {
             list: [
-              { value: true, title: 'True' },
-              { value: false, title: 'False' },
+              { value: true, title: translate.instant('global.true') },
+              { value: false, title: translate.instant('global.false') },
             ],
             selectText: translate.instant('global.all'),
           },
@@ -117,8 +117,8 @@ export function getSettings(translate: TranslateService): any {
           type: 'list',
           config: {
             list: [
-              { value: true, title: 'True' },
-              { value: false, title: 'False' },
+              { value: true, title: translate.instant('global.true') },
+              { value: false, title: translate.instant('global.false') },
             ],
             selectText: translate.instant('global.all'),
           },

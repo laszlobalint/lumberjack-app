@@ -18,7 +18,9 @@
     "confirm-edit": "Are you sure you want to edit the {{ item }}?",
     "confirm-delete": "Are you sure you want to delete the {{ item }}?",
     "all": "All",
-    "feed-list-title": "Purchases for tomorrow"
+    "feed-list-title": "Purchases for tomorrow",
+    "true": "Yes",
+    "false": "No"
   },
   "validation": {
     "name": "Name is mandatory! ",

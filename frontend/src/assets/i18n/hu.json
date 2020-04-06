@@ -18,7 +18,9 @@
     "confirm-edit": "Biztosan módosítani akarod a/az {{ item }}(e)t?",
     "confirm-delete": "Biztosan törölni akarod a/az {{ item }}(e)t?",
     "all": "Mind",
-    "feed-list-title": "Holnapi rendelések"
+    "feed-list-title": "Holnapi rendelések",
+    "true": "Igen",
+    "false": "Nem"
   },
   "validation": {
     "name": "A név kötelező! ",
