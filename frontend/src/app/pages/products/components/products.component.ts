@@ -33,7 +33,9 @@ export class ProductsComponent implements OnDestroy {
     this.loadData();
     this.languageSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.settings = getSettings(this.translate);
-      this.changeDetectionRef.markForCheck();
+      setTimeout(() => {
+        this.changeDetectionRef.detectChanges();
+      });
     });
   }
 
