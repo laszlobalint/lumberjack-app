@@ -51,7 +51,7 @@ export function getSettings(translate: TranslateService): any {
         },
       },
       product: {
-        title: translate.instant('products.product'),
+        title: translate.instant('global.product'),
         editable: false,
         valuePrepareFunction: (product: ProductDto) => product.name,
         editor: {
@@ -95,7 +95,7 @@ export function getSettings(translate: TranslateService): any {
         },
       },
       customer: {
-        title: translate.instant('purchases.customer'),
+        title: translate.instant('global.customer'),
         editable: false,
         valuePrepareFunction: (customer: CustomerDto) => customer.address || customer.name,
         editor: {

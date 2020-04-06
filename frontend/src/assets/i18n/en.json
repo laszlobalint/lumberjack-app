@@ -1,6 +1,12 @@
 {
   "global": {
     "app-title": "Lumberjack Order Management",
+    "customer": "Customer",
+    "customers": "Customers",
+    "product": "Product",
+    "products": "Products",
+    "purchase": "Purchase",
+    "purchases": "Purchases",
     "address": "Address",
     "name": "Name",
     "phone": "Phone",
@@ -30,15 +36,7 @@
     "success": "Success! ",
     "failure": "Failure! "
   },
-  "customers": {
-    "customers": "Customers"
-  },
-  "products": {
-    "products": "Products",
-    "product": "Product"
-  },
   "purchases": {
-    "purchases": "Purchases",
     "all": "All Purchases",
     "id": "Purchase ID {{ createPurchaseId }}",
     "new": "New Purchase",

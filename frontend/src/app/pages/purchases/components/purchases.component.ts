@@ -63,7 +63,10 @@ export class PurchasesComponent implements OnDestroy {
   }
 
   public onEditConfirm({ newData, confirm }: EditConfirm<PurchaseDto>): void {
-    if (window.confirm(this.translate.instant('global.confirm-edit', { item: 'product' })) && this.validateData(newData)) {
+    if (
+      window.confirm(this.translate.instant('global.confirm-edit', { item: this.translate.instant('global.purchase') })) &&
+      this.validateData(newData)
+    ) {
       const { id, ...updatePurchase } = newData;
       this.purchasesStore.dispatch(fromPurchases.UpdatePurchase({ id, updatePurchase, confirm }));
     } else {
@@ -72,7 +75,7 @@ export class PurchasesComponent implements OnDestroy {
   }
 
   public onDeleteConfirm({ data, confirm }: DeleteConfirm<PurchaseDto>): void {
-    if (window.confirm(this.translate.instant('global.confirm-delete', { item: 'product' }))) {
+    if (window.confirm(this.translate.instant('global.confirm-delete', { item: this.translate.instant('global.purchase') }))) {
       this.purchasesStore.dispatch(fromPurchases.DeletePurchase({ id: data.id, confirm }));
     } else {
       confirm.reject();
