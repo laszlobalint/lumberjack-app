@@ -19,7 +19,6 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
   public purchase$: Observable<PurchaseDto | undefined>;
   public isBusy$: Observable<boolean>;
   public failed$: Observable<boolean>;
-  public customPrice = true;
   public purchaseSubscription: Subscription;
 
   public _enableCustomerEdit = false;
@@ -97,27 +96,17 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
     this.purchaseStore.dispatch(fromPurchases.GetCustomers());
   }
 
-  public async toggleEnableCustomPrice(enable: boolean): Promise<void> {
-    const priceFormControl = this.form.get('price');
-    enable ? priceFormControl.enable() : priceFormControl.disable();
-    if (!enable) {
-      const productIdFormControl = this.form.get('productId');
-      const product = await this.findProduct(productIdFormControl.value);
-      priceFormControl.setValue(product && product.price);
-    }
-  }
-
   private createForm(): FormGroup {
     return this.formBuilder.group(
       {
         amount: ['', Validators.required],
         reduceStock: [true],
         productId: ['', Validators.required],
-        price: [{ value: '', disabled: true }, Validators.required],
+        price: ['', Validators.required],
         customerId: [''],
         customer: this.formBuilder.group({
+          address: ['', Validators.required],
           name: [''],
-          address: [''],
           phone: [''],
           description: [''],
           companyName: [''],
@@ -146,12 +135,8 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
   }
 
   private async handleProductIdChange(productId: number): Promise<void> {
-    const priceFormControl = this.form.get('price');
-    this.customPrice = false;
-
-    this.toggleEnableCustomPrice(!productId);
     const product = await this.findProduct(productId);
-    priceFormControl.setValue(product && product.price);
+    this.form.get('price').setValue(product && product.price);
   }
 
   private toggleEnableCustomerFormGroup(enable: boolean): void {
