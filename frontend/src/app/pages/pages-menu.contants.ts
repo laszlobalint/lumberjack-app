@@ -13,12 +13,12 @@ export const getMenuItems = (translate: TranslateService): NbMenuItem[] => [
     link: '/pages/purchases',
   },
   {
-    title: translate.instant('customers.customers'),
+    title: translate.instant('global.customers'),
     icon: 'person-add-outline',
     link: '/pages/customers',
   },
   {
-    title: translate.instant('products.products'),
+    title: translate.instant('global.products'),
     icon: 'shopping-bag-outline',
     link: '/pages/products',
   },

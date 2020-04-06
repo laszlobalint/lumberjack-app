@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { NbToastrService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
-import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
@@ -38,9 +38,11 @@ export class PurchasesComponent implements OnDestroy {
   ) {
     this.settings = getSettings(this.translate);
     this.loadData();
-    this.languageSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+    this.languageSubscription = this.translate.onLangChange.subscribe(async () => {
       this.settings = getSettings(this.translate);
-      this.changeDetectionRef.markForCheck();
+      setTimeout(() => {
+        this.changeDetectionRef.detectChanges();
+      });
     });
   }
 
@@ -53,7 +55,7 @@ export class PurchasesComponent implements OnDestroy {
       fromPurchases.GetPurchases({
         load: purchases => {
           this.source.load(purchases);
-          this.source.setSort([{ field: 'createdDate', direction: 'desc' }]);
+          this.source.setSort([{ field: 'deliveryDate', direction: 'desc' }]);
           this.changeDetectionRef.markForCheck();
         },
       }),
@@ -61,7 +63,10 @@ export class PurchasesComponent implements OnDestroy {
   }
 
   public onEditConfirm({ newData, confirm }: EditConfirm<PurchaseDto>): void {
-    if (window.confirm(this.translate.instant('global.confirm-edit', { item: 'product' })) && this.validateData(newData)) {
+    if (
+      window.confirm(this.translate.instant('global.confirm-edit', { item: this.translate.instant('global.purchase') })) &&
+      this.validateData(newData)
+    ) {
       const { id, ...updatePurchase } = newData;
       this.purchasesStore.dispatch(fromPurchases.UpdatePurchase({ id, updatePurchase, confirm }));
     } else {
@@ -70,7 +75,7 @@ export class PurchasesComponent implements OnDestroy {
   }
 
   public onDeleteConfirm({ data, confirm }: DeleteConfirm<PurchaseDto>): void {
-    if (window.confirm(this.translate.instant('global.confirm-delete', { item: 'product' }))) {
+    if (window.confirm(this.translate.instant('global.confirm-delete', { item: this.translate.instant('global.purchase') }))) {
       this.purchasesStore.dispatch(fromPurchases.DeletePurchase({ id: data.id, confirm }));
     } else {
       confirm.reject();

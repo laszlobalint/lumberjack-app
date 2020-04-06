@@ -33,7 +33,9 @@ export class CustomersComponent implements OnDestroy {
     this.loadData();
     this.languageSubscription = this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
       this.settings = getSettings(this.translate);
-      this.changeDetectionRef.markForCheck();
+      setTimeout(() => {
+        this.changeDetectionRef.detectChanges();
+      });
     });
   }
 
@@ -54,7 +56,10 @@ export class CustomersComponent implements OnDestroy {
   }
 
   public onCreateConfirm({ newData, confirm }: CreateConfirm<CustomerDto>): void {
-    if (window.confirm(this.translate.instant('global.confirm-create', { item: 'customer' })) && this.validateData(newData)) {
+    if (
+      window.confirm(this.translate.instant('global.confirm-create', { item: this.translate.instant('global.customer') })) &&
+      this.validateData(newData)
+    ) {
       const { id, ...createCustomerDto } = newData;
       this.customersStore.dispatch(fromCustomers.SaveCustomer({ createCustomerDto, confirm }));
     } else {
@@ -63,7 +68,10 @@ export class CustomersComponent implements OnDestroy {
   }
 
   public onEditConfirm({ newData, confirm }: EditConfirm<CustomerDto>): void {
-    if (window.confirm(this.translate.instant('global.confirm-edit', { item: 'customer' })) && this.validateData(newData)) {
+    if (
+      window.confirm(this.translate.instant('global.confirm-edit', { item: this.translate.instant('global.customer') })) &&
+      this.validateData(newData)
+    ) {
       const { id, ...updateCustomerDto } = newData;
       this.customersStore.dispatch(fromCustomers.UpdateCustomer({ id, updateCustomerDto, confirm }));
     } else {
@@ -72,7 +80,7 @@ export class CustomersComponent implements OnDestroy {
   }
 
   public onDeleteConfirm({ data, confirm }: DeleteConfirm<CustomerDto>): void {
-    if (window.confirm(this.translate.instant('global.confirm-delete', { item: 'customer' }))) {
+    if (window.confirm(this.translate.instant('global.confirm-delete', { item: this.translate.instant('global.customer') }))) {
       this.customersStore.dispatch(fromCustomers.DeleteCustomer({ id: data.id, confirm }));
     } else {
       confirm.reject();

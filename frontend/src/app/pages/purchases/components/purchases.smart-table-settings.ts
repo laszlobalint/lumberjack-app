@@ -43,15 +43,15 @@ export function getSettings(translate: TranslateService): any {
           type: 'list',
           config: {
             list: [
-              { value: true, title: 'True' },
-              { value: false, title: 'False' },
+              { value: true, title: translate.instant('global.true') },
+              { value: false, title: translate.instant('global.false') },
             ],
             selectText: translate.instant('global.all'),
           },
         },
       },
       product: {
-        title: translate.instant('products.product'),
+        title: translate.instant('global.product'),
         editable: false,
         valuePrepareFunction: (product: ProductDto) => product.name,
         editor: {
@@ -81,7 +81,7 @@ export function getSettings(translate: TranslateService): any {
         },
       },
       deliveryDate: {
-        title: 'Delivery',
+        title: translate.instant('purchases.delivery-date'),
         valuePrepareFunction: (date: string): string => {
           return new DatePipe('en-US').transform(date, 'yyyy.MM.dd. HH:mm');
         },
@@ -95,7 +95,7 @@ export function getSettings(translate: TranslateService): any {
         },
       },
       customer: {
-        title: translate.instant('purchases.customer'),
+        title: translate.instant('global.customer'),
         editable: false,
         valuePrepareFunction: (customer: CustomerDto) => customer.address || customer.name,
         editor: {
@@ -117,8 +117,8 @@ export function getSettings(translate: TranslateService): any {
           type: 'list',
           config: {
             list: [
-              { value: true, title: 'True' },
-              { value: false, title: 'False' },
+              { value: true, title: translate.instant('global.true') },
+              { value: false, title: translate.instant('global.false') },
             ],
             selectText: translate.instant('global.all'),
           },

@@ -35,7 +35,7 @@
         [formGroup]="form">
         <!-- Purchase -->
         <div class="row w-100">
-          <div class="col-12 col-sm-6 col-md-4 col-lg-2 form-group">
+          <div class="col-6 col-md-3 order-1 order-md-0 form-group">
             <label for="inputAmount"
               class="label">{{ 'global.amount' | translate }} <span class="text-danger">*</span></label>
             <input nbInput
@@ -45,9 +45,9 @@
               formControlName="amount" />
           </div>
 
-          <div class="col-12 col-sm-6 col-md-8 col-lg-5 form-group">
+          <div class="col-12 col-md-6 order-0 order-md-1 form-group">
             <label for="inputProductId"
-              class="label">{{ 'purchases.product' | translate }} <span class="text-danger">*</span></label>
+              class="label">{{ 'global.product' | translate }} <span class="text-danger">*</span></label>
             <nb-select fullWidth
               id="inputProductId"
               placeholder="{{ 'purchases.select-product' | translate }}"
@@ -57,24 +57,14 @@
             </nb-select>
           </div>
 
-          <div class="col-12 col-lg-5 row w-100">
-            <div class="col form-group mr-1">
-              <label for="inputPrice"
-                class="label">{{ 'global.price' | translate }} <span class="text-danger">*</span></label>
-              <input nbInput
-                fullWidth
-                id="inputPrice"
-                placeholder="{{ 'global.price' | translate }}"
-                formControlName="price" />
-            </div>
-
-            <div class="col-3 d-flex align-items-center bg-light-gray border-fuchsia">
-              <nb-checkbox class="align-self-center"
-                [disabled]="!form.get('productId').value || form.disabled"
-                (checkedChange)="toggleEnableCustomPrice($event)">
-                <span>{{ 'purchases.custom' | translate }}</span>
-              </nb-checkbox>
-            </div>
+          <div class="col-6 col-md-3 order-2 form-group">
+            <label for="inputPrice"
+              class="label">{{ 'global.price' | translate }} <span class="text-danger">*</span></label>
+            <input nbInput
+              fullWidth
+              id="inputPrice"
+              placeholder="{{ 'global.price' | translate }}"
+              formControlName="price" />
           </div>
         </div>
 
@@ -84,7 +74,7 @@
         <div class="row w-100">
           <div class="col form-group">
             <label for="inputCustomerId"
-              class="label">{{ 'purchases.customer' | translate }}</label>
+              class="label">{{ 'global.customer' | translate }}</label>
             <nb-select fullWidth
               id="inputCustomerId"
               placeholder="{{ 'purchases.select-customer' | translate }}"
@@ -107,7 +97,7 @@
           <div class="row w-100">
             <div class="col-12 col-lg-6 form-group">
               <label for="inputAddress"
-                class="label">{{ 'global.address' | translate }}</label>
+                class="label">{{ 'global.address' | translate }} <span class="text-danger">*</span></label>
               <input type="text"
                 nbInput
                 fullWidth
@@ -203,6 +193,7 @@
             <label for="inputDescription"
               class="label">{{ 'purchases.purchase-descr' | translate }}</label>
             <textarea nbInput
+              fullWidth
               placeholder="{{ 'purchases.purchase-descr' | translate }}"
               formControlName="description"></textarea>
           </div>

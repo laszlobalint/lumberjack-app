@@ -1,6 +1,12 @@
 {
   "global": {
     "app-title": "Lumberjack Order Management",
+    "customer": "Customer",
+    "customers": "Customers",
+    "product": "Product",
+    "products": "Products",
+    "purchase": "Purchase",
+    "purchases": "Purchases",
     "address": "Address",
     "name": "Name",
     "phone": "Phone",
@@ -18,7 +24,9 @@
     "confirm-edit": "Are you sure you want to edit the {{ item }}?",
     "confirm-delete": "Are you sure you want to delete the {{ item }}?",
     "all": "All",
-    "feed-list-title": "Purchases for tomorrow"
+    "feed-list-title": "Purchases for tomorrow",
+    "true": "Yes",
+    "false": "No"
   },
   "validation": {
     "name": "Name is mandatory! ",
@@ -28,15 +36,7 @@
     "success": "Success! ",
     "failure": "Failure! "
   },
-  "customers": {
-    "customers": "Customers"
-  },
-  "products": {
-    "products": "Products",
-    "product": "Product"
-  },
   "purchases": {
-    "purchases": "Purchases",
     "all": "All Purchases",
     "id": "Purchase ID {{ createPurchaseId }}",
     "new": "New Purchase",
@@ -44,7 +44,6 @@
     "refresh": "Refresh data",
     "product": "Product",
     "select-product": "Select a product",
-    "custom": "Custom",
     "customer": "Customer",
     "select-customer": "Select a customer",
     "none": "None",

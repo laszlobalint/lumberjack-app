@@ -1,6 +1,12 @@
 {
   "global": {
     "app-title": "Upravaljanje narudžbama drvare",
+    "customer": "Klijent",
+    "customers": "Klijenti",
+    "product": "Proizvod",
+    "products": "Proizvodi",
+    "purchase": "Narudžbina",
+    "purchases": "Narudžbine",
     "address": "Adresa",
     "name": "Ime",
     "phone": "Telefon",
@@ -18,7 +24,9 @@
     "confirm-edit": "Sigurno želiš da promeniš {{ item }}?",
     "confirm-delete": "Sigurno želiš da brišeš {{ item }}?",
     "all": "Sve",
-    "feed-list-title": "Narudžbine za sutra"
+    "feed-list-title": "Narudžbine za sutra",
+    "true": "Da",
+    "false": "Ne"
   },
   "validation": {
     "name": "Ime je obazezno! ",
@@ -28,15 +36,7 @@
     "success": "Uspešan! ",
     "failure": "Neuspešan! "
   },
-  "customers": {
-    "customers": "Klijenti"
-  },
-  "products": {
-    "products": "Proizvodi",
-    "product": "Proizvod"
-  },
   "purchases": {
-    "purchases": "Narudžbine",
     "all": "Sve narudžbine",
     "id": "Broj narudžbine {{ createPurchaseId }}",
     "new": "Nova narudžbina",
@@ -44,7 +44,6 @@
     "refresh": "Ažuriranje podataka",
     "product": "Proizvod",
     "select-product": "Odaberi proizvod",
-    "custom": "Jedinstven",
     "customer": "Klijent",
     "select-customer": "Odaberi klijenta",
     "edit-customer": "Uredi",
