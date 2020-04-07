@@ -22,9 +22,9 @@ Download and install Visual Studio Code (VS Code)
 
 - [Visual Studio Code](https://code.visualstudio.com/download)
 
-Clone the repository from GitHub
+Clone the repository from GitLab
 
-- [GitHub Repository](https://code.visualstudio.com/download)
+- [GitHub Repository](https://gitlab.com/papiliond/lumberjack/)
 
 Install NPM packages and dependencies for NestJS and Angular
 
@@ -42,6 +42,7 @@ npm audit fix
 Fresh build database migrations and project structure
 
 ```sh
+cd /backend
 npm install -g typeorm
 npm run build
 typeorm migration:run
@@ -58,7 +59,7 @@ Run the backend server and frontend application in two different terminals or co
 ## Running the backend application
 
 ```bash
-# Development mod
+# Development mode
 $ npm run start
 
 # Watch mode
