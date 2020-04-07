@@ -16,7 +16,12 @@ Create a database using command line or HeidiSQL
 
 - CREATE OR REPLACE DATABASE lumberjack;
 
-Create a file with name .env in `backend/src` and copy the `.env.example` file's content. Edit it with your local configuration.
+Create a file with name `.env.example` in `backend/src` and copy the `.env.example` file's content. Edit it with your local configuration (database credentials, ports etc.).
+```sh
+cd /backend
+cp .env.example .env
+(edit new file)
+```
 
 Download and install Visual Studio Code (VS Code)
 
