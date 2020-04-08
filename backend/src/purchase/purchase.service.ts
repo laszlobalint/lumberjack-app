@@ -13,6 +13,8 @@ export class PurchaseService {
   constructor(
     @InjectRepository(Purchase)
     private readonly purchaseRepository: Repository<Purchase>,
+    @InjectRepository(Product)
+    private readonly productRepository: Repository<Product>,
     private readonly connection: Connection,
   ) {}
 
@@ -116,7 +118,27 @@ export class PurchaseService {
   async update(id: number, updatePurchaseDto: UpdatePurchaseDto): Promise<Purchase> {
     let purchase = await this.purchaseRepository.findOneOrFail({
       where: { id },
+      relations: ['product'],
     });
+
+    let product = await this.productRepository.findOneOrFail({
+      where: { id: purchase.product.id },
+      relations: ['purchases'],
+    });
+
+    if (
+      (!purchase.completed && updatePurchaseDto.completed) ||
+      (!purchase.reduceStock && updatePurchaseDto.reduceStock && updatePurchaseDto.completed)
+    )
+      product.amount -= updatePurchaseDto.amount;
+
+    if (
+      (purchase.completed && !updatePurchaseDto.completed) ||
+      (purchase.reduceStock && !updatePurchaseDto.reduceStock && updatePurchaseDto.completed)
+    )
+      product.amount += updatePurchaseDto.amount;
+
+    await this.productRepository.save(product);
     let updatedPurchase = Object.assign(purchase, updatePurchaseDto);
 
     return this.purchaseRepository.save(updatedPurchase);
@@ -125,7 +147,16 @@ export class PurchaseService {
   async remove(id: number): Promise<DeleteResult> {
     let purchase = await this.purchaseRepository.findOneOrFail({
       where: { id },
+      relations: ['product'],
     });
+
+    let product = await this.productRepository.findOneOrFail({
+      where: { id: purchase.product.id },
+      relations: ['purchases'],
+    });
+
+    product.amount += purchase.amount;
+    await this.productRepository.save(product);
 
     return this.purchaseRepository.delete(purchase.id);
   }
