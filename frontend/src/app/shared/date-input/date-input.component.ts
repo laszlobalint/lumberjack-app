@@ -4,6 +4,8 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/f
 import { combineLatest, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
+const INVALID_DATE = new Date('');
+
 @Component({
   selector: 'date-input',
   providers: [
@@ -77,11 +79,13 @@ export class DateInputComponent implements ControlValueAccessor, AfterViewInit, 
       this.dateInputFormControl.valueChanges.pipe(startWith('')),
       this.timeInputFormControl.valueChanges.pipe(startWith('')),
     ).subscribe(([dateInputValue, timeInputValue]: [string | null, string | null]) => {
-      if (
-        dateInputValue.length !== this.dateInputMask.length ||
-        (!!timeInputValue && timeInputValue.length !== this.timeInputMask.length)
-      ) {
+      if (!dateInputValue && !timeInputValue) {
         this.onChanged(null);
+      } else if (
+        dateInputValue.length !== this.dateInputMask.length ||
+        (timeInputValue && timeInputValue.length !== this.timeInputMask.length)
+      ) {
+        this.onChanged(INVALID_DATE);
       } else {
         const output = this.createOutput(dateInputValue, timeInputValue);
         this.onChanged(output);
