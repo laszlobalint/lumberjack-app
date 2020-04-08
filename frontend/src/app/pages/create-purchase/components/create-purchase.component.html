@@ -46,7 +46,7 @@
               fullWidth
               id="inputAmount"
               placeholder="{{ 'global.amount' | translate }}"
-              [status]="form.get('amount').dirty ? (form.invalid ? 'danger' : 'success') : 'basic'"
+              [status]="form.get('amount').dirty ? (!isValidAmount ? 'danger' : 'success') : 'basic'"
               formControlName="amount"
             />
           </div>

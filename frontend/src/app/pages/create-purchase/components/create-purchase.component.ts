@@ -20,6 +20,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
   public isBusy$: Observable<boolean>;
   public failed$: Observable<boolean>;
   public purchaseSubscription: Subscription;
+  public isValidAmount?: boolean;
 
   public _enableCustomerEdit = false;
 
@@ -100,7 +101,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
   private createForm(): FormGroup {
     return this.formBuilder.group(
       {
-        amount: ['', { validators: [Validators.required] }],
+        amount: ['', Validators.required],
         reduceStock: [true],
         productId: ['', Validators.required],
         price: ['', Validators.required],
@@ -142,8 +143,11 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
 
   private toggleEnableCustomerFormGroup(enable: boolean): void {
     const customerFormGroup = this.form.get('customer');
-    if (enable) customerFormGroup.enable();
-    else customerFormGroup.disable();
+    if (enable) {
+      customerFormGroup.enable();
+    } else {
+      customerFormGroup.disable();
+    }
   }
 
   private async findCustomer(customerId: number): Promise<CustomerDto> {
@@ -163,10 +167,15 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
     else return { invalid: true };
   }
 
-  private async amountValidator(formGroup: FormGroup): Promise<{ [key: string]: any } | null> {
+  public async amountValidator(formGroup: FormGroup): Promise<{ [key: string]: any } | null> {
     const purchaseAmount = formGroup.get('amount').value;
-    const productAmount = (await this.findProduct(formGroup.root.get('productId').value)).amount;
-    if (productAmount && purchaseAmount && productAmount >= purchaseAmount) return null;
-    else return { invalid: true };
+    const productAmount = (await this.findProduct(formGroup.get('productId').value)).amount;
+    if (productAmount && purchaseAmount && productAmount >= purchaseAmount) {
+      this.isValidAmount = true;
+      return null;
+    } else {
+      this.isValidAmount = false;
+      return { invalid: true };
+    }
   }
 }
