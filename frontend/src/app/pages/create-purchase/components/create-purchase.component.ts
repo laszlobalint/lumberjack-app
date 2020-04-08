@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
@@ -20,7 +20,6 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
   public isBusy$: Observable<boolean>;
   public failed$: Observable<boolean>;
   public purchaseSubscription: Subscription;
-  public isValidAmount?: boolean;
 
   public _enableCustomerEdit = false;
 
@@ -101,7 +100,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
   private createForm(): FormGroup {
     return this.formBuilder.group(
       {
-        amount: ['', Validators.required],
+        amount: ['', Validators.required, this.amountValidator.bind(this)],
         reduceStock: [true],
         productId: ['', Validators.required],
         price: ['', Validators.required],
@@ -167,15 +166,12 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
     else return { invalid: true };
   }
 
-  public async amountValidator(formGroup: FormGroup): Promise<{ [key: string]: any } | null> {
-    const purchaseAmount = formGroup.get('amount').value;
-    const productAmount = (await this.findProduct(formGroup.get('productId').value)).amount;
-    if (productAmount && purchaseAmount && productAmount >= purchaseAmount) {
-      this.isValidAmount = true;
-      return null;
-    } else {
-      this.isValidAmount = false;
-      return { invalid: true };
-    }
+  private async amountValidator(control: FormControl): Promise<{ [key: string]: any } | null> {
+    const productId = control.parent.get('productId').value;
+    if (productId === null) return null;
+
+    const product = await this.findProduct(productId);
+    if (product && product.amount < control.value) return { invalid: true };
+    else return null;
   }
 }

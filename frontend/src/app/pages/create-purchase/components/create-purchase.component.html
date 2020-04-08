@@ -1,8 +1,7 @@
-<div
-  *ngIf="{ isBusy: isBusy$ | async, createdPurchase: purchase$ | async, failed: failed$ | async } as state"
-  class="d-flex justify-center items-center"
->
-  <nb-card class="w-100 w-100" [accent]="state.failed ? 'danger' : state.createdPurchase ? 'success' : 'primary'">
+<div *ngIf="{ isBusy: isBusy$ | async, createdPurchase: purchase$ | async, failed: failed$ | async } as state"
+  class="d-flex justify-center items-center">
+  <nb-card class="w-100 w-100"
+    [accent]="state.failed ? 'danger' : state.createdPurchase ? 'success' : 'primary'">
     <nb-card-header>
       <div class="d-flex justify-content-between w-100">
         <span>{{
@@ -11,58 +10,62 @@
             : ('purchases.new' | translate)
         }}</span>
         <div>
-          <button
-            nbButton
+          <button nbButton
             *ngIf="!state.createdPurchase"
             ghost
             status="danger"
             nbTooltip="{{ 'purchases.clear' | translate }}"
             nbTooltipPlacement="bottom"
-            (click)="onClear()"
-          >
+            (click)="onClear()">
             <nb-icon icon="close"></nb-icon>
           </button>
-          <button
-            nbButton
+          <button nbButton
             ghost
             status="warning"
             nbTooltip="{{ 'purchases.refresh' | translate }}"
             nbTooltipPlacement="bottom"
-            (click)="fetchData()"
-          >
+            (click)="fetchData()">
             <nb-icon icon="repeat-outline"></nb-icon>
           </button>
         </div>
       </div>
     </nb-card-header>
     <nb-card-body>
-      <form class="d-flex flex-column items-center" [formGroup]="form">
+      <form class="d-flex flex-column items-center"
+        [formGroup]="form">
         <!-- Purchase -->
         <div class="row w-100">
           <div class="col-6 col-md-3 order-1 order-md-0 form-group">
-            <label for="inputAmount" class="label">{{ 'global.amount' | translate }} <span class="text-danger">*</span></label>
-            <input
-              nbInput
+            <label for="inputAmount"
+              class="label">{{ 'global.amount' | translate }} <span class="text-danger">*</span></label>
+            <input nbInput
               fullWidth
               id="inputAmount"
               placeholder="{{ 'global.amount' | translate }}"
-              [status]="form.get('amount').dirty ? (!isValidAmount ? 'danger' : 'success') : 'basic'"
-              formControlName="amount"
-            />
+              [status]="form.dirty && form.get('amount').invalid ? 'danger' : 'basic'"
+              formControlName="amount" />
           </div>
 
           <div class="col-12 col-md-6 order-0 order-md-1 form-group">
-            <label for="inputProductId" class="label">{{ 'global.product' | translate }} <span class="text-danger">*</span></label>
-            <nb-select fullWidth id="inputProductId" placeholder="{{ 'purchases.select-product' | translate }}" formControlName="productId">
-              <nb-option *ngFor="let product of products$ | async" [value]="product.id"
-                >{{ product.name }} ({{ product.amount }})</nb-option
-              >
+            <label for="inputProductId"
+              class="label">{{ 'global.product' | translate }} <span class="text-danger">*</span></label>
+            <nb-select fullWidth
+              id="inputProductId"
+              placeholder="{{ 'purchases.select-product' | translate }}"
+              formControlName="productId">
+              <nb-option *ngFor="let product of products$ | async"
+                [value]="product.id">{{ product.name }} ({{ product.amount }})</nb-option>
             </nb-select>
           </div>
 
           <div class="col-6 col-md-3 order-2 form-group">
-            <label for="inputPrice" class="label">{{ 'global.price' | translate }} <span class="text-danger">*</span></label>
-            <input nbInput fullWidth id="inputPrice" placeholder="{{ 'global.price' | translate }}" formControlName="price" />
+            <label for="inputPrice"
+              class="label">{{ 'global.price' | translate }} <span class="text-danger">*</span></label>
+            <input nbInput
+              fullWidth
+              id="inputPrice"
+              placeholder="{{ 'global.price' | translate }}"
+              formControlName="price" />
           </div>
         </div>
 
@@ -71,20 +74,21 @@
         <!-- Customer -->
         <div class="row w-100">
           <div class="col form-group">
-            <label for="inputCustomerId" class="label">{{ 'global.customer' | translate }}</label>
-            <nb-select
-              fullWidth
+            <label for="inputCustomerId"
+              class="label">{{ 'global.customer' | translate }}</label>
+            <nb-select fullWidth
               id="inputCustomerId"
               placeholder="{{ 'purchases.select-customer' | translate }}"
-              formControlName="customerId"
-            >
+              formControlName="customerId">
               <nb-option [value]="undefined">{{ 'purchases.none' | translate }}</nb-option>
-              <nb-option *ngFor="let customer of customers$ | async" [value]="customer.id">{{ customer.name }}</nb-option>
+              <nb-option *ngFor="let customer of customers$ | async"
+                [value]="customer.id">{{ customer.name }}</nb-option>
             </nb-select>
           </div>
 
           <div class="col-12 col-md-2 d-flex align-items-center mt-0 mt-md-3">
-            <nb-toggle [(checked)]="enableCustomerEdit" [disabled]="!form.get('customerId').value">{{
+            <nb-toggle [(checked)]="enableCustomerEdit"
+              [disabled]="!form.get('customerId').value">{{
               'purchases.edit-customer' | translate
             }}</nb-toggle>
           </div>
@@ -93,87 +97,93 @@
         <div formGroupName="customer">
           <div class="row w-100">
             <div class="col-12 col-lg-6 form-group">
-              <label for="inputAddress" class="label">{{ 'global.address' | translate }} <span class="text-danger">*</span></label>
-              <input
-                type="text"
+              <label for="inputAddress"
+                class="label">{{ 'global.address' | translate }} <span class="text-danger">*</span></label>
+              <input type="text"
                 nbInput
                 fullWidth
                 id="inputAddress"
                 placeholder="{{ 'global.address' | translate }}"
-                formControlName="address"
-              />
+                formControlName="address" />
             </div>
 
             <div class="col-12 col-sm-6 col-lg-3 form-group">
-              <label for="inputName" class="label">{{ 'global.name' | translate }}</label>
-              <input type="tel" nbInput fullWidth id="inputName" placeholder="{{ 'global.name' | translate }}" formControlName="name" />
+              <label for="inputName"
+                class="label">{{ 'global.name' | translate }}</label>
+              <input type="tel"
+                nbInput
+                fullWidth
+                id="inputName"
+                placeholder="{{ 'global.name' | translate }}"
+                formControlName="name" />
             </div>
 
             <div class="col-12 col-sm-6 col-lg-3 form-group">
-              <label for="inputPhone" class="label">{{ 'global.phone' | translate }}</label>
-              <input type="tel" nbInput fullWidth id="inputPhone" placeholder="{{ 'global.phone' | translate }}" formControlName="phone" />
+              <label for="inputPhone"
+                class="label">{{ 'global.phone' | translate }}</label>
+              <input type="tel"
+                nbInput
+                fullWidth
+                id="inputPhone"
+                placeholder="{{ 'global.phone' | translate }}"
+                formControlName="phone" />
             </div>
           </div>
 
           <div class="row w-100">
             <div class="col form-group">
-              <label for="inputCustomerDescription" class="label">{{ 'purchases.customer-descr' | translate }}</label>
-              <textarea
-                nbInput
+              <label for="inputCustomerDescription"
+                class="label">{{ 'purchases.customer-descr' | translate }}</label>
+              <textarea nbInput
                 fullWidth
                 placeholder="{{ 'purchases.customer-descr' | translate }}"
-                formControlName="description"
-              ></textarea>
+                formControlName="description"></textarea>
             </div>
           </div>
 
           <div class="row w-100">
             <div class="col-6 col-md form-group">
-              <label for="inputCompanyName" class="label">{{ 'global.company-name' | translate }}</label>
-              <input
-                nbInput
+              <label for="inputCompanyName"
+                class="label">{{ 'global.company-name' | translate }}</label>
+              <input nbInput
                 fullWidth
                 fieldSize="small"
                 id="inputCompanyName"
                 placeholder="{{ 'global.company-name' | translate }}"
-                formControlName="companyName"
-              />
+                formControlName="companyName" />
             </div>
 
             <div class="col-6 col-md form-group">
-              <label for="inputTaxId" class="label">{{ 'global.tax-id' | translate }}</label>
-              <input
-                nbInput
+              <label for="inputTaxId"
+                class="label">{{ 'global.tax-id' | translate }}</label>
+              <input nbInput
                 fullWidth
                 fieldSize="small"
                 id="inputTaxId"
                 placeholder="{{ 'global.tax-id' | translate }}"
-                formControlName="taxId"
-              />
+                formControlName="taxId" />
             </div>
 
             <div class="col-6 col-md form-group">
-              <label for="inputNationalId" class="label">{{ 'global.national-id' | translate }}</label>
-              <input
-                nbInput
+              <label for="inputNationalId"
+                class="label">{{ 'global.national-id' | translate }}</label>
+              <input nbInput
                 fullWidth
                 fieldSize="small"
                 id="inputNationalId"
                 placeholder="{{ 'global.national-id' | translate }}"
-                formControlName="nationalId"
-              />
+                formControlName="nationalId" />
             </div>
 
             <div class="col-6 col-md form-group">
-              <label for="inputCheckingAccount" class="label">{{ 'global.checking-account' | translate }}</label>
-              <input
-                nbInput
+              <label for="inputCheckingAccount"
+                class="label">{{ 'global.checking-account' | translate }}</label>
+              <input nbInput
                 fullWidth
                 fieldSize="small"
                 id="inputCheckingAccount"
                 placeholder="{{ 'global.checking-account' | translate }}"
-                formControlName="checkingAccount"
-              />
+                formControlName="checkingAccount" />
             </div>
           </div>
         </div>
@@ -182,41 +192,45 @@
 
         <div class="row w-100">
           <div class="col-12 col-lg-9 form-group">
-            <label for="inputDescription" class="label">{{ 'purchases.purchase-descr' | translate }}</label>
-            <textarea nbInput fullWidth placeholder="{{ 'purchases.purchase-descr' | translate }}" formControlName="description"></textarea>
+            <label for="inputDescription"
+              class="label">{{ 'purchases.purchase-descr' | translate }}</label>
+            <textarea nbInput
+              fullWidth
+              placeholder="{{ 'purchases.purchase-descr' | translate }}"
+              formControlName="description"></textarea>
           </div>
 
           <div class="col-12 col-lg-3 form-group">
-            <label for="inputDeliveryDate" class="label">{{ 'purchases.time-of-delivery' | translate }}</label>
+            <label for="inputDeliveryDate"
+              class="label">{{ 'purchases.time-of-delivery' | translate }}</label>
             <date-input formControlName="deliveryDate"></date-input>
           </div>
         </div>
 
         <div class="row w-100 d-flex justify-content-end align-items-baseline p-3">
-          <nb-toggle
-            id="inputReduceStock"
+          <nb-toggle id="inputReduceStock"
             class="mx-3"
             labelPosition="left"
             [status]="toggleReduceStock.checked ? 'primary' : 'warning'"
             formControlName="reduceStock"
-            #toggleReduceStock
-            >{{ 'purchases.reduce-stock' | translate }}</nb-toggle
-          >
+            #toggleReduceStock>{{ 'purchases.reduce-stock' | translate }}</nb-toggle>
 
-          <button
-            nbButton
+          <button nbButton
             *ngIf="!state.createdPurchase; else successButton"
             type="submit"
             size="large"
             [nbSpinner]="state.isBusy"
             [disabled]="state.isBusy || form.invalid"
-            (click)="onSubmit()"
-          >
+            (click)="onSubmit()">
             <nb-icon icon="save"></nb-icon>
             {{ 'global.save' | translate }}
           </button>
           <ng-template #successButton>
-            <button nbButton type="button" size="large" status="success" (click)="onClear()">
+            <button nbButton
+              type="button"
+              size="large"
+              status="success"
+              (click)="onClear()">
               <nb-icon icon="plus-outline"></nb-icon>
               {{ 'global.new' | translate }}
             </button>
