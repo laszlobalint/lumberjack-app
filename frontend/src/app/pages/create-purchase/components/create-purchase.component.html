@@ -80,8 +80,14 @@
               placeholder="{{ 'purchases.select-customer' | translate }}"
               formControlName="customerId">
               <nb-option [value]="undefined">{{ 'purchases.none' | translate }}</nb-option>
-              <nb-option *ngFor="let customer of customers$ | async"
-                [value]="customer.id">{{ customer.address }}</nb-option>
+              <<<<<<< HEAD
+                <nb-option
+                *ngFor="let customer of customers$ | async"
+                [value]="customer.id">{{ customer.name }}</nb-option>
+                =======
+                <nb-option *ngFor="let customer of customers$ | async"
+                  [value]="customer.id">{{ customer.address }}</nb-option>
+                >>>>>>> master
             </nb-select>
           </div>
 
@@ -119,7 +125,7 @@
 
             <div class="col-12 col-sm-6 col-lg-3 form-group">
               <label for="inputPhone"
-                class="label">{{ 'global.phone' | translate }}</label>
+                class="label">{{ 'global.phone' | translate }} <span class="text-danger">*</span></label>
               <input type="tel"
                 nbInput
                 fullWidth
