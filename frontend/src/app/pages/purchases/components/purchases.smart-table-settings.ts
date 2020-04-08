@@ -49,7 +49,7 @@ export function getSettings(translate: TranslateService): any {
       customer: {
         title: translate.instant('global.customer'),
         editable: false,
-        valuePrepareFunction: (customer: CustomerDto) => customer.address || customer.name,
+        valuePrepareFunction: (customer: CustomerDto) => customer.address,
         editor: {
           type: 'list',
         },
