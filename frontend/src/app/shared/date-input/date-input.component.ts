@@ -13,23 +13,38 @@ import { Subscription } from 'rxjs';
     },
   ],
   template: `
-    <input
-      nbInput
-      fullWidth
-      id="inputDeliveryDate"
-      [mask]="mask"
-      [showMaskTyped]="true"
-      [dropSpecialCharacters]="false"
-      placeHolderCharacter=" "
-      [formControl]="inputFormControl"
-    />
+    <div class="d-flex">
+      <input
+        nbInput
+        fullWidth
+        class="mr-1"
+        style="max-width: 8rem;"
+        [mask]="dateInputMask"
+        [showMaskTyped]="true"
+        [dropSpecialCharacters]="false"
+        placeHolderCharacter=" "
+        [formControl]="dateInputFormControl"
+      />
+      <input
+        nbInput
+        fullWidth
+        style="max-width: 5rem;"
+        [mask]="timeInputMask"
+        [showMaskTyped]="true"
+        [dropSpecialCharacters]="false"
+        placeHolderCharacter=" "
+        [formControl]="timeInputFormControl"
+      />
+    </div>
   `,
 })
 export class DateInputComponent implements ControlValueAccessor, AfterViewInit, OnDestroy {
   @Input() public value: Date;
 
-  public readonly inputFormControl = new FormControl();
-  public readonly mask = '0000/00/00 00:00';
+  public readonly dateInputFormControl = new FormControl();
+  public readonly timeInputFormControl = new FormControl();
+  public readonly dateInputMask = '0000/00/00';
+  public readonly timeInputMask = '00:00';
 
   private onChanged: (date: Date) => any;
   private inputValueChangesSubscription: Subscription;
@@ -41,8 +56,10 @@ export class DateInputComponent implements ControlValueAccessor, AfterViewInit, 
       this.value = new Date(value);
     }
 
-    const dateString = this.datePipe.transform(value, 'yyyy/MM/dd HH:mm');
-    this.inputFormControl.setValue(dateString);
+    const dateString = this.datePipe.transform(value, 'yyyy/MM/dd');
+    this.dateInputFormControl.setValue(dateString);
+    const timeString = this.datePipe.transform(value, 'HH:mm');
+    this.timeInputFormControl.setValue(timeString);
   }
 
   public registerOnChange(fn: any): void {
@@ -55,11 +72,19 @@ export class DateInputComponent implements ControlValueAccessor, AfterViewInit, 
   constructor(private readonly datePipe: DatePipe) {}
 
   public ngAfterViewInit(): void {
-    this.inputFormControl.valueChanges.subscribe(value => {
-      if (value.length !== this.mask.length) {
+    this.dateInputFormControl.valueChanges.subscribe(value => {
+      if (value.length !== this.dateInputMask.length) {
         this.onChanged(null);
       } else {
-        this.onChanged(new Date(value));
+        this.onChanged(this.createOutput(value));
+      }
+    });
+
+    this.timeInputFormControl.valueChanges.subscribe(value => {
+      if (!this.dateInputFormControl.value || value.length !== this.timeInputMask.length) {
+        this.onChanged(null);
+      } else {
+        this.onChanged(this.createOutput(null, value));
       }
     });
   }
@@ -68,5 +93,12 @@ export class DateInputComponent implements ControlValueAccessor, AfterViewInit, 
     if (this.inputValueChangesSubscription) {
       this.inputValueChangesSubscription.unsubscribe();
     }
+  }
+
+  private createOutput(date?: string, time?: string) {
+    const dateValue = date || this.dateInputFormControl.value;
+    const timeValue = time || this.timeInputFormControl.value || '00:00';
+
+    return new Date(`${dateValue} ${timeValue}`);
   }
 }
