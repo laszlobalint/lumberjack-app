@@ -31,6 +31,29 @@ export function getSettings(translate: TranslateService): any {
         title: translate.instant('global.amount'),
         filterFunction: equalsOrGreater,
       },
+      product: {
+        title: translate.instant('global.product'),
+        editable: false,
+        valuePrepareFunction: (product: ProductDto) => product.name,
+        editor: {
+          type: 'list',
+        },
+      },
+      price: {
+        title: translate.instant('global.price'),
+        valuePrepareFunction: (price: number): string => {
+          return new DecimalPipe('en-US').transform(price);
+        },
+        filterFunction: equalsOrGreater,
+      },
+      customer: {
+        title: translate.instant('global.customer'),
+        editable: false,
+        valuePrepareFunction: (customer: CustomerDto) => customer.address || customer.name,
+        editor: {
+          type: 'list',
+        },
+      },
       reduceStock: {
         title: translate.instant('purchases.reduce-stock'),
         type: 'custom',
@@ -49,21 +72,6 @@ export function getSettings(translate: TranslateService): any {
             selectText: translate.instant('global.all'),
           },
         },
-      },
-      product: {
-        title: translate.instant('global.product'),
-        editable: false,
-        valuePrepareFunction: (product: ProductDto) => product.name,
-        editor: {
-          type: 'list',
-        },
-      },
-      price: {
-        title: translate.instant('global.price'),
-        valuePrepareFunction: (price: number): string => {
-          return new DecimalPipe('en-US').transform(price);
-        },
-        filterFunction: equalsOrGreater,
       },
       createdDate: {
         title: translate.instant('global.created-date'),
@@ -92,14 +100,6 @@ export function getSettings(translate: TranslateService): any {
         filterFunction: (cell: string, range: Date[]) => {
           const cellDate = new Date(cell);
           return (!range[0] || cellDate.getTime() >= range[0].getTime()) && (!range[1] || cellDate.getTime() <= range[1].getTime());
-        },
-      },
-      customer: {
-        title: translate.instant('global.customer'),
-        editable: false,
-        valuePrepareFunction: (customer: CustomerDto) => customer.address || customer.name,
-        editor: {
-          type: 'list',
         },
       },
       description: {
