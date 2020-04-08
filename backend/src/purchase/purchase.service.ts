@@ -50,7 +50,7 @@ export class PurchaseService {
       );
 
       const productRepository = queryRunner.manager.getRepository(Product);
-      let product = await productRepository.findOneOrFail({
+      const product = await productRepository.findOneOrFail({
         where: { id: createPurchaseDto.productId },
         relations: ['purchases'],
       });
@@ -73,7 +73,7 @@ export class PurchaseService {
         customer.purchases.push(purchase);
         customer = await customerRepository.save(customer);
       } else if (createPurchaseDto.customer) {
-        let createCustomerDto = createPurchaseDto.customer;
+        const createCustomerDto = createPurchaseDto.customer;
         customer = await customerRepository.save(
           new Customer({
             name: createCustomerDto.name,
@@ -90,7 +90,7 @@ export class PurchaseService {
       }
 
       const userRepository = queryRunner.manager.getRepository(User);
-      let user = await userRepository.findOneOrFail({
+      const user = await userRepository.findOneOrFail({
         where: { id: userId },
         relations: ['customers', 'purchases'],
       });
@@ -116,12 +116,12 @@ export class PurchaseService {
   }
 
   async update(id: number, updatePurchaseDto: UpdatePurchaseDto): Promise<Purchase> {
-    let purchase = await this.purchaseRepository.findOneOrFail({
+    const purchase = await this.purchaseRepository.findOneOrFail({
       where: { id },
       relations: ['product'],
     });
 
-    let product = await this.productRepository.findOneOrFail({
+    const product = await this.productRepository.findOneOrFail({
       where: { id: purchase.product.id },
       relations: ['purchases'],
     });
@@ -139,25 +139,42 @@ export class PurchaseService {
       product.amount += updatePurchaseDto.amount;
 
     await this.productRepository.save(product);
-    let updatedPurchase = Object.assign(purchase, updatePurchaseDto);
+    const updatedPurchase = Object.assign(purchase, updatePurchaseDto);
 
     return this.purchaseRepository.save(updatedPurchase);
   }
 
   async remove(id: number): Promise<DeleteResult> {
-    let purchase = await this.purchaseRepository.findOneOrFail({
-      where: { id },
-      relations: ['product'],
-    });
+    const queryRunner = this.connection.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
 
-    let product = await this.productRepository.findOneOrFail({
-      where: { id: purchase.product.id },
-      relations: ['purchases'],
-    });
+    try {
+      const purchaseRepository = queryRunner.manager.getRepository(Purchase);
+      const productRepository = queryRunner.manager.getRepository(Product);
 
-    product.amount += purchase.amount;
-    await this.productRepository.save(product);
+      const purchase = await purchaseRepository.findOneOrFail({
+        where: { id },
+        relations: ['product'],
+      });
 
-    return this.purchaseRepository.delete(purchase.id);
+      const product = await productRepository.findOneOrFail({
+        where: { id: purchase.product.id },
+        relations: ['purchases'],
+      });
+
+      product.amount += purchase.amount;
+
+      await productRepository.save(product);
+
+      await queryRunner.commitTransaction();
+
+      return this.purchaseRepository.delete(purchase.id);
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      await queryRunner.release();
+    }
   }
 }
