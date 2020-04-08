@@ -40,36 +40,23 @@
         <!-- Purchase -->
         <div class="row w-100">
           <div class="col-6 col-md-3 order-1 order-md-0 form-group">
-<<<<<<< HEAD
             <label for="inputAmount" class="label">{{ 'global.amount' | translate }} <span class="text-danger">*</span></label>
-            <input nbInput fullWidth id="inputAmount" placeholder="{{ 'global.amount' | translate }}" formControlName="amount" />
+            <input
+              nbInput
+              fullWidth
+              id="inputAmount"
+              placeholder="{{ 'global.amount' | translate }}"
+              [status]="form.get('amount').touched && form.get('amount').invalid ? 'danger' : 'basic'"
+              formControlName="amount"
+            />
           </div>
 
           <div class="col-12 col-md-6 order-0 order-md-1 form-group">
             <label for="inputProductId" class="label">{{ 'global.product' | translate }} <span class="text-danger">*</span></label>
             <nb-select fullWidth id="inputProductId" placeholder="{{ 'purchases.select-product' | translate }}" formControlName="productId">
-              <nb-option *ngFor="let product of products$ | async" [value]="product.id">{{ product.name }}</nb-option>
-=======
-            <label for="inputAmount"
-              class="label">{{ 'global.amount' | translate }} <span class="text-danger">*</span></label>
-            <input nbInput
-              fullWidth
-              id="inputAmount"
-              placeholder="{{ 'global.amount' | translate }}"
-              [status]="form.dirty && form.get('amount').invalid ? 'danger' : 'basic'"
-              formControlName="amount" />
-          </div>
-
-          <div class="col-12 col-md-6 order-0 order-md-1 form-group">
-            <label for="inputProductId"
-              class="label">{{ 'global.product' | translate }} <span class="text-danger">*</span></label>
-            <nb-select fullWidth
-              id="inputProductId"
-              placeholder="{{ 'purchases.select-product' | translate }}"
-              formControlName="productId">
-              <nb-option *ngFor="let product of products$ | async"
-                [value]="product.id">{{ product.name }} ({{ product.amount }})</nb-option>
->>>>>>> master
+              <nb-option *ngFor="let product of products$ | async" [value]="product.id"
+                >{{ product.name }} ({{ product.amount }})</nb-option
+              >
             </nb-select>
           </div>
 
@@ -92,18 +79,8 @@
               formControlName="customerId"
             >
               <nb-option [value]="undefined">{{ 'purchases.none' | translate }}</nb-option>
-<<<<<<< HEAD
               <nb-option *ngFor="let customer of customers$ | async" [value]="customer.id">{{ customer.name }}</nb-option>
-=======
-              <<<<<<< HEAD
-                <nb-option
-                *ngFor="let customer of customers$ | async"
-                [value]="customer.id">{{ customer.name }}</nb-option>
-                =======
-                <nb-option *ngFor="let customer of customers$ | async"
-                  [value]="customer.id">{{ customer.address }}</nb-option>
-                >>>>>>> master
->>>>>>> master
+              <nb-option *ngFor="let customer of customers$ | async" [value]="customer.id">{{ customer.address }}</nb-option>
             </nb-select>
           </div>
 
@@ -134,19 +111,8 @@
             </div>
 
             <div class="col-12 col-sm-6 col-lg-3 form-group">
-<<<<<<< HEAD
-              <label for="inputPhone" class="label">{{ 'global.phone' | translate }}</label>
+              <label for="inputPhone" class="label">{{ 'global.phone' | translate }} <span class="text-danger">*</span></label>
               <input type="tel" nbInput fullWidth id="inputPhone" placeholder="{{ 'global.phone' | translate }}" formControlName="phone" />
-=======
-              <label for="inputPhone"
-                class="label">{{ 'global.phone' | translate }} <span class="text-danger">*</span></label>
-              <input type="tel"
-                nbInput
-                fullWidth
-                id="inputPhone"
-                placeholder="{{ 'global.phone' | translate }}"
-                formControlName="phone" />
->>>>>>> master
             </div>
           </div>
 
@@ -222,15 +188,8 @@
           </div>
 
           <div class="col-12 col-lg-3 form-group">
-<<<<<<< HEAD
             <label for="inputDeliveryDate" class="label">{{ 'purchases.time-of-delivery' | translate }}</label>
-            <date-input formControlName="deliveryDate"></date-input>
-=======
-            <label for="inputDeliveryDate"
-              class="label">{{ 'purchases.time-of-delivery' | translate }}</label>
-            <date-input id="inputDeliveryDate"
-              formControlName="deliveryDate"></date-input>
->>>>>>> master
+            <date-input id="inputDeliveryDate" formControlName="deliveryDate"></date-input>
           </div>
         </div>
 
