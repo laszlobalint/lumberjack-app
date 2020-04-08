@@ -132,9 +132,8 @@ export class PurchaseService {
     const isCompleted = purchase.completed && updatePurchaseDto.completed;
     const unsetReduceStock = purchase.reduceStock && !updatePurchaseDto.reduceStock;
     const setReduceStock = !purchase.reduceStock && updatePurchaseDto.reduceStock;
-    const reduceStock = purchase.reduceStock && updatePurchaseDto.reduceStock;
-    const stockHasBeenReduced = reduceStock || unsetReduceStock;
-    const needsStockReduce = reduceStock || setReduceStock;
+    const stockHasBeenReduced = (purchase.reduceStock && updatePurchaseDto.reduceStock) || unsetReduceStock;
+    const needsStockReduce = (purchase.reduceStock && updatePurchaseDto.reduceStock) || setReduceStock;
 
     if ((uncomplete && stockHasBeenReduced) || (isCompleted && unsetReduceStock)) {
       product.amount += updatePurchaseDto.amount;
