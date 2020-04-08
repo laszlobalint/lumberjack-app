@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Exclude } from 'class-transformer';
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Purchase } from '../purchase/purchase.entity';
@@ -9,14 +10,14 @@ export class Product {
   id: number;
 
   @ManyToOne(
-    type => User,
+    _type => User,
     user => user.products,
     { onDelete: 'CASCADE' },
   )
   user: User;
 
   @OneToMany(
-    type => Purchase,
+    _type => Purchase,
     purchase => purchase.product,
   )
   @Exclude()

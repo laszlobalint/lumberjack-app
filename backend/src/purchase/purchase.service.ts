@@ -127,7 +127,7 @@ export class PurchaseService {
     });
 
     if (
-      (!purchase.completed && updatePurchaseDto.completed) ||
+      (!purchase.completed && updatePurchaseDto.completed && updatePurchaseDto.reduceStock) ||
       (!purchase.reduceStock && updatePurchaseDto.reduceStock && updatePurchaseDto.completed)
     )
       product.amount -= updatePurchaseDto.amount;
@@ -158,14 +158,14 @@ export class PurchaseService {
         relations: ['product'],
       });
 
-      const product = await productRepository.findOneOrFail({
-        where: { id: purchase.product.id },
-        relations: ['purchases'],
-      });
-
-      product.amount += purchase.amount;
-
-      await productRepository.save(product);
+      if (purchase.reduceStock) {
+        const product = await productRepository.findOneOrFail({
+          where: { id: purchase.product.id },
+          relations: ['purchases'],
+        });
+        product.amount += purchase.amount;
+        await productRepository.save(product);
+      }
 
       await queryRunner.commitTransaction();
 
