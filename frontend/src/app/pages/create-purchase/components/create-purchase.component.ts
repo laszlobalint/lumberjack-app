@@ -142,8 +142,11 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
 
   private toggleEnableCustomerFormGroup(enable: boolean): void {
     const customerFormGroup = this.form.get('customer');
-    if (enable) customerFormGroup.enable();
-    else customerFormGroup.disable();
+    if (enable) {
+      customerFormGroup.enable();
+    } else {
+      customerFormGroup.disable();
+    } 
   }
 
   private async findCustomer(customerId: number): Promise<CustomerDto> {
