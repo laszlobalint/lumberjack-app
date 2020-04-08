@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -9,15 +9,7 @@ import * as fromPurchases from '../store';
 
 @Component({
   selector: 'create-purchase',
-  styles: [
-    `
-      .ng-invalid[required][nbInput] {
-        border: 5px solid #a94442 !important;
-      }
-    `,
-  ],
   templateUrl: './create-purchase.component.html',
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreatePurchaseComponent implements OnInit, OnDestroy {
@@ -173,8 +165,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
 
   private async amountValidator(formGroup: FormGroup): Promise<{ [key: string]: any } | null> {
     const purchaseAmount = formGroup.get('amount').value;
-    const products = await this.products$.pipe(take(1)).toPromise();
-    const productAmount = products.find(product => product.id === formGroup.get('productId').value).amount;
+    const productAmount = (await this.findProduct(formGroup.get('productId').value)).amount;
     if (productAmount && purchaseAmount && productAmount >= purchaseAmount) return null;
     else return { invalid: true };
   }
