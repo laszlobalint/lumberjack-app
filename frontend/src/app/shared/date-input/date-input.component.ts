@@ -1,7 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'date-input',
@@ -72,19 +73,18 @@ export class DateInputComponent implements ControlValueAccessor, AfterViewInit, 
   constructor(private readonly datePipe: DatePipe) {}
 
   public ngAfterViewInit(): void {
-    this.dateInputFormControl.valueChanges.subscribe(value => {
-      if (value.length !== this.dateInputMask.length) {
+    combineLatest(
+      this.dateInputFormControl.valueChanges.pipe(startWith('')),
+      this.timeInputFormControl.valueChanges.pipe(startWith('')),
+    ).subscribe(([dateInputValue, timeInputValue]: [string | null, string | null]) => {
+      if (
+        dateInputValue.length !== this.dateInputMask.length ||
+        (!!timeInputValue && timeInputValue.length !== this.timeInputMask.length)
+      ) {
         this.onChanged(null);
       } else {
-        this.onChanged(this.createOutput(value));
-      }
-    });
-
-    this.timeInputFormControl.valueChanges.subscribe(value => {
-      if (!this.dateInputFormControl.value || value.length !== this.timeInputMask.length) {
-        this.onChanged(null);
-      } else {
-        this.onChanged(this.createOutput(null, value));
+        const output = this.createOutput(dateInputValue, timeInputValue);
+        this.onChanged(output);
       }
     });
   }
