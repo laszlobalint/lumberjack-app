@@ -116,9 +116,9 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
           checkingAccount: [''],
         }),
         description: [''],
-        deliveryDate: ['', [dateValidator]],
+        deliveryDate: ['', dateValidator],
       },
-      { validators: [this.customerValidator], asyncValidators: [this.amountValidator.bind(this)] },
+      { validators: [this.customerValidator] },
     );
   }
 
