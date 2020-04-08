@@ -24,11 +24,11 @@ export function getSettings(translate: TranslateService): any {
       confirmDelete: true,
     },
     columns: {
-      name: {
-        title: translate.instant('global.name'),
-      },
       address: {
         title: translate.instant('global.address'),
+      },
+      name: {
+        title: translate.instant('global.name'),
       },
       phone: {
         title: translate.instant('global.phone'),
