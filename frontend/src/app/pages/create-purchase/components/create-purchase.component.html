@@ -81,14 +81,8 @@
               placeholder="{{ 'purchases.select-customer' | translate }}"
               formControlName="customerId">
               <nb-option [value]="undefined">{{ 'purchases.none' | translate }}</nb-option>
-              <<<<<<< HEAD
-                <nb-option
-                *ngFor="let customer of customers$ | async"
-                [value]="customer.id">{{ customer.name }}</nb-option>
-                =======
-                <nb-option *ngFor="let customer of customers$ | async"
-                  [value]="customer.id">{{ customer.address }}</nb-option>
-                >>>>>>> master
+              <nb-option *ngFor="let customer of customers$ | async"
+                [value]="customer.id">{{ customer.address }}</nb-option>
             </nb-select>
           </div>
 
