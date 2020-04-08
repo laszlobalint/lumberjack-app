@@ -20,6 +20,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
   public isBusy$: Observable<boolean>;
   public failed$: Observable<boolean>;
   public purchaseSubscription: Subscription;
+  public validAmount?: boolean;
 
   public _enableCustomerEdit = false;
 
@@ -166,10 +167,15 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
     else return { invalid: true };
   }
 
-  private async amountValidator(formGroup: FormGroup): Promise<{ [key: string]: any } | null> {
+  public async amountValidator(formGroup: FormGroup): Promise<{ [key: string]: any } | null> {
     const purchaseAmount = formGroup.get('amount').value;
     const productAmount = (await this.findProduct(formGroup.get('productId').value)).amount;
-    if (productAmount && purchaseAmount && productAmount >= purchaseAmount) return null;
-    else return { invalid: true };
+    if (productAmount && purchaseAmount && productAmount >= purchaseAmount) {
+      this.validAmount = true;
+      return null;
+    } else {
+      this.validAmount = false;
+      return { invalid: true };
+    }
   }
 }
