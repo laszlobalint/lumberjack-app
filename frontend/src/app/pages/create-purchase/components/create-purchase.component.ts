@@ -100,7 +100,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
   private createForm(): FormGroup {
     return this.formBuilder.group(
       {
-        amount: ['', { validators: [Validators.required] }],
+        amount: ['', Validators.required],
         reduceStock: [true],
         productId: ['', Validators.required],
         price: ['', Validators.required],
@@ -168,7 +168,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
 
   private async amountValidator(formGroup: FormGroup): Promise<{ [key: string]: any } | null> {
     const purchaseAmount = formGroup.get('amount').value;
-    const productAmount = (await this.findProduct(formGroup.root.get('productId').value)).amount;
+    const productAmount = (await this.findProduct(formGroup.get('productId').value)).amount;
     if (productAmount && purchaseAmount && productAmount >= purchaseAmount) return null;
     else return { invalid: true };
   }
