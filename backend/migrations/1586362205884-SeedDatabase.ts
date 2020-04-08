@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class SeedDatabase1586362205884 implements MigrationInterface {
@@ -13,5 +14,7 @@ export class SeedDatabase1586362205884 implements MigrationInterface {
     );
   }
 
-  public async down(queryRunner: QueryRunner): Promise<any> {}
+  public async down(queryRunner: QueryRunner): Promise<any> {
+    return null;
+  }
 }

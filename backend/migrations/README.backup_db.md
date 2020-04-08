@@ -1,6 +1,6 @@
 **Automate database backup on server (MariaDB on Linux)**
 
-*- Prerequisites:* {username} with the corresponding OS user!
+_- Prerequisites:_ {username} with the corresponding OS user!
 
 1. Make sure that MySQL dump executable script is accessible in the central 'bin' folder:
 
@@ -13,12 +13,12 @@ Path:
 `/home/{username}/.lumberjack_login.cnf`
 
 Content:
+
 ```
 [client]
 user = lumberjack
 password = lumberjack
 ```
-
 
 3. Restrict permissions of the credentials file:
 
@@ -49,6 +49,7 @@ Content:
 7. Depending on the operation system, you need to run the cron job service restart command (command can include 'cron' and 'crond' as they are not the same):
 
 Commands:
+
 ```
 sudo service cron reload
 sudo service cron restart
@@ -56,7 +57,6 @@ sudo systemctl start crond.service
 sudo /etc/init.d/cron reload
 sudo /etc/init.d/crond reload
 ```
-
 
 ######################################################################
 
@@ -80,4 +80,3 @@ Command:
 4. Check your database in database administrator console and on using web client!
 
 Administrator steps...
-

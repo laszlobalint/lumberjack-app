@@ -25,7 +25,7 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    let user = new User();
+    const user = new User();
     user.name = createUserDto.name;
     user.email = createUserDto.email;
     user.password = createUserDto.password;
@@ -38,17 +38,17 @@ export class UserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
-    let user = await this.userRepository.findOneOrFail({
+    const user = await this.userRepository.findOneOrFail({
       where: { id },
     });
     updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
-    let updatedUser = Object.assign(user, updateUserDto);
+    const updatedUser = Object.assign(user, updateUserDto);
 
     return this.userRepository.save(updatedUser);
   }
 
   async remove(id: number): Promise<DeleteResult> {
-    let user = await this.userRepository.findOneOrFail({
+    const user = await this.userRepository.findOneOrFail({
       where: { id },
     });
 
