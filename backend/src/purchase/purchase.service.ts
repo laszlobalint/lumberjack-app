@@ -38,6 +38,10 @@ export class PurchaseService {
     let purchase: Purchase | null = null;
     try {
       const purchaseRepository = queryRunner.manager.getRepository(Purchase);
+      const productRepository = queryRunner.manager.getRepository(Product);
+      const customerRepository = queryRunner.manager.getRepository(Customer);
+      const userRepository = queryRunner.manager.getRepository(User);
+
       purchase = await purchaseRepository.save(
         new Purchase({
           amount: createPurchaseDto.amount,
@@ -49,16 +53,14 @@ export class PurchaseService {
         }),
       );
 
-      const productRepository = queryRunner.manager.getRepository(Product);
       const product = await productRepository.findOneOrFail({
         where: { id: createPurchaseDto.productId },
         relations: ['purchases'],
       });
-      product.amount -= createPurchaseDto.reduceStock ? purchase.amount : 0;
+
       product.purchases.push(purchase);
       await productRepository.save(product);
 
-      const customerRepository = queryRunner.manager.getRepository(Customer);
       let customer: Customer;
       if (createPurchaseDto.customerId) {
         customer = await customerRepository.findOneOrFail({
@@ -89,7 +91,6 @@ export class PurchaseService {
         );
       }
 
-      const userRepository = queryRunner.manager.getRepository(User);
       const user = await userRepository.findOneOrFail({
         where: { id: userId },
         relations: ['customers', 'purchases'],
@@ -126,17 +127,19 @@ export class PurchaseService {
       relations: ['purchases'],
     });
 
-    if (
-      (!purchase.completed && updatePurchaseDto.completed && updatePurchaseDto.reduceStock) ||
-      (!purchase.reduceStock && updatePurchaseDto.reduceStock && updatePurchaseDto.completed)
-    )
-      product.amount -= updatePurchaseDto.amount;
+    const uncomplete = purchase.completed && !updatePurchaseDto.completed;
+    const complete = !purchase.completed && updatePurchaseDto.completed;
+    const isCompleted = purchase.completed && updatePurchaseDto.completed;
+    const unsetReduceStock = purchase.reduceStock && !updatePurchaseDto.reduceStock;
+    const setReduceStock = !purchase.reduceStock && updatePurchaseDto.reduceStock;
+    const stockHasBeenReduced = (purchase.reduceStock && updatePurchaseDto.reduceStock) || unsetReduceStock;
+    const needsStockReduce = (purchase.reduceStock && updatePurchaseDto.reduceStock) || setReduceStock;
 
-    if (
-      (purchase.completed && !updatePurchaseDto.completed) ||
-      (purchase.reduceStock && !updatePurchaseDto.reduceStock && updatePurchaseDto.completed)
-    )
+    if ((uncomplete && stockHasBeenReduced) || (isCompleted && unsetReduceStock)) {
       product.amount += updatePurchaseDto.amount;
+    } else if ((complete && needsStockReduce) || (isCompleted && setReduceStock)) {
+      product.amount -= updatePurchaseDto.amount;
+    }
 
     await this.productRepository.save(product);
     const updatedPurchase = Object.assign(purchase, updatePurchaseDto);
