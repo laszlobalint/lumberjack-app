@@ -100,7 +100,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
   private createForm(): FormGroup {
     return this.formBuilder.group(
       {
-        amount: ['', Validators.required, this.amountValidator.bind(this)],
+        amount: ['', [Validators.required, Validators.min(1)], this.amountValidator.bind(this)],
         reduceStock: [true],
         productId: ['', Validators.required],
         price: ['', Validators.required],
