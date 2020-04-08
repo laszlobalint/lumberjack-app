@@ -81,7 +81,7 @@
               formControlName="customerId">
               <nb-option [value]="undefined">{{ 'purchases.none' | translate }}</nb-option>
               <nb-option *ngFor="let customer of customers$ | async"
-                [value]="customer.id">{{ customer.name }}</nb-option>
+                [value]="customer.id">{{ customer.address }}</nb-option>
             </nb-select>
           </div>
 
