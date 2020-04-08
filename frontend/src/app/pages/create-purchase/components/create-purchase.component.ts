@@ -20,7 +20,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
   public isBusy$: Observable<boolean>;
   public failed$: Observable<boolean>;
   public purchaseSubscription: Subscription;
-  public validAmount?: boolean;
+  public isValidAmount?: boolean;
 
   public _enableCustomerEdit = false;
 
@@ -171,10 +171,10 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
     const purchaseAmount = formGroup.get('amount').value;
     const productAmount = (await this.findProduct(formGroup.get('productId').value)).amount;
     if (productAmount && purchaseAmount && productAmount >= purchaseAmount) {
-      this.validAmount = true;
+      this.isValidAmount = true;
       return null;
     } else {
-      this.validAmount = false;
+      this.isValidAmount = false;
       return { invalid: true };
     }
   }
