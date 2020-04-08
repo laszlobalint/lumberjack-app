@@ -25,7 +25,7 @@ export interface CreatePurchaseDto {
   customerId?: number;
   customer?: CreateCustomerDto;
   description?: string;
-  deliveryDate: string;
+  deliveryDate?: string;
 }
 
 export interface UpdatePurchaseDto {
@@ -34,5 +34,5 @@ export interface UpdatePurchaseDto {
   price?: number;
   completed?: boolean;
   description?: string;
-  deliveryDate: string;
+  deliveryDate?: string;
 }
