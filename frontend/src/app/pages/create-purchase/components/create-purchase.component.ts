@@ -107,7 +107,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
         customer: this.formBuilder.group({
           address: ['', Validators.required],
           name: [''],
-          phone: [''],
+          phone: ['', Validators.required],
           description: [''],
           companyName: [''],
           taxId: [''],

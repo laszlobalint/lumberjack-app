@@ -18,7 +18,7 @@ export class CreateProductDto {
   @IsOptional()
   @Type(() => Date)
   @IsDate()
-  deliveryDate: Date;
+  deliveryDate?: Date;
 
   description?: string;
 }
