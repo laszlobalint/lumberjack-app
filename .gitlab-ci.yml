@@ -1,18 +1,16 @@
 --- 
-cache: 
-  paths: 
-    - node_modules/
 image: "node:latest"
 default:
   before_script:
     - cd backend
+    - npm install
 install_dependencies: 
   stage: setup
   artifacts: 
     paths: 
       - node_modules/
   script: 
-    - "npm install"
+    - npm install
 build_project:
   stage: build
   script:
@@ -23,10 +21,7 @@ build_project:
       - node_modules/
 execute_tests:
   stage: test
-  before_script:
-      - npm install jest
-      - cd backend
-  script: "npm test -- --updateSnapshot --passWithNoTests"
+  script: npm test -- --updateSnapshot --passWithNoTests
 stages:
   - setup
   - build
