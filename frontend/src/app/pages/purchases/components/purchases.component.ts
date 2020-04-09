@@ -55,7 +55,6 @@ export class PurchasesComponent implements OnDestroy {
       fromPurchases.GetPurchases({
         load: purchases => {
           this.source.load(purchases);
-          this.source.setSort([{ field: 'deliveryDate', direction: 'desc' }]);
           this.changeDetectionRef.markForCheck();
         },
       }),
