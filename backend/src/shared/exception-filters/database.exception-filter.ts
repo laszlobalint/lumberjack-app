@@ -10,6 +10,11 @@ export class DatabaseExceptionFilter extends HttpExceptionFilter {
     if (exception instanceof EntityNotFoundError || exception instanceof EntityColumnNotFound) {
       return super.catch(new NotFoundException(exception.message, exception.name), host);
     } else {
+      const errorCode = (exception as any).code;
+      if (errorCode === 'ER_ROW_IS_REFERENCED' || errorCode === 'ER_ROW_IS_REFERENCED_2') {
+        return super.catch(new BadRequestException("Can't delete because it has related purchases.", exception.name), host);
+      }
+
       return super.catch(new BadRequestException(exception.message, exception.name), host);
     }
   }
