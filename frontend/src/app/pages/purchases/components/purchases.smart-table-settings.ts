@@ -1,12 +1,13 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { equalsOrGreater } from '../../../helpers/ng2-smart-table/filters';
-import { CustomerDto, ProductDto } from '../../../models';
+import { CustomerDto, ProductDto, PurchaseDto } from '../../../models';
 import { CustomBooleanEditorComponent } from './custom-boolean-editor/custom-boolean-editor.component';
+import { CustomBooleanEditableViewComponent } from './custom-boolean-view/custom-boolean-editable-view.component';
 import { CustomBooleanViewComponent } from './custom-boolean-view/custom-boolean-view.component';
 import { CustomDateFilterComponent } from './custom-date-filter/custom-date-filter.component';
 
-export function getSettings(translate: TranslateService): any {
+export function getSettings(translate: TranslateService, completePurchaseFn: Function): any {
   return {
     mode: 'inline',
     actions: {
@@ -113,7 +114,9 @@ export function getSettings(translate: TranslateService): any {
       completed: {
         title: translate.instant('purchases.completed'),
         type: 'custom',
-        renderComponent: CustomBooleanViewComponent,
+        renderComponent: CustomBooleanEditableViewComponent,
+        onComponentInitFunction: (renderComponent: CustomBooleanEditableViewComponent<PurchaseDto>) =>
+          renderComponent.checkedChange.subscribe(completePurchaseFn),
         editor: {
           type: 'custom',
           component: CustomBooleanEditorComponent,
