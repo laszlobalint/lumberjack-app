@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsBoolean, IsDate, IsNotEmpty, IsNumber, ValidateIf, ValidateNested } from 'class-validator';
+import { IsBoolean, IsDate, IsNotEmpty, IsNumber, IsOptional, ValidateIf, ValidateNested } from 'class-validator';
 import { CreateCustomerDto } from './../customer/customer.dto';
 
 export class CreatePurchaseDto {
@@ -26,6 +26,7 @@ export class CreatePurchaseDto {
   @ValidateNested()
   customer?: CreateCustomerDto;
 
+  @IsOptional()
   @IsDate()
   @Type(() => Date)
   deliveryDate?: Date;
@@ -38,11 +39,19 @@ export class UpdatePurchaseDto {
   @IsNumber()
   amount: number;
 
+  @IsBoolean()
+  reduceStock: boolean;
+
   @Type(() => Number)
   @IsNumber()
   price: number;
 
   description?: string;
+
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
+  deliveryDate?: Date;
 
   @IsBoolean()
   completed: boolean;

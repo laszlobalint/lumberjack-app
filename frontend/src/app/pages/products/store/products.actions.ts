@@ -9,10 +9,13 @@ export const SaveProduct = createAction(
   props<{ createProductDto: CreateProductDto; confirm: SmartTableConfirm<ProductDto> }>(),
 );
 export const SaveProductSuccess = createAction('[Products] Save Product Success', props<{ product: ProductDto }>());
+export const SaveProductFailure = createAction('[Products] Save Product Failure');
 export const UpdateProduct = createAction(
   '[Products] Update Product',
   props<{ id: number; updateProductDto: UpdateProductDto; confirm: SmartTableConfirm<ProductDto> }>(),
 );
 export const UpdateProductSuccess = createAction('[Products] Update Product Success', props<{ product: ProductDto }>());
+export const UpdateProductFailure = createAction('[Products] Update Product Failure');
 export const DeleteProduct = createAction('[Products] Delete Product', props<{ id: number; confirm: SmartTableConfirm<ProductDto> }>());
 export const DeleteProductSuccess = createAction('[Products] Delete Product Success', props<{ resId: number }>());
+export const DeleteProductFailure = createAction('[Products] Delete Product Failure');

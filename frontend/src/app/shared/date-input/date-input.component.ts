@@ -1,7 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
+import { startWith } from 'rxjs/operators';
+
+const INVALID_DATE = new Date('');
 
 @Component({
   selector: 'date-input',
@@ -13,23 +16,38 @@ import { Subscription } from 'rxjs';
     },
   ],
   template: `
-    <input
-      nbInput
-      fullWidth
-      id="inputDeliveryDate"
-      [mask]="mask"
-      [showMaskTyped]="true"
-      [dropSpecialCharacters]="false"
-      placeHolderCharacter=" "
-      [formControl]="inputFormControl"
-    />
+    <div class="d-flex">
+      <input
+        nbInput
+        fullWidth
+        class="mr-1"
+        style="max-width: 8rem;"
+        [mask]="dateInputMask"
+        [showMaskTyped]="true"
+        [dropSpecialCharacters]="false"
+        placeHolderCharacter=" "
+        [formControl]="dateInputFormControl"
+      />
+      <input
+        nbInput
+        fullWidth
+        style="max-width: 5rem;"
+        [mask]="timeInputMask"
+        [showMaskTyped]="true"
+        [dropSpecialCharacters]="false"
+        placeHolderCharacter=" "
+        [formControl]="timeInputFormControl"
+      />
+    </div>
   `,
 })
 export class DateInputComponent implements ControlValueAccessor, AfterViewInit, OnDestroy {
   @Input() public value: Date;
 
-  public readonly inputFormControl = new FormControl();
-  public readonly mask = '0000/00/00 00:00';
+  public readonly dateInputFormControl = new FormControl();
+  public readonly timeInputFormControl = new FormControl();
+  public readonly dateInputMask = '0000/00/00';
+  public readonly timeInputMask = '00:00';
 
   private onChanged: (date: Date) => any;
   private inputValueChangesSubscription: Subscription;
@@ -41,8 +59,10 @@ export class DateInputComponent implements ControlValueAccessor, AfterViewInit, 
       this.value = new Date(value);
     }
 
-    const dateString = this.datePipe.transform(value, 'yyyy/MM/dd HH:mm');
-    this.inputFormControl.setValue(dateString);
+    const dateString = this.datePipe.transform(value, 'yyyy/MM/dd');
+    this.dateInputFormControl.setValue(dateString);
+    const timeString = this.datePipe.transform(value, 'HH:mm');
+    this.timeInputFormControl.setValue(timeString);
   }
 
   public registerOnChange(fn: any): void {
@@ -50,16 +70,34 @@ export class DateInputComponent implements ControlValueAccessor, AfterViewInit, 
   }
 
   public registerOnTouched(fn: any): void {}
-  public setDisabledState?(isDisabled: boolean): void {}
+
+  public setDisabledState?(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.dateInputFormControl.disable();
+      this.timeInputFormControl.disable();
+    } else {
+      this.dateInputFormControl.enable();
+      this.timeInputFormControl.enable();
+    }
+  }
 
   constructor(private readonly datePipe: DatePipe) {}
 
   public ngAfterViewInit(): void {
-    this.inputFormControl.valueChanges.subscribe(value => {
-      if (value.length !== this.mask.length) {
+    combineLatest(
+      this.dateInputFormControl.valueChanges.pipe(startWith('')),
+      this.timeInputFormControl.valueChanges.pipe(startWith('')),
+    ).subscribe(([dateInputValue, timeInputValue]: [string | null, string | null]) => {
+      if (!dateInputValue && !timeInputValue) {
         this.onChanged(null);
+      } else if (
+        dateInputValue.length !== this.dateInputMask.length ||
+        (timeInputValue && timeInputValue.length !== this.timeInputMask.length)
+      ) {
+        this.onChanged(INVALID_DATE);
       } else {
-        this.onChanged(new Date(value));
+        const output = this.createOutput(dateInputValue, timeInputValue);
+        this.onChanged(output);
       }
     });
   }
@@ -68,5 +106,12 @@ export class DateInputComponent implements ControlValueAccessor, AfterViewInit, 
     if (this.inputValueChangesSubscription) {
       this.inputValueChangesSubscription.unsubscribe();
     }
+  }
+
+  private createOutput(date?: string, time?: string) {
+    const dateValue = date || this.dateInputFormControl.value;
+    const timeValue = time || this.timeInputFormControl.value || '00:00';
+
+    return new Date(`${dateValue} ${timeValue}`);
   }
 }

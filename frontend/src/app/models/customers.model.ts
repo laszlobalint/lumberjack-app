@@ -1,7 +1,7 @@
 export interface CustomerDto {
   id: number;
+  address: string;
   name?: string;
-  address?: string;
   phone?: string;
   companyName?: string;
   taxId?: string;
@@ -12,8 +12,8 @@ export interface CustomerDto {
 }
 
 export interface CreateCustomerDto {
+  address: string;
   name?: string;
-  address?: string;
   phone?: string;
   companyName?: string;
   taxId?: string;

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap } from 'rxjs/operators';
-import * as CustomersActions from './customers.actions';
+import { of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { CustomersService } from '../../../services';
+import * as CustomersActions from './customers.actions';
 
 @Injectable()
 export class CustomerEffects {
@@ -29,6 +30,10 @@ export class CustomerEffects {
             confirm.resolve(customer);
             return CustomersActions.SaveCustomerSuccess({ customer });
           }),
+          catchError(_ => {
+            confirm.reject();
+            return of(CustomersActions.SaveCustomerFailure());
+          }),
         ),
       ),
     ),
@@ -43,6 +48,10 @@ export class CustomerEffects {
             confirm.resolve(customer);
             return CustomersActions.UpdateCustomerSuccess({ customer });
           }),
+          catchError(_ => {
+            confirm.reject();
+            return of(CustomersActions.UpdateCustomerFailure());
+          }),
         ),
       ),
     ),
@@ -56,6 +65,10 @@ export class CustomerEffects {
           map(resId => {
             confirm.resolve();
             return CustomersActions.DeleteCustomerSuccess({ resId });
+          }),
+          catchError(_ => {
+            confirm.reject();
+            return of(CustomersActions.DeleteCustomerFailure());
           }),
         ),
       ),

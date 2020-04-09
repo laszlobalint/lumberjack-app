@@ -42,6 +42,7 @@
               fullWidth
               id="inputAmount"
               placeholder="{{ 'global.amount' | translate }}"
+              [status]="form.get('amount').touched && form.get('amount').invalid ? 'danger' : 'basic'"
               formControlName="amount" />
           </div>
 
@@ -53,7 +54,7 @@
               placeholder="{{ 'purchases.select-product' | translate }}"
               formControlName="productId">
               <nb-option *ngFor="let product of products$ | async"
-                [value]="product.id">{{ product.name }}</nb-option>
+                [value]="product.id">{{ product.name }} ({{ product.amount }})</nb-option>
             </nb-select>
           </div>
 
@@ -81,7 +82,7 @@
               formControlName="customerId">
               <nb-option [value]="undefined">{{ 'purchases.none' | translate }}</nb-option>
               <nb-option *ngFor="let customer of customers$ | async"
-                [value]="customer.id">{{ customer.name }}</nb-option>
+                [value]="customer.id">{{ customer.address }}</nb-option>
             </nb-select>
           </div>
 
@@ -119,7 +120,7 @@
 
             <div class="col-12 col-sm-6 col-lg-3 form-group">
               <label for="inputPhone"
-                class="label">{{ 'global.phone' | translate }}</label>
+                class="label">{{ 'global.phone' | translate }} <span class="text-danger">*</span></label>
               <input type="tel"
                 nbInput
                 fullWidth
@@ -186,6 +187,7 @@
             </div>
           </div>
         </div>
+
         <hr />
 
         <div class="row w-100">
@@ -201,7 +203,8 @@
           <div class="col-12 col-lg-3 form-group">
             <label for="inputDeliveryDate"
               class="label">{{ 'purchases.time-of-delivery' | translate }}</label>
-            <date-input formControlName="deliveryDate"></date-input>
+            <date-input id="inputDeliveryDate"
+              formControlName="deliveryDate"></date-input>
           </div>
         </div>
 

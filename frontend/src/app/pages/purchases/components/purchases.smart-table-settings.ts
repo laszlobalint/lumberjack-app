@@ -1,12 +1,13 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { equalsOrGreater } from '../../../helpers/ng2-smart-table/filters';
-import { CustomerDto, ProductDto } from '../../../models';
+import { CustomerDto, ProductDto, PurchaseDto } from '../../../models';
 import { CustomBooleanEditorComponent } from './custom-boolean-editor/custom-boolean-editor.component';
+import { CustomBooleanEditableViewComponent } from './custom-boolean-view/custom-boolean-editable-view.component';
 import { CustomBooleanViewComponent } from './custom-boolean-view/custom-boolean-view.component';
 import { CustomDateFilterComponent } from './custom-date-filter/custom-date-filter.component';
 
-export function getSettings(translate: TranslateService): any {
+export function getSettings(translate: TranslateService, completePurchaseFn: Function): any {
   return {
     mode: 'inline',
     actions: {
@@ -31,6 +32,29 @@ export function getSettings(translate: TranslateService): any {
         title: translate.instant('global.amount'),
         filterFunction: equalsOrGreater,
       },
+      product: {
+        title: translate.instant('global.product'),
+        editable: false,
+        valuePrepareFunction: (product: ProductDto) => product.name,
+        editor: {
+          type: 'list',
+        },
+      },
+      price: {
+        title: translate.instant('global.price'),
+        valuePrepareFunction: (price: number): string => {
+          return new DecimalPipe('en-US').transform(price);
+        },
+        filterFunction: equalsOrGreater,
+      },
+      customer: {
+        title: translate.instant('global.customer'),
+        editable: false,
+        valuePrepareFunction: (customer: CustomerDto) => customer.address,
+        editor: {
+          type: 'list',
+        },
+      },
       reduceStock: {
         title: translate.instant('purchases.reduce-stock'),
         type: 'custom',
@@ -49,21 +73,6 @@ export function getSettings(translate: TranslateService): any {
             selectText: translate.instant('global.all'),
           },
         },
-      },
-      product: {
-        title: translate.instant('global.product'),
-        editable: false,
-        valuePrepareFunction: (product: ProductDto) => product.name,
-        editor: {
-          type: 'list',
-        },
-      },
-      price: {
-        title: translate.instant('global.price'),
-        valuePrepareFunction: (price: number): string => {
-          return new DecimalPipe('en-US').transform(price);
-        },
-        filterFunction: equalsOrGreater,
       },
       createdDate: {
         title: translate.instant('global.created-date'),
@@ -93,13 +102,10 @@ export function getSettings(translate: TranslateService): any {
           const cellDate = new Date(cell);
           return (!range[0] || cellDate.getTime() >= range[0].getTime()) && (!range[1] || cellDate.getTime() <= range[1].getTime());
         },
-      },
-      customer: {
-        title: translate.instant('global.customer'),
-        editable: false,
-        valuePrepareFunction: (customer: CustomerDto) => customer.address || customer.name,
-        editor: {
-          type: 'list',
+        sort: true,
+        sortDirection: 'desc',
+        compareFunction: (direction: -1 | 1, a: string, b: string) => {
+          return (!b ? 1 : new Date(a).getTime() - new Date(b).getTime()) * direction;
         },
       },
       description: {
@@ -108,7 +114,9 @@ export function getSettings(translate: TranslateService): any {
       completed: {
         title: translate.instant('purchases.completed'),
         type: 'custom',
-        renderComponent: CustomBooleanViewComponent,
+        renderComponent: CustomBooleanEditableViewComponent,
+        onComponentInitFunction: (renderComponent: CustomBooleanEditableViewComponent<PurchaseDto>) =>
+          renderComponent.checkedChange.subscribe(completePurchaseFn),
         editor: {
           type: 'custom',
           component: CustomBooleanEditorComponent,

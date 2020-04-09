@@ -5,9 +5,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
-import { PurchaseDto } from '../../../models';
 import * as fromPurchases from '../store';
 import { DeleteConfirm, EditConfirm } from './../../../helpers/ng2-smart-table/ng2-smart-table.model';
+import { PurchaseDto } from './../../../models/purchases.model';
+import { CustomBooleanViewCheckedEvent } from './custom-boolean-view/custom-boolean-editable-view.component';
 import { getSettings } from './purchases.smart-table-settings';
 
 @Component({
@@ -36,10 +37,10 @@ export class PurchasesComponent implements OnDestroy {
     private readonly changeDetectionRef: ChangeDetectorRef,
     public readonly translate: TranslateService,
   ) {
-    this.settings = getSettings(this.translate);
+    this.settings = getSettings(this.translate, this.onCompleteChanged.bind(this));
     this.loadData();
     this.languageSubscription = this.translate.onLangChange.subscribe(async () => {
-      this.settings = getSettings(this.translate);
+      this.settings = getSettings(this.translate, this.onCompleteChanged.bind(this));
       setTimeout(() => {
         this.changeDetectionRef.detectChanges();
       });
@@ -55,7 +56,6 @@ export class PurchasesComponent implements OnDestroy {
       fromPurchases.GetPurchases({
         load: purchases => {
           this.source.load(purchases);
-          this.source.setSort([{ field: 'deliveryDate', direction: 'desc' }]);
           this.changeDetectionRef.markForCheck();
         },
       }),
@@ -81,6 +81,20 @@ export class PurchasesComponent implements OnDestroy {
       confirm.reject();
     }
   }
+
+  private onCompleteChanged = ({ rowData, checked }: CustomBooleanViewCheckedEvent<PurchaseDto>) =>
+    this.onEditConfirm({
+      data: rowData,
+      newData: {
+        ...rowData,
+        completed: checked,
+      },
+      source: this.source,
+      confirm: {
+        resolve: purchase => this.source.update(rowData, purchase),
+        reject: () => this.source.update(rowData, rowData),
+      },
+    })
 
   private validateData(data: PurchaseDto): boolean {
     let error = '';

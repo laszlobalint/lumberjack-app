@@ -23,7 +23,7 @@ export class ProductService {
   }
 
   async create(createProductDto: CreateProductDto, userId: number): Promise<Product> {
-    let user = await this.userRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: { id: userId },
       relations: ['customers', 'products', 'purchases'],
     });
@@ -40,16 +40,16 @@ export class ProductService {
   }
 
   async update(id: number, updateProductDto: UpdateProductDto): Promise<Product> {
-    let product = await this.productRepository.findOneOrFail({
+    const product = await this.productRepository.findOneOrFail({
       where: { id },
     });
-    let updatedProduct = Object.assign(product, updateProductDto);
+    const updatedProduct = Object.assign(product, updateProductDto);
 
     return this.productRepository.save(updatedProduct);
   }
 
   async remove(id: number): Promise<number> {
-    let product = await this.productRepository.findOneOrFail({
+    const product = await this.productRepository.findOneOrFail({
       where: { id },
     });
     await this.productRepository.delete(product.id);
