@@ -51,6 +51,11 @@ import { PurchasesEffects } from './store/purchases.effects';
     NbDatepickerModule,
     TranslateModule,
   ],
-  entryComponents: [CustomBooleanEditorComponent, CustomBooleanViewComponent, CustomBooleanEditableViewComponent, CustomDateFilterComponent],
+  entryComponents: [
+    CustomBooleanEditorComponent,
+    CustomBooleanViewComponent,
+    CustomBooleanEditableViewComponent,
+    CustomDateFilterComponent,
+  ],
 })
 export class PurchasesModule {}
