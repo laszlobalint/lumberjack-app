@@ -8,7 +8,7 @@ import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
 import * as fromPurchases from '../store';
 import { DeleteConfirm, EditConfirm } from './../../../helpers/ng2-smart-table/ng2-smart-table.model';
 import { PurchaseDto } from './../../../models/purchases.model';
-import { CustomBooleanViewCheckedEvent } from './custom-boolean-view/custom-boolean-view.component';
+import { CustomBooleanViewCheckedEvent } from './custom-boolean-view/custom-boolean-editable-view.component';
 import { getSettings } from './purchases.smart-table-settings';
 
 @Component({
