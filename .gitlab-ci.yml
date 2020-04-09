@@ -1,18 +1,27 @@
 --- 
 cache: 
   paths: 
-    - backend/node_modules/
+    - node_modules/
 image: "node:latest"
 install_dependencies: 
+  stage: setup
   artifacts: 
     paths: 
-      - backend/node_modules/
+      - node_modules/
   script: 
     - "npm install"
-  stage: build
-stages: 
-  - build
-  - test
-testing_testing: 
-  script: "npm test -- --updateSnapshot --passWithNoTests"
+execute_tests: 
   stage: test
+  script: "npm test -- --updateSnapshot --passWithNoTests"
+build_project:
+  stage: build
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+stages:
+  - setup
+  - test
+  - build
+
