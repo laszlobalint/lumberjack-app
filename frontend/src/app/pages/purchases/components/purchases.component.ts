@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import LocalDataSource from '../../../helpers/ng2-smart-table/LocalDataSource';
 import * as fromPurchases from '../store';
-import { DeleteConfirm, EditConfirm, SmartTableConfirm } from './../../../helpers/ng2-smart-table/ng2-smart-table.model';
+import { DeleteConfirm, EditConfirm } from './../../../helpers/ng2-smart-table/ng2-smart-table.model';
 import { PurchaseDto } from './../../../models/purchases.model';
 import { CustomBooleanViewCheckedEvent } from './custom-boolean-view/custom-boolean-view.component';
 import { getSettings } from './purchases.smart-table-settings';
@@ -37,10 +37,10 @@ export class PurchasesComponent implements OnDestroy {
     private readonly changeDetectionRef: ChangeDetectorRef,
     public readonly translate: TranslateService,
   ) {
-    this.settings = getSettings(this.translate, this.onChangeCompleted, this);
+    this.settings = getSettings(this.translate, this.onCompleteChanged.bind(this));
     this.loadData();
     this.languageSubscription = this.translate.onLangChange.subscribe(async () => {
-      this.settings = getSettings(this.translate, this.onChangeCompleted, this);
+      this.settings = getSettings(this.translate, this.onCompleteChanged.bind(this));
       setTimeout(() => {
         this.changeDetectionRef.detectChanges();
       });
@@ -83,22 +83,19 @@ export class PurchasesComponent implements OnDestroy {
     }
   }
 
-  private onChangeCompleted({ rowData, checked }: CustomBooleanViewCheckedEvent<PurchaseDto>) {
-    const confirm: SmartTableConfirm<PurchaseDto> = {
-      resolve: purchase => this.source.update(rowData, purchase),
-      reject: () => {},
-    };
-    this.purchasesStore.dispatch(
-      fromPurchases.UpdatePurchase({
-        id: rowData.id,
-        updatePurchase: {
-          ...rowData,
-          completed: checked,
-        },
-        confirm,
-      }),
-    );
-  }
+  private onCompleteChanged = ({ rowData, checked }: CustomBooleanViewCheckedEvent<PurchaseDto>) =>
+    this.onEditConfirm({
+      data: rowData,
+      newData: {
+        ...rowData,
+        completed: checked,
+      },
+      source: this.source,
+      confirm: {
+        resolve: purchase => this.source.update(rowData, purchase),
+        reject: () => {},
+      },
+    })
 
   private validateData(data: PurchaseDto): boolean {
     let error = '';
