@@ -16,6 +16,7 @@ install_dependencies:
 execute_tests: 
   before_script:
       - npm install jest
+      - cd backend
   stage: test
   script: "npm test -- --updateSnapshot --passWithNoTests"
 build_project:
