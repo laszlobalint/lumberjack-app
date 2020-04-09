@@ -38,6 +38,9 @@ export class UpdatePurchaseDto {
   @IsNumber()
   amount: number;
 
+  @IsBoolean()
+  reduceStock: boolean;
+
   @Type(() => Number)
   @IsNumber()
   price: number;
