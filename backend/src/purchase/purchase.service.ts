@@ -128,16 +128,16 @@ export class PurchaseService {
     });
 
     const uncomplete = purchase.completed && !updatePurchaseDto.completed;
-    const complete = !purchase.completed && updatePurchaseDto.completed;
+    const doComplete = !purchase.completed && updatePurchaseDto.completed;
     const isCompleted = purchase.completed && updatePurchaseDto.completed;
     const unsetReduceStock = purchase.reduceStock && !updatePurchaseDto.reduceStock;
     const setReduceStock = !purchase.reduceStock && updatePurchaseDto.reduceStock;
     const stockHasBeenReduced = (purchase.reduceStock && updatePurchaseDto.reduceStock) || unsetReduceStock;
-    const needsStockReduce = (purchase.reduceStock && updatePurchaseDto.reduceStock) || setReduceStock;
+    const stockNeedsReduce = (purchase.reduceStock && updatePurchaseDto.reduceStock) || setReduceStock;
 
     if ((uncomplete && stockHasBeenReduced) || (isCompleted && unsetReduceStock)) {
       product.amount += updatePurchaseDto.amount;
-    } else if ((complete && needsStockReduce) || (isCompleted && setReduceStock)) {
+    } else if ((doComplete && stockNeedsReduce) || (isCompleted && setReduceStock)) {
       product.amount -= updatePurchaseDto.amount;
     }
 

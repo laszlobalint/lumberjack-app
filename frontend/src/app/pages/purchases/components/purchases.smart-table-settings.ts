@@ -102,6 +102,11 @@ export function getSettings(translate: TranslateService, completePurchaseFn: Fun
           const cellDate = new Date(cell);
           return (!range[0] || cellDate.getTime() >= range[0].getTime()) && (!range[1] || cellDate.getTime() <= range[1].getTime());
         },
+        sort: true,
+        sortDirection: 'desc',
+        compareFunction: (direction: -1 | 1, a: string, b: string) => {
+          return (!b ? 1 : new Date(a).getTime() - new Date(b).getTime()) * direction;
+        },
       },
       description: {
         title: translate.instant('global.description'),

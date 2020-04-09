@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { ProductsService } from '../../../services/products.service';
 import * as ProductsActions from './products.actions';
 
@@ -29,6 +30,10 @@ export class ProductsEffects {
             confirm.resolve(product);
             return ProductsActions.SaveProductSuccess({ product });
           }),
+          catchError(_ => {
+            confirm.reject();
+            return of(ProductsActions.SaveProductFailure());
+          }),
         ),
       ),
     ),
@@ -43,6 +48,10 @@ export class ProductsEffects {
             confirm.resolve(product);
             return ProductsActions.UpdateProductSuccess({ product });
           }),
+          catchError(_ => {
+            confirm.reject();
+            return of(ProductsActions.UpdateProductFailure());
+          }),
         ),
       ),
     ),
@@ -56,6 +65,10 @@ export class ProductsEffects {
           map(resId => {
             confirm.resolve();
             return ProductsActions.DeleteProductSuccess({ resId });
+          }),
+          catchError(_ => {
+            confirm.reject();
+            return of(ProductsActions.DeleteProductFailure());
           }),
         ),
       ),

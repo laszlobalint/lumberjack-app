@@ -55,6 +55,8 @@ export function getSettings(translate: TranslateService): any {
         valuePrepareFunction: (date: string): string => {
           return new DatePipe('en-US').transform(date, 'yyyy.MM.dd. HH:mm');
         },
+        sort: true,
+        sortDirection: 'desc',
       },
     },
   };

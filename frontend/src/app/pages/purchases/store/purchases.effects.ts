@@ -33,7 +33,7 @@ export class PurchasesEffects {
           }),
           catchError(() => {
             confirm.reject();
-            return of(fromActions.UpdatePurchaseFailure());
+            return of(fromActions.UpdatePurchaseFailure);
           }),
         ),
       ),
@@ -51,7 +51,7 @@ export class PurchasesEffects {
           }),
           catchError(() => {
             confirm.reject();
-            return of(fromActions.DeletePurchaseFailure());
+            return of(fromActions.DeletePurchaseFailure);
           }),
         ),
       ),

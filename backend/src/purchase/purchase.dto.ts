@@ -26,6 +26,7 @@ export class CreatePurchaseDto {
   @ValidateNested()
   customer?: CreateCustomerDto;
 
+  @IsOptional()
   @IsDate()
   @Type(() => Date)
   @IsOptional()
@@ -48,9 +49,9 @@ export class UpdatePurchaseDto {
 
   description?: string;
 
+  @IsOptional()
   @IsDate()
   @Type(() => Date)
-  @IsOptional()
   deliveryDate?: Date;
 
   @IsBoolean()
