@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { BeforeInsert, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
@@ -35,21 +36,21 @@ export class User {
   role: UserRoleType;
 
   @OneToMany(
-    type => Customer,
+    _type => Customer,
     customer => customer.user,
   )
   @Exclude()
   customers: Customer[];
 
   @OneToMany(
-    type => Product,
+    _type => Product,
     product => product.user,
   )
   @Exclude()
   products: Product[];
 
   @OneToMany(
-    type => Purchase,
+    _type => Purchase,
     purchase => purchase.user,
   )
   @Exclude()

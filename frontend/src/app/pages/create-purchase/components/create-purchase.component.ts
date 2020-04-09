@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
@@ -22,6 +22,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
   public purchaseSubscription: Subscription;
 
   public _enableCustomerEdit = false;
+
   set enableCustomerEdit(enable: boolean) {
     this._enableCustomerEdit = enable;
     this.toggleEnableCustomerFormGroup(enable);
@@ -38,7 +39,28 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
     this.isBusy$ = this.purchaseStore.select('createPurchase').pipe(map(state => state.isBusy));
     this.failed$ = this.purchaseStore.select('createPurchase').pipe(map(state => state.failed));
 
-    this.form = this.createForm();
+    this.form = this.formBuilder.group(
+      {
+        amount: ['', [Validators.required, Validators.min(1)], this.amountValidator.bind(this)],
+        reduceStock: [true],
+        productId: ['', Validators.required],
+        price: ['', Validators.required],
+        customerId: [''],
+        customer: this.formBuilder.group({
+          address: ['', Validators.required],
+          name: [''],
+          phone: ['', Validators.required],
+          description: [''],
+          companyName: [''],
+          taxId: [''],
+          nationalId: [''],
+          checkingAccount: [''],
+        }),
+        description: [''],
+        deliveryDate: [null, dateValidator],
+      },
+      { validators: [this.customerValidator] },
+    );
 
     this.purchaseSubscription = this.purchase$
       .pipe(filter(purchase => !!purchase))
@@ -86,39 +108,34 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
   }
 
   public onClear(): void {
-    this.form.enable();
-    this.form = this.createForm();
+    this.form.reset(
+      {
+        amount: null,
+        productId: null,
+        price: null,
+        customerId: null,
+        customer: {
+          address: '',
+          name: '',
+          checkingAccount: '',
+          taxId: '',
+          companyName: '',
+          description: '',
+          nationalId: '',
+          phone: '',
+        },
+        description: '',
+        reduceStock: true,
+        deliveryDate: null,
+      } as CreatePurchaseDto,
+      { emitEvent: false },
+    );
     this.purchaseStore.dispatch(fromPurchases.ClearPurchase());
   }
 
   public fetchData(): void {
     this.purchaseStore.dispatch(fromPurchases.GetProducts());
     this.purchaseStore.dispatch(fromPurchases.GetCustomers());
-  }
-
-  private createForm(): FormGroup {
-    return this.formBuilder.group(
-      {
-        amount: ['', Validators.required],
-        reduceStock: [true],
-        productId: ['', Validators.required],
-        price: ['', Validators.required],
-        customerId: [''],
-        customer: this.formBuilder.group({
-          address: ['', Validators.required],
-          name: [''],
-          phone: [''],
-          description: [''],
-          companyName: [''],
-          taxId: [''],
-          nationalId: [''],
-          checkingAccount: [''],
-        }),
-        description: [''],
-        deliveryDate: ['', [dateValidator]],
-      },
-      { validators: [this.customerValidator] },
-    );
   }
 
   private async handleCustomerIdChange(customerId: number): Promise<void> {
@@ -161,10 +178,16 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
   private customerValidator(formGroup: FormGroup): { [key: string]: any } | null {
     const customerId: number = formGroup.get('customerId').value;
     const customer: CreateCustomerDto = formGroup.get('customer').value;
-
     if (customerId || customer.name || customer.address) return null;
-    else {
-      return { invalid: true };
-    }
+    else return { invalid: true };
+  }
+
+  private async amountValidator(control: FormControl): Promise<{ [key: string]: any } | null> {
+    const productId = control.parent.get('productId').value;
+    if (productId === null) return null;
+
+    const product = await this.findProduct(productId);
+    if (product && product.amount < control.value) return { invalid: true };
+    else return null;
   }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Customer } from '../customer/customer.entity';
 import { Product } from '../product/product.entity';
@@ -9,21 +10,21 @@ export class Purchase {
   id: number;
 
   @ManyToOne(
-    type => Customer,
+    _type => Customer,
     customer => customer.purchases,
     { onDelete: 'CASCADE' },
   )
   customer: Customer;
 
   @ManyToOne(
-    type => Product,
+    _type => Product,
     product => product.purchases,
     { onDelete: 'CASCADE' },
   )
   product: Product;
 
   @ManyToOne(
-    type => User,
+    _type => User,
     user => user.purchases,
     { onDelete: 'CASCADE' },
   )
@@ -44,7 +45,7 @@ export class Purchase {
   @Column({ type: 'boolean' })
   completed: boolean;
 
-  @Column({ type: 'datetime' })
+  @Column({ type: 'datetime', nullable: true })
   deliveryDate: Date;
 
   @CreateDateColumn({ type: 'datetime' })

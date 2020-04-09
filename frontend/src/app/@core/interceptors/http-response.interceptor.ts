@@ -9,7 +9,7 @@ import { ErrorResponseBody, ValidationConstraint, ValidationError } from '../../
 
 const TRACK_SUCCESS_FOR_METHODS = ['POST', 'PUT', 'DELETE'];
 const TRACK_FAILURE_FOR_METHODS = ['GET', 'POST', 'PUT', 'DELETE'];
-const URL_BLACKLIST = ['/auth/refresh-token', '/auth/login', '/pages/dashboard'];
+const URL_BLACKLIST = ['refresh-token', 'login', 'dashboard'];
 
 @Injectable()
 export class HttpResponseInterceptor implements HttpInterceptor {
@@ -21,7 +21,7 @@ export class HttpResponseInterceptor implements HttpInterceptor {
         if (
           TRACK_SUCCESS_FOR_METHODS.includes(request.method) &&
           event instanceof HttpResponse &&
-          URL_BLACKLIST.some(url => url.indexOf(request.url) > 0)
+          URL_BLACKLIST.some(url => url.indexOf(request.url) < 0)
         ) {
           this.nbToastrService.success('', this.translateService.instant('validation.success'));
         }

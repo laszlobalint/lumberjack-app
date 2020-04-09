@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class SeedDatabase1585740795805 implements MigrationInterface {
+export class SeedDatabase1586362205884 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
     await queryRunner.query(
       "INSERT INTO `user` (email, password, name, role) VALUES ('admin@lumberjack.com', '$2b$10$UcQ2iWrcXSh3C3g7EWnGEOD0GKubnpGGU8vf7A6Dv5ql5AXU8GvVu', 'Admin', 'admin')",
@@ -13,5 +14,7 @@ export class SeedDatabase1585740795805 implements MigrationInterface {
     );
   }
 
-  public async down(queryRunner: QueryRunner): Promise<any> {}
+  public async down(queryRunner: QueryRunner): Promise<any> {
+    return null;
+  }
 }
