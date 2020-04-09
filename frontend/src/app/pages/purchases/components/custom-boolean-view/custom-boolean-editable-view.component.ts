@@ -9,12 +9,15 @@ export interface CustomBooleanViewCheckedEvent<T> {
 
 @Component({
   selector: 'custom-boolean-view',
-  template: '<nb-checkbox [value]="renderValue" (checkedChange)="onCheckedChange($event)"></nb-checkbox>',
+  template:
+    '<nb-checkbox [value]="renderValue" (checkedChange)="onCheckedChange($event)"></nb-checkbox>',
 })
-export class CustomBooleanEditableViewComponent<T> extends CustomBooleanViewComponent implements ViewCell, OnInit {
+export class CustomBooleanEditableViewComponent<T>
+  extends CustomBooleanViewComponent
+  implements ViewCell, OnInit {
   public checkedChange = new EventEmitter<CustomBooleanViewCheckedEvent<T>>();
 
-  public onCheckedChange(checked: boolean) {
+  public onCheckedChange(checked: boolean): void {
     this.checkedChange.emit({ rowData: this.rowData, checked });
   }
 }
