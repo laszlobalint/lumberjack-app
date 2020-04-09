@@ -13,11 +13,14 @@ install_dependencies:
       - node_modules/
   script: 
     - "npm install"
-execute_tests: 
+execute_tests:
+  stage: test
+    artifacts: 
+    paths: 
+      - node_modules/
   before_script:
       - npm install jest
       - cd backend
-  stage: test
   script: "npm test -- --updateSnapshot --passWithNoTests"
 build_project:
   stage: build
@@ -30,4 +33,3 @@ stages:
   - setup
   - test
   - build
-
