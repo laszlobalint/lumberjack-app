@@ -70,7 +70,16 @@ export class DateInputComponent implements ControlValueAccessor, AfterViewInit, 
   }
 
   public registerOnTouched(fn: any): void {}
-  public setDisabledState?(isDisabled: boolean): void {}
+
+  public setDisabledState?(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.dateInputFormControl.disable();
+      this.timeInputFormControl.disable();
+    } else {
+      this.dateInputFormControl.enable();
+      this.timeInputFormControl.enable();
+    }
+  }
 
   constructor(private readonly datePipe: DatePipe) {}
 
