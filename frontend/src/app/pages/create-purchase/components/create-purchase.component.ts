@@ -130,6 +130,7 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
       } as CreatePurchaseDto,
       { emitEvent: false },
     );
+    this.form.enable();
     this.purchaseStore.dispatch(fromPurchases.ClearPurchase());
   }
 
