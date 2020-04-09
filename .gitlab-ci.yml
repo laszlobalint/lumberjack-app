@@ -51,8 +51,9 @@ lint_frontend_project:
   before_script:
     - cd frontend
     - npm install
+    - npm i @angular/cli@8.0.2
   script:
-    - ng lint
+    - ./node_modules/.bin/ng lint
 stages:
   - Setup backend
   - Build backend
