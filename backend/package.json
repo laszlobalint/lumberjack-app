@@ -19,7 +19,7 @@
     "start": "cross-env NODE_ENV=development nest start",
     "start:dev": "npm run start -- --watch",
     "start:debug": "npm run start -- --watch --debug",
-    "start:staging": "cross-env NODE_ENV=staging node dist/src/main.js",
+    "start:staging": "cross-env NODE_ENV=staging PORT=3000 node dist/src/main.js",
     "start:prod": "cross-env NODE_ENV=production node dist/src/main.js"
   },
   "dependencies": {
