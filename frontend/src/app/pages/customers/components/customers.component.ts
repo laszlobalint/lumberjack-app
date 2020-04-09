@@ -48,7 +48,6 @@ export class CustomersComponent implements OnDestroy {
       fromCustomers.GetCustomers({
         load: customers => {
           this.source.load(customers);
-          this.source.setSort([{ field: 'createdDate', direction: 'desc' }]);
           this.changeDetectionRef.markForCheck();
         },
       }),
