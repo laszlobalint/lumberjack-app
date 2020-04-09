@@ -20,7 +20,7 @@ build_backend_project:
     paths:
       - dist/
       - node_modules/
-execute_bakcend_tests:
+execute_backend_tests:
   stage: Test backend
   before_script:
     - cd backend
