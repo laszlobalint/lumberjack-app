@@ -1,9 +1,25 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { CreateCustomerDto, CreatePurchaseDto, CustomerDto, ProductDto, PurchaseDto } from '../../../models';
+import {
+  CreateCustomerDto,
+  CreatePurchaseDto,
+  CustomerDto,
+  ProductDto,
+  PurchaseDto,
+} from '../../../models';
 import dateValidator from '../../../shared/date-input/validators/date.validator';
 import * as fromPurchases from '../store';
 
@@ -32,16 +48,33 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
     return this._enableCustomerEdit;
   }
 
-  constructor(private readonly purchaseStore: Store<fromPurchases.State>, private readonly formBuilder: FormBuilder) {
-    this.customers$ = this.purchaseStore.select('createPurchase').pipe(map(state => state.customers));
-    this.products$ = this.purchaseStore.select('createPurchase').pipe(map(state => state.products));
-    this.purchase$ = this.purchaseStore.select('createPurchase').pipe(map(state => state.purchase));
-    this.isBusy$ = this.purchaseStore.select('createPurchase').pipe(map(state => state.isBusy));
-    this.failed$ = this.purchaseStore.select('createPurchase').pipe(map(state => state.failed));
+  constructor(
+    private readonly purchaseStore: Store<fromPurchases.State>,
+    private readonly formBuilder: FormBuilder,
+  ) {
+    this.customers$ = this.purchaseStore
+      .select('createPurchase')
+      .pipe(map(state => state.customers));
+    this.products$ = this.purchaseStore
+      .select('createPurchase')
+      .pipe(map(state => state.products));
+    this.purchase$ = this.purchaseStore
+      .select('createPurchase')
+      .pipe(map(state => state.purchase));
+    this.isBusy$ = this.purchaseStore
+      .select('createPurchase')
+      .pipe(map(state => state.isBusy));
+    this.failed$ = this.purchaseStore
+      .select('createPurchase')
+      .pipe(map(state => state.failed));
 
     this.form = this.formBuilder.group(
       {
-        amount: ['', [Validators.required, Validators.min(1)], this.amountValidator.bind(this)],
+        amount: [
+          '',
+          [Validators.required, Validators.min(1)],
+          this.amountValidator.bind(this),
+        ],
         reduceStock: [true],
         productId: ['', Validators.required],
         price: ['', Validators.required],
@@ -89,8 +122,12 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.fetchData();
-    this.form.get('productId').valueChanges.subscribe(this.handleProductIdChange.bind(this));
-    this.form.get('customerId').valueChanges.subscribe(this.handleCustomerIdChange.bind(this));
+    this.form
+      .get('productId')
+      .valueChanges.subscribe(this.handleProductIdChange.bind(this));
+    this.form
+      .get('customerId')
+      .valueChanges.subscribe(this.handleCustomerIdChange.bind(this));
     this.purchase$.subscribe(purchase => {
       if (purchase) {
         this.form.disable();
@@ -145,7 +182,9 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
 
     const customerFormGroup = this.form.get('customer');
     if (customerId) {
-      const { id, createdDate, ...createCustomer } = await this.findCustomer(customerId);
+      const { id, createdDate, ...createCustomer } = await this.findCustomer(
+        customerId,
+      );
       customerFormGroup.setValue(createCustomer);
     } else {
       customerFormGroup.reset();
@@ -176,14 +215,18 @@ export class CreatePurchaseComponent implements OnInit, OnDestroy {
     return products.find(product => product.id === productId);
   }
 
-  private customerValidator(formGroup: FormGroup): { [key: string]: any } | null {
+  private customerValidator(
+    formGroup: FormGroup,
+  ): { [key: string]: any } | null {
     const customerId: number = formGroup.get('customerId').value;
     const customer: CreateCustomerDto = formGroup.get('customer').value;
     if (customerId || customer.name || customer.address) return null;
     else return { invalid: true };
   }
 
-  private async amountValidator(control: FormControl): Promise<{ [key: string]: any } | null> {
+  private async amountValidator(
+    control: FormControl,
+  ): Promise<{ [key: string]: any } | null> {
     const productId = control.parent.get('productId').value;
     if (productId === null) return null;
 
