@@ -32,7 +32,8 @@ export class PurchasesEffects {
             return fromActions.UpdatePurchaseSuccess({ purchase });
           }),
           catchError(() => {
-            return of(fromActions.UpdatePurchaseFailure);
+            confirm.reject();
+            return of(fromActions.UpdatePurchaseFailure());
           }),
         ),
       ),
@@ -49,7 +50,8 @@ export class PurchasesEffects {
             return fromActions.DeletePurchaseSuccess({ resId });
           }),
           catchError(() => {
-            return of(fromActions.DeletePurchaseFailure);
+            confirm.reject();
+            return of(fromActions.DeletePurchaseFailure());
           }),
         ),
       ),

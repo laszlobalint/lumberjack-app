@@ -93,7 +93,7 @@ export class PurchasesComponent implements OnDestroy {
       source: this.source,
       confirm: {
         resolve: purchase => this.source.update(rowData, purchase),
-        reject: () => {},
+        reject: () => this.source.update(rowData, rowData),
       },
     })
 
