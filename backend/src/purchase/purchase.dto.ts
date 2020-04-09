@@ -29,7 +29,6 @@ export class CreatePurchaseDto {
   @IsOptional()
   @IsDate()
   @Type(() => Date)
-  @IsOptional()
   deliveryDate?: Date;
 
   description?: string;
