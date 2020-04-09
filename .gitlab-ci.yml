@@ -3,6 +3,9 @@ cache:
   paths: 
     - node_modules/
 image: "node:latest"
+before_script:
+    stage: setup, test, build
+      - cd backend
 install_dependencies: 
   stage: setup
   artifacts: 
