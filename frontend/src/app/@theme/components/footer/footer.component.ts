@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
@@ -40,7 +40,7 @@ import { LANGUAGE_OPTIONS, THEMES } from './../../theme.constants';
     </div>
   `,
 })
-export class FooterComponent implements OnInit {
+export class FooterComponent implements OnInit, OnDestroy {
   public readonly LANGUAGE_OPTIONS = LANGUAGE_OPTIONS;
   public readonly THEMES = THEMES;
   public today: Date = new Date();
