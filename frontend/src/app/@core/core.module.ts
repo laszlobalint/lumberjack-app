@@ -93,6 +93,11 @@ export const NB_CORE_PROVIDERS = [
   AnalyticsService,
 ];
 
+export function nbAuthTokenInterceptorFilter(req: HttpRequest<any>) {
+  const blacklist = ['/auth/login', '/auth/refresh-token'];
+  return blacklist.some(path => req.url.search(path) > -1);
+}
+
 @NgModule({
   imports: [CommonModule],
   exports: [NbAuthModule],
@@ -111,10 +116,7 @@ export class CoreModule {
         { provide: HTTP_INTERCEPTORS, useClass: NbAuthJWTInterceptor, multi: true },
         {
           provide: NB_AUTH_TOKEN_INTERCEPTOR_FILTER,
-          useValue: function(req: HttpRequest<any>) {
-            const blacklist = ['/auth/login', '/auth/refresh-token'];
-            return blacklist.some(path => req.url.search(path) > -1);
-          },
+          useValue: nbAuthTokenInterceptorFilter,
         },
         AuthGuard,
       ],

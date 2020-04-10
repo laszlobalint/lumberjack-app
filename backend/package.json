@@ -4,21 +4,23 @@
   "description": "Backend projject for order management of a lumber yard company based on NestJS framework.",
   "author": "Dániel Papilion and Bálint László",
   "license": "MIT",
+  "engines": {
+    "node": "10.16.0",
+    "npm": "6.14.3"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --watch --debug",
-    "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "db:migrate": "typeorm migration:run"
+    "db:migrate": "typeorm migration:run",
+    "prestart:staging": "cross-env NODE_ENV=staging npm run prebuild && npm run build && typeorm migration:run",
+    "prestart:prod": "cross-env NODE_ENV=production npm run prebuild && npm run build && typeorm migration:run",
+    "start": "cross-env NODE_ENV=development nest start",
+    "start:dev": "npm run start -- --watch",
+    "start:debug": "npm run start -- --watch --debug",
+    "start:staging": "cross-env NODE_ENV=staging node dist/src/main.js",
+    "start:prod": "cross-env NODE_ENV=production node dist/src/main.js"
   },
   "dependencies": {
     "@nestjs/common": "^6.11.11",
@@ -59,6 +61,7 @@
     "@types/supertest": "^2.0.8",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
+    "cross-env": "^7.0.2",
     "eslint": "^6.7.2",
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-import": "^2.19.1",

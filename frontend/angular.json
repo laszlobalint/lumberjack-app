@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "lumberjack-ngx-admin": {
+    "lumberjack": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,12 +13,16 @@
           "options": {
             "preserveSymlinks": true,
             "rebaseRootRelativeCssUrls": true,
-            "outputPath": "dist",
+            "outputPath": "dist/lumberjack",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
-            "assets": ["src/assets", "src/favicon.ico", "src/favicon.png"],
+            "assets": [
+              "src/assets",
+              "src/favicon.ico",
+              "src/favicon.png"
+            ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/typeface-exo/index.css",
@@ -29,7 +33,9 @@
               "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
               "src/app/@theme/styles/styles.scss"
             ],
-            "scripts": ["node_modules/pace-js/pace.min.js"]
+            "scripts": [
+              "node_modules/pace-js/pace.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -48,24 +54,41 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ]
+            },
+            "staging": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.staging.ts"
+                }
+              ]
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "lumberjack-ngx-admin:build"
+            "browserTarget": "lumberjack:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "lumberjack-ngx-admin:build:production"
+              "browserTarget": "lumberjack:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "lumberjack-ngx-admin:build"
+            "browserTarget": "lumberjack:build"
           }
         },
         "test": {
@@ -75,7 +98,9 @@
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
-            "scripts": ["node_modules/pace-js/pace.min.js"],
+            "scripts": [
+              "node_modules/pace-js/pace.min.js"
+            ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/typeface-exo/index.css",
@@ -86,20 +111,27 @@
               "node_modules/pace-js/templates/pace-theme-flash.tmpl.css",
               "src/app/@theme/styles/styles.scss"
             ],
-            "assets": ["src/assets", "src/favicon.ico", "src/favicon.png"]
+            "assets": [
+              "src/assets",
+              "src/favicon.ico",
+              "src/favicon.png"
+            ]
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
+            "tsConfig": [
+              "src/tsconfig.app.json",
+              "src/tsconfig.spec.json"
+            ],
             "typeCheck": true,
             "exclude": []
           }
         }
       }
     },
-    "lumberjack-ngx-admin-e2e": {
+    "lumberjack-e2e": {
       "root": "",
       "sourceRoot": "",
       "projectType": "application",
@@ -108,20 +140,22 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "lumberjack-ngx-admin:serve"
+            "devServerTarget": "lumberjack:serve"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["e2e/tsconfig.e2e.json"],
+            "tsConfig": [
+              "e2e/tsconfig.e2e.json"
+            ],
             "exclude": []
           }
         }
       }
     }
   },
-  "defaultProject": "lumberjack-ngx-admin",
+  "defaultProject": "lumberjack",
   "schematics": {
     "@schematics/angular:component": {
       "styleext": "scss"
