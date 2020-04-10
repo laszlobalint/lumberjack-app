@@ -49,7 +49,7 @@ build_frontend_project:
     - cd frontend
     - npm install
   script:
-    - npm run build
+    - npm run build:prod
   artifacts:
     paths:
       - build/
