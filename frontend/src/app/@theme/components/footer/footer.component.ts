@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { LANGUAGE_LOCAL_STORAGE_KEY } from '../../../app.constants';
-import { LANGUAGE_OPTIONS, THEMES } from './../header/header.constants';
+import { LANGUAGE_OPTIONS, THEMES } from './../../theme.constants';
 
 @Component({
   selector: 'ngx-footer',
@@ -41,12 +41,11 @@ import { LANGUAGE_OPTIONS, THEMES } from './../header/header.constants';
   `,
 })
 export class FooterComponent implements OnInit {
+  public readonly LANGUAGE_OPTIONS = LANGUAGE_OPTIONS;
+  public readonly THEMES = THEMES;
   public today: Date = new Date();
   public currentLanguage = this.translateService.currentLang;
   public currentTheme = THEMES[0].value;
-
-  public readonly LANGUAGE_OPTIONS = LANGUAGE_OPTIONS;
-  public readonly THEMES = THEMES;
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(

@@ -1,5 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import {
+  NbMenuService,
+  NbSidebarService,
+  NbThemeService,
+} from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
@@ -8,7 +12,7 @@ import { LANGUAGE_LOCAL_STORAGE_KEY, SITE_NAME } from '../../../app.constants';
 import { UserDto } from '../../../auth/models/user.model';
 import * as fromAuth from '../../../auth/store';
 import * as fromRoot from '../../../store';
-import { LANGUAGE_OPTIONS, THEMES } from './header.constants';
+import { LANGUAGE_OPTIONS, THEMES } from './../../theme.constants';
 
 @Component({
   selector: 'ngx-header',
@@ -25,7 +29,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public uncompletedPurchasesForTomorrow$ = this.rootStore
     .select('feed')
-    .pipe(map(feed => (feed.feed && feed.feed.uncompletedPurchasesForTomorrow) || []));
+    .pipe(
+      map(
+        feed => (feed.feed && feed.feed.uncompletedPurchasesForTomorrow) || [],
+      ),
+    );
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
