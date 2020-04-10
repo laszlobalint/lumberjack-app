@@ -7,7 +7,7 @@ import * as fromAuth from '../../store';
 @Component({
   selector: 'ngx-logout',
   template: `
-    <div>{{ 'user.logout | translate' }}</div>
+    <div>{{ 'user.logout' | translate }}</div>
   `,
 })
 export class LogoutComponent implements OnInit {
