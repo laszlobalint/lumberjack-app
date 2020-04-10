@@ -68,8 +68,7 @@
   }
 
   @include media-breakpoint-down(is) {
-    .logo-container,
-    .direction-switcher {
+    .header-container nb-select {
       display: none;
     }
   }
