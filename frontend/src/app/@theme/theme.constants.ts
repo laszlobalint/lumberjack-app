@@ -1,4 +1,4 @@
-import { LANGUAGES } from './../../../app.constants';
+import { LANGUAGES } from '../app.constants';
 
 export const THEMES = [
   {

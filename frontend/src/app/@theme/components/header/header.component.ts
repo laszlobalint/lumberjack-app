@@ -1,5 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import {
+  NbMenuService,
+  NbSidebarService,
+  NbThemeService,
+} from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
@@ -8,7 +12,7 @@ import { LANGUAGE_LOCAL_STORAGE_KEY, SITE_NAME } from '../../../app.constants';
 import { UserDto } from '../../../auth/models/user.model';
 import * as fromAuth from '../../../auth/store';
 import * as fromRoot from '../../../store';
-import { LANGUAGE_OPTIONS, THEMES } from './header.constants';
+import { LANGUAGE_OPTIONS, THEMES } from './../../theme.constants';
 
 @Component({
   selector: 'ngx-header',
@@ -25,7 +29,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public uncompletedPurchasesForTomorrow$ = this.rootStore
     .select('feed')
-    .pipe(map(feed => (feed.feed && feed.feed.uncompletedPurchasesForTomorrow) || []));
+    .pipe(
+      map(
+        feed => (feed.feed && feed.feed.uncompletedPurchasesForTomorrow) || [],
+      ),
+    );
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -42,6 +50,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authStore.select('auth').subscribe(state => {
       this.user = state.user;
     });
+    this.translateService.onLangChange
+      .pipe(
+        map(({ lang }) => lang),
+        takeUntil(this.destroy$),
+      )
+      .subscribe(lang => (this.currentLanguage = lang));
     this.themeService
       .onThemeChange()
       .pipe(
@@ -54,10 +68,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  public changeTheme(themeName: string): void {
-    this.themeService.changeTheme(themeName);
   }
 
   public toggleSidebar(): boolean {
@@ -73,5 +83,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public changeLanguage(selectedLanguage: string): void {
     this.translateService.use(selectedLanguage);
     localStorage.setItem(LANGUAGE_LOCAL_STORAGE_KEY, selectedLanguage);
+  }
+
+  public changeTheme(themeName: string): void {
+    this.themeService.changeTheme(themeName);
   }
 }
