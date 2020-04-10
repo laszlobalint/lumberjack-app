@@ -66,6 +66,12 @@ export class FooterComponent implements OnInit {
         takeUntil(this.destroy$),
       )
       .subscribe(themeName => (this.currentTheme = themeName));
+    this.translateService.onLangChange
+      .pipe(
+        map(({ lang }) => lang),
+        takeUntil(this.destroy$),
+      )
+      .subscribe(lang => (this.currentLanguage = lang));
   }
 
   public ngOnDestroy(): void {

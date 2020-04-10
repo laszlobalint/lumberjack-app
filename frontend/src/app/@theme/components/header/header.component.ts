@@ -50,6 +50,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authStore.select('auth').subscribe(state => {
       this.user = state.user;
     });
+    this.translateService.onLangChange
+      .pipe(
+        map(({ lang }) => lang),
+        takeUntil(this.destroy$),
+      )
+      .subscribe(lang => (this.currentLanguage = lang));
     this.themeService
       .onThemeChange()
       .pipe(
@@ -62,10 +68,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  public changeTheme(themeName: string): void {
-    this.themeService.changeTheme(themeName);
   }
 
   public toggleSidebar(): boolean {
@@ -81,5 +83,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public changeLanguage(selectedLanguage: string): void {
     this.translateService.use(selectedLanguage);
     localStorage.setItem(LANGUAGE_LOCAL_STORAGE_KEY, selectedLanguage);
+  }
+
+  public changeTheme(themeName: string): void {
+    this.themeService.changeTheme(themeName);
   }
 }
