@@ -9,7 +9,7 @@ import { getMenuItems } from './pages-menu.contants';
   styleUrls: ['pages.component.scss'],
   template: `
     <ngx-one-column-layout>
-      <nb-menu [items]="MENU_ITEMS">GECI</nb-menu>
+      <nb-menu [items]="MENU_ITEMS"></nb-menu>
       <router-outlet></router-outlet>
     </ngx-one-column-layout>
   `,
