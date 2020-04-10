@@ -12,21 +12,18 @@ export class Purchase {
   @ManyToOne(
     _type => Customer,
     customer => customer.purchases,
-    { onDelete: 'CASCADE' },
   )
   customer: Customer;
 
   @ManyToOne(
     _type => Product,
     product => product.purchases,
-    { onDelete: 'CASCADE' },
   )
   product: Product;
 
   @ManyToOne(
     _type => User,
     user => user.purchases,
-    { onDelete: 'CASCADE' },
   )
   user: User;
 

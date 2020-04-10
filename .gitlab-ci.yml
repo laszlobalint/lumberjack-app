@@ -1,0 +1,71 @@
+--- 
+image: "node:latest"
+cache:
+  paths:
+    - node_modules/
+variables:
+  DOCKER_DRIVER: overlay2
+before_script:
+  - apt-get update -qq && apt-get install
+  - echo "Starting pipeline..."
+install_backend_dependencies: 
+  stage: Setup backend
+  artifacts: 
+    paths: 
+      - node_modules/
+  before_script:
+    - cd backend
+  script: 
+    - npm install
+build_backend_project:
+  stage: Build backend
+  before_script:
+    - cd backend
+    - npm install
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+      - node_modules/
+execute_backend_tests:
+  stage: Test backend
+  before_script:
+    - cd backend
+    - npm install
+  script: npm test -- --updateSnapshot --passWithNoTests
+install_frontend_dependencies: 
+  stage: Setup frontend
+  artifacts: 
+    paths: 
+      - node_modules/
+  before_script:
+    - cd frontend
+  script: 
+    - npm install
+build_frontend_project:
+  stage: Build frontend
+  before_script:
+    - cd frontend
+    - npm install
+  script:
+    - npm run build:prod
+  artifacts:
+    paths:
+      - build/
+      - node_modules/
+lint_frontend_project:
+  stage: Lint frontend
+  before_script:
+    - cd frontend
+    - npm install
+    - npm i @angular/cli@8.0.2
+  script:
+    - ./node_modules/.bin/ng lint
+stages:
+  - Setup backend
+  - Build backend
+  - Test backend
+  - Setup frontend
+  - Build frontend
+  - Lint frontend
