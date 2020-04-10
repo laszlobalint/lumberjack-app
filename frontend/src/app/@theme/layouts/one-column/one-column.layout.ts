@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
       <nb-layout-header fixed>
         <ngx-header></ngx-header>
       </nb-layout-header>
-      <nb-sidebar class="menu-sidebar" tag="menu-sidebar" responsive start>
+      <nb-sidebar collapsedBreakpoints="[]" responsive start>
         <ng-content select="nb-menu"></ng-content>
       </nb-sidebar>
       <nb-layout-column>
