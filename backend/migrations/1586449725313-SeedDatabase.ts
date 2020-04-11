@@ -13,5 +13,8 @@ export class SeedDatabase1586449725313 implements MigrationInterface {
     );
   }
 
-  public async down(queryRunner: QueryRunner): Promise<any> {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public async down(queryRunner: QueryRunner): Promise<any> {
+    return null;
+  }
 }

@@ -108,10 +108,9 @@ export class DateInputComponent implements ControlValueAccessor, AfterViewInit, 
     }
   }
 
-  private createOutput(date?: string, time?: string) {
+  private createOutput(date?: string, time?: string): Date {
     const dateValue = date || this.dateInputFormControl.value;
     const timeValue = time || this.timeInputFormControl.value || '00:00';
-
     return new Date(`${dateValue} ${timeValue}`);
   }
 }

@@ -3,11 +3,9 @@ import { DefaultEditor } from 'ng2-smart-table';
 
 @Component({
   selector: 'custom-boolean-editor',
-  template:
-    '<nb-checkbox [(ngModel)]="value" (checkedChange)="onCheckedChange($event)"></nb-checkbox>',
+  template: '<nb-checkbox [(ngModel)]="value" (checkedChange)="onCheckedChange($event)"></nb-checkbox>',
 })
-export class CustomBooleanEditorComponent extends DefaultEditor
-  implements AfterViewInit {
+export class CustomBooleanEditorComponent extends DefaultEditor implements AfterViewInit {
   public value = false;
 
   public ngAfterViewInit(): void {

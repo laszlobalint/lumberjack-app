@@ -1,9 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  NbMenuService,
-  NbSidebarService,
-  NbThemeService,
-} from '@nebular/theme';
+import { NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
@@ -29,11 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public uncompletedPurchasesForTomorrow$ = this.rootStore
     .select('feed')
-    .pipe(
-      map(
-        feed => (feed.feed && feed.feed.uncompletedPurchasesForTomorrow) || [],
-      ),
-    );
+    .pipe(map(feed => (feed.feed && feed.feed.uncompletedPurchasesForTomorrow) || []));
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(

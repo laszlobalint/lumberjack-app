@@ -20,24 +20,9 @@ import {
   NbUserModule,
 } from '@nebular/theme';
 import { TranslateModule } from '@ngx-translate/core';
-import {
-  FooterComponent,
-  HeaderComponent,
-  SearchInputComponent,
-  SwitcherComponent,
-} from './components';
-import {
-  OneColumnLayoutComponent,
-  ThreeColumnsLayoutComponent,
-  TwoColumnsLayoutComponent,
-} from './layouts';
-import {
-  CapitalizePipe,
-  NumberWithCommasPipe,
-  PluralPipe,
-  RoundPipe,
-  TimingPipe,
-} from './pipes';
+import { FooterComponent, HeaderComponent, SearchInputComponent, SwitcherComponent } from './components';
+import { OneColumnLayoutComponent, ThreeColumnsLayoutComponent, TwoColumnsLayoutComponent } from './layouts';
+import { CapitalizePipe, NumberWithCommasPipe, PluralPipe, RoundPipe, TimingPipe } from './pipes';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { DARK_THEME } from './styles/theme.dark';
@@ -69,13 +54,7 @@ const COMPONENTS = [
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
 ];
-const PIPES = [
-  CapitalizePipe,
-  PluralPipe,
-  RoundPipe,
-  TimingPipe,
-  NumberWithCommasPipe,
-];
+const PIPES = [CapitalizePipe, PluralPipe, RoundPipe, TimingPipe, NumberWithCommasPipe];
 
 @NgModule({
   imports: [CommonModule, RouterModule, TranslateModule, ...NB_MODULES],

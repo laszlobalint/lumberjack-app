@@ -23,12 +23,12 @@ export class CustomerService {
   }
 
   async create(createCustomerDto: CreateCustomerDto, userId: number): Promise<Customer> {
-    let user = await this.userRepository.findOneOrFail({
+    const user = await this.userRepository.findOneOrFail({
       where: { id: userId },
       relations: ['customers', 'products', 'purchases'],
     });
 
-    let customer = new Customer({
+    const customer = new Customer({
       name: createCustomerDto.name,
       address: createCustomerDto.address,
       phone: createCustomerDto.phone,
@@ -45,10 +45,10 @@ export class CustomerService {
   }
 
   async update(id: number, updateCustomerDto: UpdateCustomerDto): Promise<Customer> {
-    let customer = await this.customerRepository.findOneOrFail({
+    const customer = await this.customerRepository.findOneOrFail({
       where: { id },
     });
-    let updatedCustomer = Object.assign(customer, updateCustomerDto);
+    const updatedCustomer = Object.assign(customer, updateCustomerDto);
 
     return this.customerRepository.save(updatedCustomer);
   }

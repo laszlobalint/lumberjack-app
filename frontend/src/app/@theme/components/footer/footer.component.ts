@@ -12,28 +12,11 @@ import { LANGUAGE_OPTIONS, THEMES } from './../../theme.constants';
   template: `
     <div class="d-flex flex-column align-items-end w-100">
       <div class="d-block d-sm-none mb-2">
-        <nb-select
-          class="mr-2"
-          [selected]="currentLanguage"
-          (selectedChange)="changeLanguage($event)"
-          status="basic"
-          size="small"
-        >
-          <nb-option
-            *ngFor="let language of LANGUAGE_OPTIONS"
-            [value]="language.value"
-            >{{ language.name }}</nb-option
-          >
+        <nb-select class="mr-2" [selected]="currentLanguage" (selectedChange)="changeLanguage($event)" status="basic" size="small">
+          <nb-option *ngFor="let language of LANGUAGE_OPTIONS" [value]="language.value">{{ language.name }}</nb-option>
         </nb-select>
-        <nb-select
-          [selected]="currentTheme"
-          (selectedChange)="changeTheme($event)"
-          status="basic"
-          size="small"
-        >
-          <nb-option *ngFor="let theme of THEMES" [value]="theme.value">
-            {{ theme.name }}</nb-option
-          >
+        <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="basic" size="small">
+          <nb-option *ngFor="let theme of THEMES" [value]="theme.value"> {{ theme.name }}</nb-option>
         </nb-select>
       </div>
       <div class="subtitle">{{ today | date: 'yyyy. MM. dd. HH:mm:ss' }}</div>
@@ -48,10 +31,7 @@ export class FooterComponent implements OnInit, OnDestroy {
   public currentTheme = THEMES[0].value;
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(
-    public readonly translateService: TranslateService,
-    private readonly themeService: NbThemeService,
-  ) {
+  constructor(public readonly translateService: TranslateService, private readonly themeService: NbThemeService) {
     setInterval(() => {
       this.today = new Date();
     }, 500);
