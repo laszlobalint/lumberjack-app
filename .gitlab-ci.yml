@@ -8,6 +8,14 @@ variables:
 before_script:
   - apt-get update -qq && apt-get install
   - echo "Starting pipeline..."
+stages:
+  - Setup backend
+  - Build backend
+  - Test backend
+  - Setup frontend
+  - Build frontend
+  - Lint frontend
+  - Staging
 install_backend_dependencies: 
   stage: Setup backend
   artifacts: 
@@ -62,10 +70,16 @@ lint_frontend_project:
     - npm i @angular/cli@8.0.2
   script:
     - ./node_modules/.bin/ng lint
-stages:
-  - Setup backend
-  - Build backend
-  - Test backend
-  - Setup frontend
-  - Build frontend
-  - Lint frontend
+  staging:
+  type: deploy
+deploy_staging:
+  stage: Staging
+  image: ruby:latest
+  before_script:
+  - apt-get update -qy
+  - apt-get install -y ruby-dev
+  - gem install dpl
+  script:
+    - dpl --provider=heroku --app=$HEROKU_APP --api-key=$HEROKU_API_KEY
+  only:
+    - master
