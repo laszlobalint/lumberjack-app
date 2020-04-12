@@ -1,15 +1,15 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
-import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
-import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/guards/roles.decorator';
-import { UserService } from './user.service';
-import { User } from './user.entity';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { JwtAuthGuard } from './../auth/guards/jwt-auth.guard';
 import { CreateUserDto, UpdateUserDto } from './user.dto';
+import { User } from './user.entity';
+import { UserService } from './user.service';
 
 @ApiTags('user')
-@Controller('user')
+@Controller('api/user')
 @UseGuards(JwtAuthGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}

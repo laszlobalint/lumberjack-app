@@ -2,12 +2,12 @@ import { Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards } from 
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { DeleteResult } from 'typeorm';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { PurchaseService } from './purchase.service';
-import { Purchase } from './purchase.entity';
 import { CreatePurchaseDto, UpdatePurchaseDto } from './purchase.dto';
+import { Purchase } from './purchase.entity';
+import { PurchaseService } from './purchase.service';
 
 @ApiTags('purchase')
-@Controller('purchase')
+@Controller('api/purchase')
 @UseGuards(JwtAuthGuard)
 export class PurchaseController {
   constructor(private readonly purchaseService: PurchaseService) {}

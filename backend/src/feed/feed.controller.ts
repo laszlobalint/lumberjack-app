@@ -5,7 +5,7 @@ import { GetFeedDto } from './feed.dto';
 import { FeedService } from './feed.service';
 
 @ApiTags('feed')
-@Controller('feed')
+@Controller('api/feed')
 @UseGuards(JwtAuthGuard)
 export class FeedController {
   constructor(private readonly feedService: FeedService) {}

@@ -1,0 +1,20 @@
+{
+  "name": "lumberjack-server",
+  "version": "1.0.0",
+  "description": "Backend projject for order management of a lumber yard company based on NestJS framework.",
+  "author": "Dániel Papilion and Bálint László",
+  "license": "MIT",
+  "engines": {
+    "node": "10.16.0",
+    "npm": "6.14.3"
+  },
+  "scripts": {
+    "postinstall": "npm install --prefix backend && npm install --prefix frontend",
+    "build": "npm run --prefix frontend build:prod && npm run --prefix backend build:prod",
+    "start": "npm run --prefix backend start:prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/papiliond/lumberjack"
+  }
+}
