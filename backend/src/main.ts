@@ -12,8 +12,7 @@ async function bootstrap() {
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new DatabaseExceptionFilter(), new HttpExceptionFilter());
-
-  if (process.env.NODE_ENV.trim() !== 'dev') express.static(path.join(__dirname, 'public'));
+  app.use(express.static(path.join(__dirname, 'public')));
 
   const options = new DocumentBuilder()
     .setTitle(process.env['PROJECT_NAME'])
