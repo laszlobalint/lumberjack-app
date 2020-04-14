@@ -43,9 +43,11 @@ const defaultMode = 'development';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
-    consumer.apply(FrontendMiddleware).forRoutes({
-      path: '/**',
-      method: RequestMethod.ALL,
-    });
+    if (process.env.NODE_ENV.trim() !== 'dev') {
+      consumer.apply(FrontendMiddleware).forRoutes({
+        path: '/**',
+        method: RequestMethod.ALL,
+      });
+    }
   }
 }

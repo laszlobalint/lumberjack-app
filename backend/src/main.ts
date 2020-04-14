@@ -9,9 +9,11 @@ import { HttpExceptionFilter } from './shared/exception-filters/http.exception-f
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new DatabaseExceptionFilter(), new HttpExceptionFilter());
-  app.use(express.static(path.join(__dirname, 'public')));
+
+  if (process.env.NODE_ENV.trim() !== 'dev') express.static(path.join(__dirname, 'public'));
 
   const options = new DocumentBuilder()
     .setTitle(process.env['PROJECT_NAME'])
