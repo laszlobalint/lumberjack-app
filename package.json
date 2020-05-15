@@ -11,7 +11,8 @@
   "scripts": {
     "postinstall": "npm install --prefix backend && npm install --prefix frontend",
     "build": "npm run --prefix frontend build:prod && npm run --prefix backend build:prod",
-    "start": "npm run --prefix backend start:prod"
+    "start": "npm run --prefix backend start:prod",
+    "start:dev": "npm run --prefix backend start:dev"
   },
   "repository": {
     "type": "git",
