@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RateLimiterInterceptor, RateLimiterModule } from 'nestjs-rate-limiter';
-import * as fs from 'fs';
 import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
 import { CustomerModule } from './customer/customer.module';
@@ -13,12 +12,9 @@ import { ProductModule } from './product/product.module';
 import { PurchaseModule } from './purchase/purchase.module';
 import { UserModule } from './user/user.module';
 
-const defaultEnvFilePath = fs.existsSync('.env') && '.env';
-const defaultMode = 'development';
-
 @Module({
   imports: [
-    ConfigModule.forRoot({ envFilePath: defaultEnvFilePath || `.env.${process.env.NODE_ENV || defaultMode}` }),
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot(),
     RateLimiterModule.register({
       points: 200,
