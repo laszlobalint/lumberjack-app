@@ -103,6 +103,9 @@ _- Prerequisites:_ {username} with the corresponding OS user!
 Command:
 `bash /usr/bin/mysqldump`
 
+Content:
+`mysqldump -u <db_username> -p <db_name> --single-transaction --quick --lock-tables=false > <db_name>-backup-$(date +%F).sql`
+
 2. Create a file with MariaDB connection details for root user:
 
 Path:
@@ -133,6 +136,10 @@ Path:
 
 Content:
 `0 3 \* \* \* /usr/bin/mysqldump --defaults-extra-file=/home/{username}/.lumberjack*login.cnf -u root --single-transaction --quick --lock-tables=false lumberjack > /home/{username}/db_backup/db_backup*\$(date +"%Y-%m-%d").sql`
+
+ACTUAL RUNNING CRON JOB COMMAND:
+
+`/usr/bin/mysqldump --defaults-extra-file=/home/yogacent/.yogacent_plan_login.cnf yogacent_plan --single-transaction --quick --lock-tables=false > /home/yogacent/plan.yogacentarsubotica.com/db_backup/yogacent_plan-`date "+\%F-\%H\%M\%S"`.sql`
 
 6. Set up a cron job that runs every day at 04:00 AM which deletes all database dump files older than 30 days:
 
