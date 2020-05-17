@@ -94,7 +94,7 @@ cd /frontend
 ng serve --open
 ```
 
-**Automate database backup on server (MariaDB on Linux)**
+## Automate database backup on server (MariaDB on Linux)**
 
 _- Prerequisites:_ {username} with the corresponding OS user!
 
