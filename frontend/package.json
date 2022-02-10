@@ -57,7 +57,7 @@
     "ng2-completer": "^3.0.3",
     "ng2-smart-table": "^1.5.0",
     "ngx-mask": "^8.2.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "normalize.css": "6.0.0",
     "pace-js": "1.0.2",
     "prettier": "^1.19.1",
